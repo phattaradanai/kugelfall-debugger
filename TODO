@@ -2,6 +2,8 @@
 - Modifikationen eines Versuchs korrekt in die Listview übernehmen (direkte Änderung im Listview nicht gestattet)
 - Exceptionhandling bei Kamerawechsel/Audiowechsel
 - Windows Versionsprüfung integrieren [Environment.OSVersion], Major Version 5 (Windows XP)
+  ::unter Windows XP ändert sich die Farbe des kompletten Programms (nicht unterstützte Farben?)
+  ::Die Soundaufnahme kann nicht auf dem Weg verwendet werden wie es unter Windows Vista/7/8 erfolgt
 - Vereinheitlichung der Sprache (Variablen/Methodenbezeichner)
 
 -unfixed: PS-Eye Treiber verursacht unter Windows XP "zerschnittenes" Bild
