@@ -1,0 +1,4 @@
+- Arduino Debuggingtext einfügen
+- Modifikationen eines Versuchs korrekt in die Listview übernehmen ()
+- Exceptionhandling bei Kamerawechsel/Audiowechsel
+- Windows Versionsprüfung integrieren [Environment.OSVersion], Major Version 5 (Windows XP)
