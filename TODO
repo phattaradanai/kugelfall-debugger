@@ -1,4 +1,6 @@
 - Arduino Debuggingtext einfügen
-- Modifikationen eines Versuchs korrekt in die Listview übernehmen ()
+- Modifikationen eines Versuchs korrekt in die Listview übernehmen (direkte Änderung im Listview nicht gestattet)
 - Exceptionhandling bei Kamerawechsel/Audiowechsel
 - Windows Versionsprüfung integrieren [Environment.OSVersion], Major Version 5 (Windows XP)
+
+-unfixed: PS-Eye Treiber verursacht unter Windows XP "zerschnittenes" Bild
