@@ -23,10 +23,10 @@ namespace KugelfallDbg
 
         private void BtnOK_Click(object sender, EventArgs e)
         {
-            m_Versuchsbild.Comment = TBKommentar.Text;
-            m_Versuchsbild.Deviation = int.Parse(NVersatz.Value.ToString());
+            m_Versuchsbild.Comment = TBComment.Text;
+            m_Versuchsbild.Deviation = int.Parse(NDeviation.Value.ToString());
             //m_Versuchsbild.Pictures = m_Bitmap;
-            m_Versuchsbild.Success = CBErfolg.Checked;
+            m_Versuchsbild.Success = CBSuccess.Checked;
         }
 
         //Die aktuellen Versuchsdaten zurückgeben
@@ -50,22 +50,22 @@ namespace KugelfallDbg
             if (m_Versuchsbild.BestPicture != -1)   //Falls es bereits ein Bild geben sollte
             {
                 TBPicture.Value = m_Versuchsbild.BestPicture;
-                CBGewBild.Checked = true;
+                CBChosenPicture.Checked = true;
             }
             else
             {
-                PBVersuch.Image = new Bitmap(m_Versuchsbild.Pictures[0], new Size(PBVersuch.Width, PBVersuch.Height));
+                PBTest.Image = new Bitmap(m_Versuchsbild.Pictures[0], new Size(PBTest.Width, PBTest.Height));
             }
             
             //Alle Daten in die Felder laden
-            TBKommentar.Text = m_Versuchsbild.Comment;
-            NVersatz.Value = m_Versuchsbild.Deviation;
-            CBErfolg.Checked = m_Versuchsbild.Success;
+            TBComment.Text = m_Versuchsbild.Comment;
+            NDeviation.Value = m_Versuchsbild.Deviation;
+            CBSuccess.Checked = m_Versuchsbild.Success;
         }
 
         private void CBGewBild_CheckedChanged(object sender, EventArgs e)
         {
-            if (CBGewBild.Checked == true)
+            if (CBChosenPicture.Checked == true)
             {
                 m_Versuchsbild.BestPicture = TBPicture.Value;
             }
@@ -73,10 +73,10 @@ namespace KugelfallDbg
 
         private void TBPicture_ValueChanged(object sender, EventArgs e)
         {
-            PBVersuch.Image = new Bitmap(m_Versuchsbild.Pictures[TBPicture.Value], new Size(PBVersuch.Width, PBVersuch.Height));
+            PBTest.Image = new Bitmap(m_Versuchsbild.Pictures[TBPicture.Value], new Size(PBTest.Width, PBTest.Height));
             if (m_Versuchsbild.BestPicture == TBPicture.Value)
-            { CBGewBild.Checked = true; }
-            else { CBGewBild.Checked = false; }
+            { CBChosenPicture.Checked = true; }
+            else { CBChosenPicture.Checked = false; }
         }
     }
 }
