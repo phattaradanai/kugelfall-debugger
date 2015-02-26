@@ -28,32 +28,42 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.TBComment = new System.Windows.Forms.TextBox();
+            this.PBVersuch = new System.Windows.Forms.PictureBox();
+            this.TBKommentar = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.NDeviation = new System.Windows.Forms.NumericUpDown();
+            this.NVersatz = new System.Windows.Forms.NumericUpDown();
             this.TBPicture = new System.Windows.Forms.TrackBar();
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.CBSuccess = new System.Windows.Forms.CheckBox();
+            this.CBErfolg = new System.Windows.Forms.CheckBox();
             this.BtnCancel = new System.Windows.Forms.Button();
             this.BtnOK = new System.Windows.Forms.Button();
-            this.CBChosenPicture = new System.Windows.Forms.CheckBox();
-            this.PBTest = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.NDeviation)).BeginInit();
+            this.CBGewBild = new System.Windows.Forms.CheckBox();
+            ((System.ComponentModel.ISupportInitialize)(this.PBVersuch)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NVersatz)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TBPicture)).BeginInit();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PBTest)).BeginInit();
             this.SuspendLayout();
             // 
-            // TBComment
+            // PBVersuch
             // 
-            this.TBComment.Location = new System.Drawing.Point(341, 25);
-            this.TBComment.Multiline = true;
-            this.TBComment.Name = "TBComment";
-            this.TBComment.Size = new System.Drawing.Size(199, 59);
-            this.TBComment.TabIndex = 1;
+            this.PBVersuch.Location = new System.Drawing.Point(12, 12);
+            this.PBVersuch.Name = "PBVersuch";
+            this.PBVersuch.Size = new System.Drawing.Size(320, 240);
+            this.PBVersuch.TabIndex = 0;
+            this.PBVersuch.TabStop = false;
+            this.PBVersuch.MouseLeave += new System.EventHandler(this.PBVersuch_MouseLeave);
+            this.PBVersuch.MouseHover += new System.EventHandler(this.PBVersuch_MouseHover);
+            // 
+            // TBKommentar
+            // 
+            this.TBKommentar.Location = new System.Drawing.Point(341, 25);
+            this.TBKommentar.Multiline = true;
+            this.TBKommentar.Name = "TBKommentar";
+            this.TBKommentar.Size = new System.Drawing.Size(199, 59);
+            this.TBKommentar.TabIndex = 1;
             // 
             // label1
             // 
@@ -64,12 +74,12 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "Kommentar zum Versuch:";
             // 
-            // NDeviation
+            // NVersatz
             // 
-            this.NDeviation.Location = new System.Drawing.Point(410, 203);
-            this.NDeviation.Name = "NDeviation";
-            this.NDeviation.Size = new System.Drawing.Size(130, 20);
-            this.NDeviation.TabIndex = 3;
+            this.NVersatz.Location = new System.Drawing.Point(410, 203);
+            this.NVersatz.Name = "NVersatz";
+            this.NVersatz.Size = new System.Drawing.Size(130, 20);
+            this.NVersatz.TabIndex = 3;
             // 
             // TBPicture
             // 
@@ -119,16 +129,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Bilder";
             // 
-            // CBSuccess
+            // CBErfolg
             // 
-            this.CBSuccess.AutoSize = true;
-            this.CBSuccess.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CBSuccess.Location = new System.Drawing.Point(341, 180);
-            this.CBSuccess.Name = "CBSuccess";
-            this.CBSuccess.Size = new System.Drawing.Size(133, 17);
-            this.CBSuccess.TabIndex = 12;
-            this.CBSuccess.Text = "Kugel ist durchgefallen";
-            this.CBSuccess.UseVisualStyleBackColor = true;
+            this.CBErfolg.AutoSize = true;
+            this.CBErfolg.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CBErfolg.Location = new System.Drawing.Point(341, 180);
+            this.CBErfolg.Name = "CBErfolg";
+            this.CBErfolg.Size = new System.Drawing.Size(133, 17);
+            this.CBErfolg.TabIndex = 12;
+            this.CBErfolg.Text = "Kugel ist durchgefallen";
+            this.CBErfolg.UseVisualStyleBackColor = true;
             // 
             // BtnCancel
             // 
@@ -151,52 +161,41 @@
             this.BtnOK.UseVisualStyleBackColor = true;
             this.BtnOK.Click += new System.EventHandler(this.BtnOK_Click);
             // 
-            // CBChosenPicture
+            // CBGewBild
             // 
-            this.CBChosenPicture.AutoSize = true;
-            this.CBChosenPicture.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CBChosenPicture.Location = new System.Drawing.Point(341, 160);
-            this.CBChosenPicture.Name = "CBChosenPicture";
-            this.CBChosenPicture.Size = new System.Drawing.Size(90, 17);
-            this.CBChosenPicture.TabIndex = 15;
-            this.CBChosenPicture.Text = "\"Bild wählen\"";
-            this.CBChosenPicture.UseVisualStyleBackColor = true;
-            this.CBChosenPicture.CheckedChanged += new System.EventHandler(this.CBGewBild_CheckedChanged);
-            // 
-            // PBTest
-            // 
-            this.PBTest.Location = new System.Drawing.Point(12, 12);
-            this.PBTest.Name = "PBTest";
-            this.PBTest.Size = new System.Drawing.Size(320, 240);
-            this.PBTest.TabIndex = 0;
-            this.PBTest.TabStop = false;
-            this.PBTest.MouseLeave += new System.EventHandler(this.PBVersuch_MouseLeave);
-            this.PBTest.MouseHover += new System.EventHandler(this.PBVersuch_MouseHover);
+            this.CBGewBild.AutoSize = true;
+            this.CBGewBild.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.CBGewBild.Location = new System.Drawing.Point(341, 160);
+            this.CBGewBild.Name = "CBGewBild";
+            this.CBGewBild.Size = new System.Drawing.Size(90, 17);
+            this.CBGewBild.TabIndex = 15;
+            this.CBGewBild.Text = "\"Bild wählen\"";
+            this.CBGewBild.UseVisualStyleBackColor = true;
+            this.CBGewBild.CheckedChanged += new System.EventHandler(this.CBGewBild_CheckedChanged);
             // 
             // FormVersuch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(544, 260);
-            this.Controls.Add(this.CBChosenPicture);
+            this.Controls.Add(this.CBGewBild);
             this.Controls.Add(this.BtnOK);
             this.Controls.Add(this.BtnCancel);
-            this.Controls.Add(this.CBSuccess);
+            this.Controls.Add(this.CBErfolg);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.NDeviation);
+            this.Controls.Add(this.NVersatz);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.TBComment);
-            this.Controls.Add(this.PBTest);
+            this.Controls.Add(this.TBKommentar);
+            this.Controls.Add(this.PBVersuch);
             this.Name = "FormVersuch";
-            this.ShowIcon = false;
             this.Text = "Versuch";
             this.Load += new System.EventHandler(this.FormVersuch_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.NDeviation)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PBVersuch)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NVersatz)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TBPicture)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PBTest)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -204,18 +203,18 @@
 
         #endregion
 
-        private System.Windows.Forms.PictureBox PBTest;
-        private System.Windows.Forms.TextBox TBComment;
+        private System.Windows.Forms.PictureBox PBVersuch;
+        private System.Windows.Forms.TextBox TBKommentar;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown NDeviation;
+        private System.Windows.Forms.NumericUpDown NVersatz;
         private System.Windows.Forms.TrackBar TBPicture;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.CheckBox CBSuccess;
+        private System.Windows.Forms.CheckBox CBErfolg;
         private System.Windows.Forms.Button BtnCancel;
         private System.Windows.Forms.Button BtnOK;
-        private System.Windows.Forms.CheckBox CBChosenPicture;
+        private System.Windows.Forms.CheckBox CBGewBild;
     }
 }

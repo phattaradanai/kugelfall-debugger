@@ -95,11 +95,11 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ArduinoConfig.cs">
+    <Compile Include="RS232Port.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ArduinoConfig.Designer.cs">
-      <DependentUpon>ArduinoConfig.cs</DependentUpon>
+    <Compile Include="RS232Port.Designer.cs">
+      <DependentUpon>RS232Port.cs</DependentUpon>
     </Compile>
     <Compile Include="Versuch.cs">
       <SubType>Form</SubType>
@@ -124,8 +124,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="ArduinoConfig.resx">
-      <DependentUpon>ArduinoConfig.cs</DependentUpon>
+    <EmbeddedResource Include="RS232Port.resx">
+      <DependentUpon>RS232Port.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Versuch.resx">
       <DependentUpon>Versuch.cs</DependentUpon>
@@ -195,8 +195,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Graphics\ArduinoCommunityLogo_SVG.png" />
-    <None Include="Resources\ArduinoCommunityLogo.bmp" />
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

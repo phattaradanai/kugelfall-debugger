@@ -21,7 +21,7 @@ namespace KugelfallDbg
         {
             InitializeComponent();
 
-            this.LVTestEvaluation.LostFocus += (s, e) => this.LVTestEvaluation.SelectedIndices.Clear();
+            this.LVVersuchsauswertung.LostFocus += (s, e) => this.LVVersuchsauswertung.SelectedIndices.Clear();
             m_Versuche = new Dictionary<string, Versuchsbild>();
             m_bImageBuffer = new Bitmap[m_iBufferSize];
         }
@@ -215,17 +215,17 @@ namespace KugelfallDbg
             MainVideoSourcePlayer.Visible = false;
 
             //Item wurde ausgewählt --> Ausgewähltes Bild auf Livebild übertragen
-            if (LVTestEvaluation.SelectedItems.Count == 0)  //Vermeiden, dass ein Fehlklick zu einer Exception führt (OutOfRange)
+            if (LVVersuchsauswertung.SelectedItems.Count == 0)  //Vermeiden, dass ein Fehlklick zu einer Exception führt (OutOfRange)
             {
-                for (int i = 0; i < LVTestEvaluation.Items.Count; i++)
+                for (int i = 0; i < LVVersuchsauswertung.Items.Count; i++)
                 {
-                    LVTestEvaluation.Items[i].Selected = false;
+                    LVVersuchsauswertung.Items[i].Selected = false;
                 }
 
                 MainVideoSourcePlayer.Visible = true;
 
                 pb_Images.Visible = false;
-                TSBtnRemoveTest.Enabled = false;
+                TSBtnVersuchLoeschen.Enabled = false;
 
                 ActivateAudio(true);
 
@@ -233,7 +233,7 @@ namespace KugelfallDbg
             }
             else //Item ausgewählt
             {
-                TSBtnRemoveTest.Enabled = true;
+                TSBtnVersuchLoeschen.Enabled = true;
 
                 Versuchsbild temp = GetSelectedItem();// m_Versuche[key];
 
@@ -343,7 +343,7 @@ namespace KugelfallDbg
         {
             if (MessageBox.Show("Möchten Sie wirklich alle Versuchsdaten löschen?", "Versuchsdaten löschen", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
             {
-                LVTestEvaluation.Items.Clear();
+                LVVersuchsauswertung.Items.Clear();
                 m_Versuche.Clear();
             }
         }
@@ -355,7 +355,7 @@ namespace KugelfallDbg
          */
         private void ExportCSV()
         {
-            if (LVTestEvaluation.Items.Count == 0)  //Keine Auswertungen vorhanden
+            if (LVVersuchsauswertung.Items.Count == 0)  //Keine Auswertungen vorhanden
             {
                 MessageBox.Show("Es sind keine Versuchsdaten vorhanden, die als CSV exportiert werden könnten.", "Fehler beim CSV-Export",MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
@@ -370,18 +370,18 @@ namespace KugelfallDbg
                     System.IO.StreamWriter sw = new System.IO.StreamWriter(sfd.FileName);
 
                     //CSV Header erstellen
-                    for (int i = 0; i < LVTestEvaluation.Columns.Count; i++)
+                    for (int i = 0; i < LVVersuchsauswertung.Columns.Count; i++)
                     {
-                        sw.Write(LVTestEvaluation.Columns[i].Text);
+                        sw.Write(LVVersuchsauswertung.Columns[i].Text);
 
-                        if ((i + 1) != LVTestEvaluation.Columns.Count)  //Prüfen, ob noch ein Separator gesetzt werden muss
+                        if ((i + 1) != LVVersuchsauswertung.Columns.Count)  //Prüfen, ob noch ein Separator gesetzt werden muss
                         {
                             sw.Write(",");
                         }
                     }
                     sw.Write("\n");
 
-                    foreach (ListViewItem lvi in LVTestEvaluation.Items)
+                    foreach (ListViewItem lvi in LVVersuchsauswertung.Items)
                     {
                         if(lvi.Checked == true)
                         {
@@ -416,7 +416,7 @@ namespace KugelfallDbg
         //RS232 Einstellungen
         private void RS232Settings()
         {
-            ArduinoConfig rs232 = new ArduinoConfig();
+            RS232Port rs232 = new RS232Port();
 
             if (Arduino.IsOpen() == true) { ArduinoTimer.Stop();  Arduino.ClosePort(); }
             if (rs232.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -428,7 +428,7 @@ namespace KugelfallDbg
                     ArduinoTimer.Start();
                 }
 
-                //TSLblSpin.Visible = true;
+                TSLblSpin.Visible = true;
             }
         }
 
@@ -512,7 +512,7 @@ namespace KugelfallDbg
             ListViewItem lvi = new ListViewItem();
             lvi.SubItems.Add(v.Versuch.Remove(0, 8));
 
-            LVTestEvaluation.Items.Add(lvi);
+            LVVersuchsauswertung.Items.Add(lvi);
 
             System.Threading.Thread.Sleep(500);
 
@@ -533,25 +533,25 @@ namespace KugelfallDbg
         private void TSBtnVersuchLoeschen_Click(object sender, EventArgs e)
         {
             //Vorausgesetzt Item wurde ausgewählt
-            if (LVTestEvaluation.SelectedItems.Count == 0)  //Vermeiden, dass ein Fehlklick zu einer Exception führt (OutOfRange)
+            if (LVVersuchsauswertung.SelectedItems.Count == 0)  //Vermeiden, dass ein Fehlklick zu einer Exception führt (OutOfRange)
             {
                 return;
             }
 
-            ListViewItem lvi = LVTestEvaluation.SelectedItems[0];
+            ListViewItem lvi = LVVersuchsauswertung.SelectedItems[0];
 
             string key = "Versuch " + (lvi.Index + 1).ToString();
 
             if (MessageBox.Show("Möchten Sie diesen Versuch wirklich löschen?", "Versuch löschen", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
             {
                 m_Versuche.Remove(key);
-                LVTestEvaluation.Items.Remove(lvi);//RemoveByKey(key);
+                LVVersuchsauswertung.Items.Remove(lvi);//RemoveByKey(key);
             }
         }
 
         private void LVVersuchsauswertung_DoubleClick(object sender, EventArgs e)
         {
-            ListViewItem lvi = LVTestEvaluation.SelectedItems[0];
+            ListViewItem lvi = LVVersuchsauswertung.SelectedItems[0];
             string key = "Versuch " + (lvi.Index + 1).ToString();
 
             Versuchsbild temp = GetSelectedItem();
@@ -573,7 +573,7 @@ namespace KugelfallDbg
          */
         private Versuchsbild GetSelectedItem()
         {
-            ListViewItem lvi = LVTestEvaluation.SelectedItems[0];
+            ListViewItem lvi = LVVersuchsauswertung.SelectedItems[0];
 
             string key = "Versuch " + lvi.SubItems[1].Text;
 
@@ -610,7 +610,7 @@ namespace KugelfallDbg
                 if (sData[i] == '1') { speed++; }
             }
             speed *= 2;
-            //TSLblSpin.Text = speed.ToString();// speed.ToString();
+            TSLblSpin.Text = speed.ToString();// speed.ToString();
         }
     }
 }
