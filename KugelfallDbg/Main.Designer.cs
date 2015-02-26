@@ -44,7 +44,6 @@
             this.TSLblSpin = new System.Windows.Forms.ToolStripStatusLabel();
             this.TSLblCameraActive = new System.Windows.Forms.ToolStripStatusLabel();
             this.TSLblVolume = new System.Windows.Forms.ToolStripStatusLabel();
-            this.TSDebugLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.TSLblAudioActive = new System.Windows.Forms.ToolStripStatusLabel();
             this.MainVideoSourcePlayer = new AForge.Controls.VideoSourcePlayer();
             this.LVVersuchsauswertung = new System.Windows.Forms.ListView();
@@ -66,7 +65,6 @@
             this.ILVersuchsbilder = new System.Windows.Forms.ImageList(this.components);
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.VolumeSlider = new NAudio.Gui.VolumeSlider();
             this.TimerAudio = new System.Windows.Forms.Timer(this.components);
             this.pb_Images = new System.Windows.Forms.PictureBox();
             this.ArduinoTimer = new System.Windows.Forms.Timer(this.components);
@@ -165,7 +163,6 @@
             this.TSLblSpin,
             this.TSLblCameraActive,
             this.TSLblVolume,
-            this.TSDebugLabel,
             this.TSLblAudioActive});
             this.statusStrip1.Location = new System.Drawing.Point(0, 522);
             this.statusStrip1.Name = "statusStrip1";
@@ -190,7 +187,7 @@
             // TSLblCameraActive
             // 
             this.TSLblCameraActive.Name = "TSLblCameraActive";
-            this.TSLblCameraActive.Size = new System.Drawing.Size(573, 17);
+            this.TSLblCameraActive.Size = new System.Drawing.Size(640, 17);
             this.TSLblCameraActive.Spring = true;
             this.TSLblCameraActive.Text = "Keine Kamera ausgewählt";
             this.TSLblCameraActive.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -201,12 +198,6 @@
             this.TSLblVolume.Size = new System.Drawing.Size(110, 17);
             this.TSLblVolume.Text = "Aktuelle Lautstärke:";
             this.TSLblVolume.Visible = false;
-            // 
-            // TSDebugLabel
-            // 
-            this.TSDebugLabel.Name = "TSDebugLabel";
-            this.TSDebugLabel.Size = new System.Drawing.Size(67, 17);
-            this.TSDebugLabel.Text = "Debuglabel";
             // 
             // TSLblAudioActive
             // 
@@ -399,13 +390,6 @@
             this.label3.TabIndex = 21;
             this.label3.Text = "Lautstärke";
             // 
-            // VolumeSlider
-            // 
-            this.VolumeSlider.Location = new System.Drawing.Point(644, 400);
-            this.VolumeSlider.Name = "VolumeSlider";
-            this.VolumeSlider.Size = new System.Drawing.Size(73, 16);
-            this.VolumeSlider.TabIndex = 23;
-            // 
             // TimerAudio
             // 
             this.TimerAudio.Interval = 10;
@@ -436,7 +420,7 @@
             this.VolumeMeter.ForeColor = System.Drawing.Color.ForestGreen;
             this.VolumeMeter.Location = new System.Drawing.Point(644, 112);
             this.VolumeMeter.Name = "VolumeMeter";
-            this.VolumeMeter.Size = new System.Drawing.Size(73, 282);
+            this.VolumeMeter.Size = new System.Drawing.Size(73, 303);
             this.VolumeMeter.TabIndex = 26;
             this.VolumeMeter.Text = "basicProgressBar1";
             this.VolumeMeter.Value = 0;
@@ -449,7 +433,6 @@
             this.ClientSize = new System.Drawing.Size(810, 544);
             this.Controls.Add(this.VolumeMeter);
             this.Controls.Add(this.pb_Images);
-            this.Controls.Add(this.VolumeSlider);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.toolStrip1);
@@ -508,11 +491,9 @@
         private System.Windows.Forms.ToolStripMenuItem hilfeToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private NAudio.Gui.VolumeSlider VolumeSlider;
         private System.Windows.Forms.ToolStripButton TSBtnAudioEinstellungen;
         private System.Windows.Forms.Timer TimerAudio;
         private System.Windows.Forms.ToolStripMenuItem audioeinstellungenToolStripMenuItem;
-        private System.Windows.Forms.ToolStripStatusLabel TSDebugLabel;
         private System.Windows.Forms.ToolStripButton TSBtnVersuchLoeschen;
         private System.Windows.Forms.ToolStripStatusLabel TSLblAudioActive;
         private System.Windows.Forms.PictureBox pb_Images;

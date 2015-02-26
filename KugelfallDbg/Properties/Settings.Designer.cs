@@ -22,13 +22,5 @@ namespace KugelfallDbg.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::AForge.Video.DirectShow.VideoCaptureDevice Setting {
-            get {
-                return ((global::AForge.Video.DirectShow.VideoCaptureDevice)(this["Setting"]));
-            }
-        }
     }
 }

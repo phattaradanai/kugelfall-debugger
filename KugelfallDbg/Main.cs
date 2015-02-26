@@ -21,19 +21,9 @@ namespace KugelfallDbg
         {
             InitializeComponent();
 
-            /* NICHT MEHR BENÖTIGT */
-            //Die ImageList muss manuell initialisiert werden, da die Initialisierung
-            //per Designer (trotz 32Bit Farbtiefe) das Bild verwaschen aussehen lässt
-                /*
-                m_pImageBuffer = new ImageList();
-                m_pImageBuffer.ColorDepth = ColorDepth.Depth32Bit;
-                m_pImageBuffer.ImageSize = new System.Drawing.Size(160,120);
-                */
-            
             this.LVVersuchsauswertung.LostFocus += (s, e) => this.LVVersuchsauswertung.SelectedIndices.Clear();
             m_Versuche = new Dictionary<string, Versuchsbild>();
             m_bImageBuffer = new Bitmap[m_iBufferSize];
-
         }
 
         private void MenuDateiKamEinstellungen_Click(object sender, EventArgs e)
@@ -232,7 +222,6 @@ namespace KugelfallDbg
                     LVVersuchsauswertung.Items[i].Selected = false;
                 }
 
-                TSDebugLabel.Text = "Nichts";
                 MainVideoSourcePlayer.Visible = true;
 
                 pb_Images.Visible = false;
@@ -488,7 +477,7 @@ namespace KugelfallDbg
             TSLblVolume.Text = VolumeMeter.Value.ToString() + " dB";// PBVolumeMeter.Value.ToString() + "dB";
 
             //Prüfen, ob eine bestimmte Schwelle überschritten wurde (regelbar)
-            if (VolumeMeter.Value > 60)
+            if (VolumeMeter.Value > VolumeMeter.Threshold)
             {
                 CaptureImage();
             }
@@ -550,7 +539,6 @@ namespace KugelfallDbg
             }
 
             ListViewItem lvi = LVVersuchsauswertung.SelectedItems[0];
-            TSDebugLabel.Text = "Versuch " + (lvi.Index + 1);
 
             string key = "Versuch " + (lvi.Index + 1).ToString();
 
@@ -586,7 +574,6 @@ namespace KugelfallDbg
         private Versuchsbild GetSelectedItem()
         {
             ListViewItem lvi = LVVersuchsauswertung.SelectedItems[0];
-            TSDebugLabel.Text = "Versuch " + (lvi.SubItems[1].Text);
 
             string key = "Versuch " + lvi.SubItems[1].Text;
 

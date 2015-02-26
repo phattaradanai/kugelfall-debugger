@@ -51,6 +51,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\AForge\AForge.Controls.dll</HintPath>
     </Reference>
+    <Reference Include="AForge.Imaging">
+      <HintPath>..\AForge\AForge.Imaging.dll</HintPath>
+    </Reference>
     <Reference Include="AForge.Video, Version=2.2.5.0, Culture=neutral, PublicKeyToken=cbfb6e07d173c401, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\AForge\AForge.Video.dll</HintPath>
@@ -61,10 +64,6 @@
     </Reference>
     <Reference Include="NAudio">
       <HintPath>..\NAudio-Release\NAudio.dll</HintPath>
-    </Reference>
-    <Reference Include="ProgressBars.Basic, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\ProgressBars.Basic.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -188,6 +187,15 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ProgressBars.Basic\ProgressBars.Basic\ProgressBars.Basic.csproj">
+      <Project>{ff455dc4-70f8-4158-a9b3-b5f406091e5b}</Project>
+      <Name>ProgressBars.Basic</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
