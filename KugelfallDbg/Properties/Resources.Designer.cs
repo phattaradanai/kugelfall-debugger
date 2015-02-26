@@ -63,6 +63,16 @@ namespace KugelfallDbg.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ArduinoCommunityLogo_SVG {
+            get {
+                object obj = ResourceManager.GetObject("ArduinoCommunityLogo_SVG", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap CSVExport {
             get {
                 object obj = ResourceManager.GetObject("CSVExport", resourceCulture);
