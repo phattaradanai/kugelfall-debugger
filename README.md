@@ -1,2 +1,2 @@
 # kugelfall-debugger
-Eine Software zur Unterstütung der des Praktikums "Kugelfall-Experiment" am Fachgebiet SSE der TU Ilmenau.
+Eine Software zur Unterstützung des Praktikums "Kugelfall-Experiment" am Fachgebiet SSE der TU Ilmenau.
