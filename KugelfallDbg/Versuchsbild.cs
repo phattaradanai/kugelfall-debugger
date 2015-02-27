@@ -14,6 +14,10 @@ namespace KugelfallDbg
         {
             m_bPictures = new System.Drawing.Bitmap[_iBufferSize];
             m_iBestPicture = -1;    //-1 um zu signalisieren, dass es noch keine Bild gibt, dass den Versuch am Besten visualisiert
+            m_iDeviation = 0;
+            m_iSpin = 0;
+            m_sComment = string.Empty;
+            m_bSuccess = false;
         }
 
         //Kommentar zum Bild
@@ -50,10 +54,10 @@ namespace KugelfallDbg
             get { return m_iSpin; }
             set { m_iSpin = value; }
         }
-        public string Versuch
+        public string Test
         {
-            get { return m_sVersuch; }
-            set { m_sVersuch = value; }
+            get { return m_sTest; }
+            set { m_sTest = value; }
         }
 
         /**
@@ -74,7 +78,7 @@ namespace KugelfallDbg
 
         private int m_iBestPicture;         //Das Bild, welches den Versuch am Besten darstellt (bspw. die durchgefallene Kugel)
         private int m_iSpin;                //Drehzahl
-        private string m_sVersuch;          //Versuch
+        private string m_sTest;          //Versuch
         private bool m_bSuccess = false;    //War der Versuch erfolgreich?
         private string m_sComment;          //Kommentar zum Versuchsbild
         private int m_iDeviation;            //Abweichung der Kugel zur Aussparung

@@ -53,36 +53,7 @@ namespace KugelfallDbg
                 m_sPassedFrames++;
             }
         }
-        /*
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            AForge.Video.IVideoSource vSource = m_Camera.GetCamera;
 
-            if (vSource != null)
-            {
-                System.Diagnostics.Stopwatch sw = m_Camera.Stopwatch;
-
-                //Frames seit dem letzten timertick
-                int iFrames = vSource.FramesReceived;
-
-                if (sw == null)
-                {
-                    sw = new System.Diagnostics.Stopwatch();
-                    sw.Start();
-                }
-                else
-                {
-                    sw.Stop();
-                    
-                    float fps = 1000.0f * iFrames / sw.ElapsedMilliseconds;
-
-                    TSLblFPS.Text = fps.ToString("F2") + " FPS";
-                    sw.Reset();
-                    sw.Start();
-                }
-            }
-        }
-        */
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             Exit();
@@ -119,11 +90,8 @@ namespace KugelfallDbg
         private void Form1_Load(object sender, EventArgs e)
         {
             //ToDo: Prüfen ob eine Kamera vorhanden ist und bereits ausgewählt wurde
-
-            ListViewItem lvi = new ListViewItem();
+            TSLblThreshold.Text = "Schwellenwert: " + VolumeMeter.Threshold;
         }
-
-        
 
         //Dient zum Öffnen der Videoquelle
         private void OpenVideoSource()//AForge.Video.IVideoSource _VideoSource)
@@ -200,46 +168,6 @@ namespace KugelfallDbg
 
                 MainVideoSourcePlayer.VideoSource = vcdf.VideoDevice;
                 TSLblCameraActive.Text = "Kamera bereit";
-            }
-        }
-
-        /*
-         * Ein Item (also ein Versuch) wurde aus der Liste ausgewählt. Um diesen bearbeiten zu können,
-         * wird ein Dialog aufgerufen
-        */
-        private void LVVersuchsauswertung_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //Audio deaktivieren
-            ActivateAudio(false);
-
-            MainVideoSourcePlayer.Visible = false;
-
-            //Item wurde ausgewählt --> Ausgewähltes Bild auf Livebild übertragen
-            if (LVTestEvaluation.SelectedItems.Count == 0)  //Vermeiden, dass ein Fehlklick zu einer Exception führt (OutOfRange)
-            {
-                for (int i = 0; i < LVTestEvaluation.Items.Count; i++)
-                {
-                    LVTestEvaluation.Items[i].Selected = false;
-                }
-
-                MainVideoSourcePlayer.Visible = true;
-
-                pb_Images.Visible = false;
-                TSBtnRemoveTest.Enabled = false;
-
-                ActivateAudio(true);
-
-                return;
-            }
-            else //Item ausgewählt
-            {
-                TSBtnRemoveTest.Enabled = true;
-
-                Versuchsbild temp = GetSelectedItem();// m_Versuche[key];
-
-                MainVideoSourcePlayer.Visible = false;
-                pb_Images.Visible = true;
-                pb_Images.Image = new Bitmap(CombineImages(temp), new Size(pb_Images.Width, pb_Images.Height));
             }
         }
 
@@ -329,11 +257,6 @@ namespace KugelfallDbg
             ExportCSV();
         }
 #endregion
-
-        private void TSBtnBilderLoeschen_Click(object sender, EventArgs e)
-        {
-            DeletePictures();
-        }
 
         /**
          * void DeletePictures():
@@ -438,34 +361,6 @@ namespace KugelfallDbg
         }
 
         /**
-         * TSBtnAudioEinstellungen:
-         * Nach dem Klick auf den Button Audioeinstellungen wird die 
-         * Audioaufnahme gestoppt und ein neues Gerät zugewiesen.
-         */
-        private void TSBtnAudioEinstellungen_Click(object sender, EventArgs e)
-        {
-            FormAudioDevice fad = new FormAudioDevice();
-            if (fad.ShowDialog() == DialogResult.OK)
-            {
-                if (m_Audio != null)
-                {
-                    if (m_Audio.AudioDevice.State == NAudio.CoreAudioApi.DeviceState.Active)
-                    {
-                        ActivateAudio(false);
-                    }
-
-                    m_Audio = null;
-                }
-                else
-                {
-                    m_Audio = new Audio();
-                    m_Audio.AudioDevice = fad.m_Device;
-                    TSLblAudioActive.Text = "Audiogerät ausgewählt";
-                }
-            }
-        }
-
-        /**
          * void TimerAudio_Tick(object sender, EventArgs e)
          * Der AudioTimer fragt in regelmäßigen Abständen den Lautstärkepegel ab
          * und aktualisiert das Label (mit dem Pegel), sowie das VolumeMeter
@@ -495,22 +390,34 @@ namespace KugelfallDbg
         {
             //Audioaufnahme temporär stoppen um keine weiteren Aufnahmen zu erzeugen
             ActivateAudio(false);
-            //ActivateCamera(false);
+
+            //Für den Fall, dass die Kamera aktiviert wurde und gleich auslösen sollte. Verhindert, dass null-Referenzen (dadurch
+            //dass der ImageBuffer noch nicht gefüllt ist) in den Versuch kopiert werden.
+
+            foreach (Bitmap b in m_bImageBuffer)
+            {
+                if (b == null)
+                {
+                    MessageBox.Show("ImageBuffer noch nicht bereit!");
+                    ActivateAudio(true);
+                    return;
+                }
+            }
 
             Versuchsbild v = new Versuchsbild(m_iBufferSize);
 
-            v.Versuch = "Versuch " + (m_Versuche.Count + 1);  //Versuchsbeschreibung dient zur Identifizierung im Dictionary (m_Versuche)
+            v.Test = "Versuch " + (m_Versuche.Count + 1);  //Versuchsbeschreibung dient zur Identifizierung im Dictionary (m_Versuche)
             v.Pictures = (Bitmap[])m_bImageBuffer.Clone();
             if (Arduino.IsOpen() == true)
             {
                 v.Spin = Arduino.Spin;
             }
 
-            m_Versuche.Add(v.Versuch, v);
+            m_Versuche.Add(v.Test, v);
 
             //OK,Versuch,Versatz,Geschwindigkeit,Kommentar
             ListViewItem lvi = new ListViewItem();
-            lvi.SubItems.Add(v.Versuch.Remove(0, 8));
+            lvi.SubItems.Add(v.Test.Remove(0, 8));
             lvi.SubItems.Add(v.Deviation.ToString());
             lvi.SubItems.Add(v.Spin.ToString());
             lvi.SubItems.Add(v.Comment);
@@ -521,36 +428,10 @@ namespace KugelfallDbg
 
             //Aufnahme wieder erlauben
             ActivateAudio(true);
-            //ActivateCamera(true);
         }
 
         //Jeder Versuch wird in einer Map abgespeichert und ist eindeutig identifizierbar über einen String und einer Versuchsklasse
         private System.Collections.Generic.Dictionary<string, Versuchsbild> m_Versuche;
-
-        private void TSBtnRS232Settings_Click(object sender, EventArgs e)
-        {
-            RS232Settings();
-        }
-
-        //Einzelnen Versuch aus Liste löschen
-        private void TSBtnVersuchLoeschen_Click(object sender, EventArgs e)
-        {
-            //Vorausgesetzt Item wurde ausgewählt
-            if (LVTestEvaluation.SelectedItems.Count == 0)  //Vermeiden, dass ein Fehlklick zu einer Exception führt (OutOfRange)
-            {
-                return;
-            }
-
-            ListViewItem lvi = LVTestEvaluation.SelectedItems[0];
-
-            string key = "Versuch " + (lvi.Index + 1).ToString();
-
-            if (MessageBox.Show("Möchten Sie diesen Versuch wirklich löschen?", "Versuch löschen", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
-            {
-                m_Versuche.Remove(key);
-                LVTestEvaluation.Items.Remove(lvi);//RemoveByKey(key);
-            }
-        }
 
         private void LVVersuchsauswertung_DoubleClick(object sender, EventArgs e)
         {
@@ -618,9 +499,108 @@ namespace KugelfallDbg
             //TSLblSpin.Text = speed.ToString();// speed.ToString();
         }
 
-        private void LVTestEvaluation_ItemCheck(object sender, ItemCheckEventArgs e)
+        /*
+         * Ein Item (also ein Versuch) wurde aus der Liste ausgewählt. Um diesen bearbeiten zu können,
+         * wird ein Dialog aufgerufen
+        */
+        private void LVTestEvaluation_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MessageBox.Show("item checked!");
+            //Audio deaktivieren
+            ActivateAudio(false);
+
+            MainVideoSourcePlayer.Visible = false;
+
+            //Item wurde ausgewählt --> Ausgewähltes Bild auf Livebild übertragen
+            if (LVTestEvaluation.SelectedItems.Count == 0)  //Vermeiden, dass ein Fehlklick zu einer Exception führt (OutOfRange)
+            {
+                for (int i = 0; i < LVTestEvaluation.Items.Count; i++)
+                {
+                    LVTestEvaluation.Items[i].Selected = false;
+                }
+
+                MainVideoSourcePlayer.Visible = true;
+
+                pb_Images.Visible = false;
+                TSBtnRemoveTest.Enabled = false;
+
+                ActivateAudio(true);
+
+                return;
+            }
+            else //Item ausgewählt
+            {
+                TSBtnRemoveTest.Enabled = true;
+
+                Versuchsbild temp = GetSelectedItem();// m_Versuche[key];
+
+                MainVideoSourcePlayer.Visible = false;
+                pb_Images.Visible = true;
+                pb_Images.Image = new Bitmap(CombineImages(temp), new Size(pb_Images.Width, pb_Images.Height));
+            }
+        }
+
+        private void TSBtnArduinoSettings_Click(object sender, EventArgs e)
+        {
+            RS232Settings();
+        }
+
+        /**
+         * TSBtnAudioConfiguration_Click:
+         * Nach dem Klick auf den Button Audioeinstellungen wird die 
+         * Audioaufnahme gestoppt und ein neues Gerät zugewiesen.
+         */
+
+        private void TSBtnAudioConfiguration_Click(object sender, EventArgs e)
+        {
+            FormAudioDevice fad = new FormAudioDevice();
+            if (fad.ShowDialog() == DialogResult.OK)
+            {
+                if (m_Audio != null)
+                {
+                    if (m_Audio.AudioDevice.State == NAudio.CoreAudioApi.DeviceState.Active)
+                    {
+                        ActivateAudio(false);
+                    }
+
+                    m_Audio = null;
+                }
+                else
+                {
+                    m_Audio = new Audio();
+                    m_Audio.AudioDevice = fad.m_Device;
+                    TSLblAudioActive.Text = "Audiogerät ausgewählt";
+                }
+            }
+        }
+
+        private void TSBtnDeleteAll_Click(object sender, EventArgs e)
+        {
+            DeletePictures();
+        }
+
+        private void TSBtnDeleteTest_Click(object sender, EventArgs e)
+        {
+            //Vorausgesetzt Item wurde ausgewählt
+            if (LVTestEvaluation.SelectedItems.Count == 0)  //Vermeiden, dass ein Fehlklick zu einer Exception führt (OutOfRange)
+            {
+                return;
+            }
+
+            ListViewItem lvi = LVTestEvaluation.SelectedItems[0];
+
+            string key = "Versuch " + (lvi.Index + 1).ToString();
+
+            if (MessageBox.Show("Möchten Sie diesen Versuch wirklich löschen?", "Versuch löschen", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
+            {
+                m_Versuche.Remove(key);
+                LVTestEvaluation.Items.Remove(lvi);//RemoveByKey(key);
+            }
+        }
+
+        private void VolumeMeter_Click(object sender, EventArgs e)
+        {
+            //Schwellenwert aktualisieren
+            TSLblThreshold.Text = VolumeMeter.Threshold.ToString();
         }
     }
 }
