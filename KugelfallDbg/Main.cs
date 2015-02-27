@@ -511,6 +511,9 @@ namespace KugelfallDbg
             //OK,Versuch,Versatz,Geschwindigkeit,Kommentar
             ListViewItem lvi = new ListViewItem();
             lvi.SubItems.Add(v.Versuch.Remove(0, 8));
+            lvi.SubItems.Add(v.Deviation.ToString());
+            lvi.SubItems.Add(v.Spin.ToString());
+            lvi.SubItems.Add(v.Comment);
 
             LVTestEvaluation.Items.Add(lvi);
 
@@ -560,11 +563,13 @@ namespace KugelfallDbg
 
             if (dr == System.Windows.Forms.DialogResult.OK)
             {
-                //lvi.SubItems[1].Text = "hello";
                 m_Versuche[key] = temp;
 
-                //UPDATE LIST VIEW ITEM---------------------------------------------------------------------------------------------
-                
+                //Itemupdate
+                lvi.Checked = temp.Success;
+                lvi.SubItems[2].Text = temp.Deviation.ToString();
+                lvi.SubItems[3].Text = temp.Spin.ToString();
+                lvi.SubItems[4].Text = temp.Comment;
             }
         }
 
@@ -611,6 +616,11 @@ namespace KugelfallDbg
             }
             speed *= 2;
             //TSLblSpin.Text = speed.ToString();// speed.ToString();
+        }
+
+        private void LVTestEvaluation_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            MessageBox.Show("item checked!");
         }
     }
 }
