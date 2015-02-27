@@ -23,6 +23,7 @@ namespace KugelfallDbg
 
         private void FormAudioDevice_Load(object sender, EventArgs e)
         {
+
             //Alle aufzeichnenden aktiven Geräte auflisten
             NAudio.CoreAudioApi.MMDeviceEnumerator mde = new NAudio.CoreAudioApi.MMDeviceEnumerator();
             NAudio.CoreAudioApi.MMDeviceCollection mdc = mde.EnumerateAudioEndPoints(NAudio.CoreAudioApi.DataFlow.Capture,NAudio.CoreAudioApi.DeviceState.Active);
