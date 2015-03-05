@@ -16,6 +16,7 @@ namespace KugelfallDbg
 
         private int m_iBufferSize = 6;
         private Bitmap[] m_bImageBuffer;
+        private bool m_bIsCapturing = false;    //Flag um zu signalisieren
         
         public Main()
         {
@@ -355,8 +356,6 @@ namespace KugelfallDbg
                     //Zahl der Umdrehungen mittels Timer aktualisieren
                     ArduinoTimer.Start();
                 }
-
-                //TSLblSpin.Visible = true;
             }
         }
 
@@ -378,9 +377,19 @@ namespace KugelfallDbg
             VolumeMeter.Value = m_Audio.MaxVolume;
 
             //Prüfen, ob eine bestimmte Schwelle überschritten wurde (regelbar)
-            if (m_Audio.MaxVolume > 150)
+            if (m_Audio.MaxVolume > 60)
             {
-                CaptureImage();
+                if (m_bIsCapturing == false)
+                {
+                    m_bIsCapturing = true;
+                    CaptureImage();
+                }
+            }
+            else if(m_Audio.MaxVolume <= 60)    /* Stellt sicher, dass nicht endlos viele Bilder gemacht 
+                                                 * werden können, sobald die Schwelle einmal überschritten wurde 
+                                                 * (bspw. zu lauter Pegel) */
+            {
+                m_bIsCapturing = false;
             }
         }
 
