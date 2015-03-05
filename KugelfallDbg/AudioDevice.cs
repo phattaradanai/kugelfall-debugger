@@ -19,11 +19,20 @@ namespace KugelfallDbg
 
 
 
-        public NAudio.CoreAudioApi.MMDevice m_Device;
+        //public NAudio.CoreAudioApi.MMDevice m_Device;
+        public int m_iSelectedDevice;
 
         private void FormAudioDevice_Load(object sender, EventArgs e)
         {
+            int DeviceCount = NAudio.Wave.WaveIn.DeviceCount;
+            for (int device = 0; device < DeviceCount; device++)
+            {
+                NAudio.Wave.WaveInCapabilities DeviceCapabilities = NAudio.Wave.WaveIn.GetCapabilities(device);
+                CBAudioDevices.Items.Add(DeviceCapabilities.ProductName);
+            }
 
+            CBAudioDevices.SelectedIndex = 0;
+            /*
             //Alle aufzeichnenden aktiven Geräte auflisten
             NAudio.CoreAudioApi.MMDeviceEnumerator mde = new NAudio.CoreAudioApi.MMDeviceEnumerator();
             NAudio.CoreAudioApi.MMDeviceCollection mdc = mde.EnumerateAudioEndPoints(NAudio.CoreAudioApi.DataFlow.Capture,NAudio.CoreAudioApi.DeviceState.Active);
@@ -41,14 +50,15 @@ namespace KugelfallDbg
             else
             {
                 MessageBox.Show("Keine Aufnahmegeräte vorhanden");
-            }
+            }*/
         }
 
         private void BtnOK_Click(object sender, EventArgs e)
         {
             if (CBAudioDevices.Items.Count > 0)
             {
-                m_Device = (NAudio.CoreAudioApi.MMDevice)CBAudioDevices.SelectedItem;
+                //m_Device = (NAudio.CoreAudioApi.MMDevice)CBAudioDevices.SelectedItem;
+                m_iSelectedDevice = CBAudioDevices.SelectedIndex;
             }
             else
             {

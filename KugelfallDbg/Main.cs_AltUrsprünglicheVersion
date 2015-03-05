@@ -26,11 +26,6 @@ namespace KugelfallDbg
             m_bImageBuffer = new Bitmap[m_iBufferSize];
         }
 
-        ~Main()
-        {
-            Shutdown();
-        }
-
         private void MenuDateiKamEinstellungen_Click(object sender, EventArgs e)
         {
             CamSettings();
@@ -43,13 +38,15 @@ namespace KugelfallDbg
         private short m_sIndex = 0;         //Dient also "Zeiger" in der Buffervariable (maximal m_iBufferSize Bilder)
         private void MainVideoSourcePlayer_NewFrame(object sender, ref Bitmap image)
         {
+            //ToDo: Drehzahl der Scheibe vom Arduino abfragen
+
             //(Nach wie vielen gemachten Bildern soll eines davon im Buffer abgelegt werden)?
             if (m_sPassedFrames == 1)
             {
-                m_bImageBuffer[m_sIndex] = (Bitmap)image.Clone();   //Aktuelles Bild wird im Buffer abgelegt
+                m_bImageBuffer[m_sIndex] = (Bitmap)image.Clone();       //Aktuelles Bild wird im Buffer abgelegt
                 m_sIndex++;
                 if (m_sIndex == m_iBufferSize) { m_sIndex = 0; }    //Bufferende erreicht
-                m_sPassedFrames = 0;                                //zurücksetzen
+                m_sPassedFrames = 0;                    //zurücksetzen
             }
             else
             {
@@ -136,7 +133,6 @@ namespace KugelfallDbg
                 {
                     TimerAudio.Enabled = true;
                     TimerAudio.Start();
-                    m_Audio.StartRecording();
                     TSLblVolume.Visible = true;
                     TSLblAudioActive.Text = "Audio aktiviert";
                 }
@@ -144,7 +140,6 @@ namespace KugelfallDbg
                 {
                     TimerAudio.Enabled = false;
                     TimerAudio.Stop();
-                    m_Audio.StopRecording();
                     TSLblVolume.Visible = false;
                 }
             }
@@ -373,12 +368,11 @@ namespace KugelfallDbg
         private void TimerAudio_Tick(object sender, EventArgs e)
         {
             //Den Maximalwert des Audioeingangs abfragen
-
-            TSLblVolume.Text = m_Audio.MaxVolume.ToString();
-            VolumeMeter.Value = m_Audio.MaxVolume;
+            VolumeMeter.Value = (int)Math.Round(m_Audio.AudioDevice.AudioMeterInformation.MasterPeakValue * 100);
+            TSLblVolume.Text = VolumeMeter.Value.ToString() + " dB";// PBVolumeMeter.Value.ToString() + "dB";
 
             //Prüfen, ob eine bestimmte Schwelle überschritten wurde (regelbar)
-            if (m_Audio.MaxVolume > 150)
+            if (VolumeMeter.Value > VolumeMeter.Threshold)
             {
                 CaptureImage();
             }
@@ -430,7 +424,7 @@ namespace KugelfallDbg
 
             LVTestEvaluation.Items.Add(lvi);
 
-            System.Threading.Thread.Sleep(200);
+            System.Threading.Thread.Sleep(500);
 
             //Aufnahme wieder erlauben
             ActivateAudio(true);
@@ -502,6 +496,7 @@ namespace KugelfallDbg
                 if (sData[i] == '1') { speed++; }
             }
             speed *= 2;
+            //TSLblSpin.Text = speed.ToString();// speed.ToString();
         }
 
         /*
@@ -562,13 +557,17 @@ namespace KugelfallDbg
             {
                 if (m_Audio != null)
                 {
-                    ActivateAudio(false);
+                    if (m_Audio.AudioDevice.State == NAudio.CoreAudioApi.DeviceState.Active)
+                    {
+                        ActivateAudio(false);
+                    }
 
                     m_Audio = null;
                 }
                 else
                 {
-                    m_Audio = new Audio(fad.m_iSelectedDevice);
+                    m_Audio = new Audio();
+                    m_Audio.AudioDevice = fad.m_Device;
                     TSLblAudioActive.Text = "Audiogerät ausgewählt";
                 }
             }
@@ -602,15 +601,6 @@ namespace KugelfallDbg
         {
             //Schwellenwert aktualisieren
             TSLblThreshold.Text = VolumeMeter.Threshold.ToString();
-        }
-
-        /**
-         * void Shutdown():
-         * Beendet sämtliche Aktivitäten 
-         */
-        private void Shutdown()
-        {
-        
         }
     }
 }
