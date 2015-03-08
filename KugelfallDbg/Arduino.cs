@@ -14,15 +14,27 @@ namespace KugelfallDbg
         {
             try
             {
+                m_RS232Port.DataReceived += m_RS232Port_DataReceived;
                 //Port öffnen
                 m_RS232Port.Open();
             }
             catch (Exception e)
             {
-                System.Windows.Forms.MessageBox.Show("Port konnte nicht geöffnet werden!", "Portfehler");
+                System.Windows.Forms.MessageBox.Show("Port konnte nicht geöffnet werden! " + e.Message, "Portfehler");
             }
 
             return true;
+        }
+
+        static void m_RS232Port_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            //throw new NotImplementedException();
+            m_sDebugText += m_RS232Port.ReadLine();
+            if(m_sDebugText.Length == 100)  //Auf 100 Zeichen beschränken
+            {
+                m_sDebugText.Remove(0);
+            }
+            m_sDebugText += ';';    //Trennzeichen
         }
 
         public static bool ClosePort()
@@ -44,12 +56,12 @@ namespace KugelfallDbg
             return m_RS232Port.ReadChar();
         }
 
-        public static int Spin
+        public static string DebugText
         {
-            get { return m_iSpin; }
-            set { m_iSpin = value; }
-        
+            get { return m_sDebugText; }
+            set { m_sDebugText = value; }
         }
+
         public static void SetParameters(int _Bps, string _sPortName)
         {
             m_RS232Port.BaudRate = _Bps;
@@ -77,6 +89,6 @@ namespace KugelfallDbg
         }
 
         private static SerialPort m_RS232Port = new SerialPort();
-        private static int m_iSpin;
+        private static string m_sDebugText;             //Ausgaben, welche vom Arduino kommen
     }
 }

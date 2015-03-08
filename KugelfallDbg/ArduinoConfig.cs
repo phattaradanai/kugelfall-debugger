@@ -55,6 +55,7 @@ namespace KugelfallDbg
             CBBps.Items.Add(2400);
             CBBps.Items.Add(4800);
             CBBps.Items.Add(9600);
+            CBBps.SelectedIndex = CBBps.Items.Count - 1;    //9600Bps als Default-Parameter (wird auch in den Arduino Beispielen genutzt)
             CBBps.Items.Add(14400);
             CBBps.Items.Add(19200);
             CBBps.Items.Add(28800);
@@ -122,6 +123,8 @@ namespace KugelfallDbg
 
             GetParameters();
         }
+
+
     }
 
     //Alle Parameter in einer Variable

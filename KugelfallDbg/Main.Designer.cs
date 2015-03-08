@@ -50,7 +50,7 @@
             this.CHGetroffen = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CHVersuch = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CHVersatz = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.CHGeschwindigkeit = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.CHArduino = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CHKommentar = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.TSBtnRemoveTest = new System.Windows.Forms.ToolStripButton();
@@ -66,8 +66,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.TimerAudio = new System.Windows.Forms.Timer(this.components);
-            this.ArduinoTimer = new System.Windows.Forms.Timer(this.components);
-            this.ArduinoBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.VolumeMeter = new ProgressBars.Basic.BasicProgressBar();
             this.pb_Images = new System.Windows.Forms.PictureBox();
             this.MenuStripMain.SuspendLayout();
@@ -222,7 +220,7 @@
             this.CHGetroffen,
             this.CHVersuch,
             this.CHVersatz,
-            this.CHGeschwindigkeit,
+            this.CHArduino,
             this.CHKommentar});
             this.LVTestEvaluation.FullRowSelect = true;
             this.LVTestEvaluation.GridLines = true;
@@ -249,10 +247,10 @@
             // 
             this.CHVersatz.Text = "Versatz";
             // 
-            // CHGeschwindigkeit
+            // CHArduino
             // 
-            this.CHGeschwindigkeit.Text = "Geschwindigkeit";
-            this.CHGeschwindigkeit.Width = 91;
+            this.CHArduino.Text = "Arduino Debug";
+            this.CHArduino.Width = 91;
             // 
             // CHKommentar
             // 
@@ -394,15 +392,6 @@
             this.TimerAudio.Interval = 10;
             this.TimerAudio.Tick += new System.EventHandler(this.TimerAudio_Tick);
             // 
-            // ArduinoTimer
-            // 
-            this.ArduinoTimer.Interval = 700;
-            this.ArduinoTimer.Tick += new System.EventHandler(this.ArduinoTimer_Tick);
-            // 
-            // ArduinoBackgroundWorker
-            // 
-            this.ArduinoBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.ArduinoBackgroundWorker_DoWork);
-            // 
             // VolumeMeter
             // 
             this.VolumeMeter.BackColor = System.Drawing.Color.DarkGray;
@@ -476,7 +465,7 @@
         private System.Windows.Forms.ColumnHeader CHGetroffen;
         private System.Windows.Forms.ToolStripButton TSBtnExportCSV;
         private System.Windows.Forms.ToolStripStatusLabel TSLblVolume;
-        private System.Windows.Forms.ColumnHeader CHGeschwindigkeit;
+        private System.Windows.Forms.ColumnHeader CHArduino;
         private System.Windows.Forms.ImageList ILVersuchsbilder;
         private System.Windows.Forms.ToolStripMenuItem datenToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem MenuDatenCSVExport;
@@ -496,8 +485,6 @@
         private System.Windows.Forms.ToolStripButton TSBtnRemoveTest;
         private System.Windows.Forms.ToolStripStatusLabel TSLblAudioActive;
         private System.Windows.Forms.PictureBox pb_Images;
-        private System.Windows.Forms.Timer ArduinoTimer;
-        private System.ComponentModel.BackgroundWorker ArduinoBackgroundWorker;
         private ProgressBars.Basic.BasicProgressBar VolumeMeter;
         private System.Windows.Forms.ToolStripStatusLabel TSLblThreshold;
     }

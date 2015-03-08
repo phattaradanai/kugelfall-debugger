@@ -16,7 +16,7 @@ namespace KugelfallDbg
 
         private int m_iBufferSize = 6;
         private Bitmap[] m_bImageBuffer;
-        private bool m_bIsCapturing = false;    //Flag um zu signalisieren
+        private bool m_bIsCapturing = false;    //Flag: Signalisiert, ob gerade ein Bild aufgenommen wurde
         
         public Main()
         {
@@ -154,7 +154,7 @@ namespace KugelfallDbg
         /**
          * void CamSettings():
          * Ruft den Dialog zur Einstellung der verwendeten Kamera auf.
-         * Eingestellt werden können: Kamera, Frames pro Sekunde
+         * Eingestellt werden können: Kamera, Auflösung
          */
         private void CamSettings()
         {
@@ -339,23 +339,18 @@ namespace KugelfallDbg
 
         private void MenuDateiRS232_Click(object sender, EventArgs e)
         {
-            RS232Settings();
+            ArduinoSettings();
         }
 
-        //RS232 Einstellungen
-        private void RS232Settings()
+        //Arduino Einstellungen
+        private void ArduinoSettings()
         {
             ArduinoConfig rs232 = new ArduinoConfig();
 
-            if (Arduino.IsOpen() == true) { ArduinoTimer.Stop();  Arduino.ClosePort(); }
+            if (Arduino.IsOpen() == true) {Arduino.ClosePort(); }
             if (rs232.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 Arduino.OpenPort();
-                if (Arduino.IsOpen() == true)
-                {
-                    //Zahl der Umdrehungen mittels Timer aktualisieren
-                    ArduinoTimer.Start();
-                }
             }
         }
 
@@ -425,7 +420,7 @@ namespace KugelfallDbg
             v.Pictures = (Bitmap[])m_bImageBuffer.Clone();
             if (Arduino.IsOpen() == true)
             {
-                v.Spin = Arduino.Spin;
+                v.Text = Arduino.DebugText;
             }
 
             m_Versuche.Add(v.Test, v);
@@ -434,12 +429,12 @@ namespace KugelfallDbg
             ListViewItem lvi = new ListViewItem();
             lvi.SubItems.Add(v.Test.Remove(0, 8));
             lvi.SubItems.Add(v.Deviation.ToString());
-            lvi.SubItems.Add(v.Spin.ToString());
+            lvi.SubItems.Add(v.Text);
             lvi.SubItems.Add(v.Comment);
 
             LVTestEvaluation.Items.Add(lvi);
 
-            System.Threading.Thread.Sleep(200);
+            System.Threading.Thread.Sleep(100);
 
             //Aufnahme wieder erlauben
             ActivateAudio(true);
@@ -464,7 +459,7 @@ namespace KugelfallDbg
                 //Itemupdate
                 lvi.Checked = temp.Success;
                 lvi.SubItems[2].Text = temp.Deviation.ToString();
-                lvi.SubItems[3].Text = temp.Spin.ToString();
+                lvi.SubItems[3].Text = temp.Text;
                 lvi.SubItems[4].Text = temp.Comment;
             }
         }
@@ -479,38 +474,6 @@ namespace KugelfallDbg
             string key = "Versuch " + lvi.SubItems[1].Text;
 
             return m_Versuche[key];
-        }
-
-        private void ArduinoTimer_Tick(object sender, EventArgs e)
-        {
-            if (Arduino.IsOpen() == true)
-            {
-                if (ArduinoBackgroundWorker.IsBusy == false)
-                {
-                    ArduinoBackgroundWorker.RunWorkerAsync();
-                }
-            }
-        }
-
-        /*Zählt die Umdrehungen*/
-        private void ArduinoBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            System.Diagnostics.Stopwatch s = new System.Diagnostics.Stopwatch();
-            int i = 0, speed = 0;
-            string sData = string.Empty;
-
-            s.Start();
-            do
-            {
-                sData += Arduino.ReadData().ToString();
-            } while (s.Elapsed.Milliseconds <= 500);
-            s.Stop();
-
-            for (i = 0; i < sData.Length; i++)
-            {
-                if (sData[i] == '1') { speed++; }
-            }
-            speed *= 2;
         }
 
         /*
@@ -555,7 +518,7 @@ namespace KugelfallDbg
 
         private void TSBtnArduinoSettings_Click(object sender, EventArgs e)
         {
-            RS232Settings();
+            ArduinoSettings();
         }
 
         /**

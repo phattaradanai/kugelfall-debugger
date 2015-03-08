@@ -25,7 +25,6 @@ namespace KugelfallDbg
         {
             m_Versuchsbild.Comment = TBComment.Text;
             m_Versuchsbild.Deviation = int.Parse(NDeviation.Value.ToString());
-            //m_Versuchsbild.Pictures = m_Bitmap;
             m_Versuchsbild.Success = CBSuccess.Checked;
         }
 
@@ -33,16 +32,6 @@ namespace KugelfallDbg
         public Versuchsbild GetVersuch
         {
             get { return m_Versuchsbild; }
-        }
-
-        private void PBVersuch_MouseHover(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void PBVersuch_MouseLeave(object sender, EventArgs e)
-        {
-
         }
 
         private void FormVersuch_Load(object sender, EventArgs e)

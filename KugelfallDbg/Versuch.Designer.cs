@@ -170,8 +170,6 @@
             this.PBTest.Size = new System.Drawing.Size(320, 240);
             this.PBTest.TabIndex = 0;
             this.PBTest.TabStop = false;
-            this.PBTest.MouseLeave += new System.EventHandler(this.PBVersuch_MouseLeave);
-            this.PBTest.MouseHover += new System.EventHandler(this.PBVersuch_MouseHover);
             // 
             // FormVersuch
             // 
