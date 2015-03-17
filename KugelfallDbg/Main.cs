@@ -5,7 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+ 
 using System.Windows.Forms;
 
 namespace KugelfallDbg
@@ -29,6 +29,7 @@ namespace KugelfallDbg
 
         ~Main()
         {
+            //Sicherstellen, dass alles heruntergefahren wird
             Shutdown();
         }
 
@@ -114,11 +115,19 @@ namespace KugelfallDbg
                 {
                     ActivateCamera(true);
                     ActivateAudio(true);
+
+                    TSBtnCamSettings.Enabled = false;
+                    TSBtnArduinoSettings.Enabled = false;
+                    TSBtnAudioConfiguration.Enabled = false;
                 }
                 else
                 {
                     ActivateCamera(false);
                     ActivateAudio(false);
+
+                    TSBtnCamSettings.Enabled = true;
+                    TSBtnArduinoSettings.Enabled = true;
+                    TSBtnAudioConfiguration.Enabled = true;
                 }
             }
         }
@@ -368,11 +377,11 @@ namespace KugelfallDbg
         {
             //Den Maximalwert des Audioeingangs abfragen
 
-            TSLblVolume.Text = m_Audio.MaxVolume.ToString();
+            //TSLblVolume.Text = (m_Audio.getrawvalue()*100).ToString();//m_Audio.MaxVolume.ToString();
             VolumeMeter.Value = m_Audio.MaxVolume;
 
             //Prüfen, ob eine bestimmte Schwelle überschritten wurde (regelbar)
-            if (m_Audio.MaxVolume > 60)
+            if (m_Audio.MaxVolume > VolumeMeter.Threshold)
             {
                 if (m_bIsCapturing == false)
                 {
@@ -380,7 +389,7 @@ namespace KugelfallDbg
                     CaptureImage();
                 }
             }
-            else if(m_Audio.MaxVolume <= 60)    /* Stellt sicher, dass nicht endlos viele Bilder gemacht 
+            else if(m_Audio.MaxVolume <= VolumeMeter.Threshold)    /* Stellt sicher, dass nicht endlos viele Bilder gemacht 
                                                  * werden können, sobald die Schwelle einmal überschritten wurde 
                                                  * (bspw. zu lauter Pegel) */
             {
@@ -538,11 +547,9 @@ namespace KugelfallDbg
 
                     m_Audio = null;
                 }
-                else
-                {
-                    m_Audio = new Audio(fad.m_iSelectedDevice);
-                    TSLblAudioActive.Text = "Audiogerät ausgewählt";
-                }
+
+                m_Audio = new Audio(fad.m_iSelectedDevice);
+                TSLblAudioActive.Text = "Audiogerät ausgewählt";
             }
         }
 
@@ -573,7 +580,7 @@ namespace KugelfallDbg
         private void VolumeMeter_Click(object sender, EventArgs e)
         {
             //Schwellenwert aktualisieren
-            TSLblThreshold.Text = VolumeMeter.Threshold.ToString();
+            //TSLblThreshold.Text = VolumeMeter.Threshold.ToString();
         }
 
         /**
@@ -582,7 +589,9 @@ namespace KugelfallDbg
          */
         private void Shutdown()
         {
-        
+            if (TimerAudio.Enabled) { TimerAudio.Stop(); }
+            if (m_Camera.GetCamera.IsRunning) { m_Camera.Stop(); }
+            m_Audio.StopRecording();
         }
     }
 }
