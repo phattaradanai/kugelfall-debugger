@@ -90,7 +90,6 @@
       <DependentUpon>AudioDevice.cs</DependentUpon>
     </Compile>
     <Compile Include="Camera.cs" />
-    <Compile Include="CSVExport.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>

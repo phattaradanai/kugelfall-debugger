@@ -15,6 +15,7 @@ namespace KugelfallDbg
             try
             {
                 m_RS232Port.DataReceived += m_RS232Port_DataReceived;
+
                 //Port öffnen
                 m_RS232Port.Open();
             }
@@ -28,13 +29,19 @@ namespace KugelfallDbg
 
         static void m_RS232Port_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            //throw new NotImplementedException();
-            m_sDebugText += m_RS232Port.ReadLine();
-            if(m_sDebugText.Length == 100)  //Auf 100 Zeichen beschränken
+            string sTemp = m_RS232Port.ReadLine();  //Temporärer String
+            sTemp = sTemp.Replace("\r", "");
+
+            if (sTemp == "trigger") //Der Switch wurde betätigt
             {
-                m_sDebugText.Remove(0);
+                m_bWatch = true;
+                m_sDebugText = string.Empty;
             }
-            m_sDebugText += ';';    //Trennzeichen
+            else if (sTemp == "drop") { m_bWatch = false; } //Die Kugel ist durch den Sensor gefallen
+            else if (m_bWatch == true)
+            {
+                m_sDebugText += sTemp;
+            }
         }
 
         public static bool ClosePort()
@@ -65,22 +72,8 @@ namespace KugelfallDbg
         public static void SetParameters(int _Bps, string _sPortName)
         {
             m_RS232Port.BaudRate = _Bps;
-            //m_RS232Port.DataBits = _iDataBits;
-            //m_RS232Port.Handshake = _Handshake;
-            //m_RS232Port.Parity = _Parity;
-            //m_RS232Port.StopBits = _StopBits;
             m_RS232Port.PortName = _sPortName;
         }
-
-        /*public static void SetParameters(int _Bps,int _iDataBits, System.IO.Ports.Parity _Parity,System.IO.Ports.Handshake _Handshake, System.IO.Ports.StopBits _StopBits, string _sPortName)
-        {
-            m_RS232Port.BaudRate = _Bps;
-            //m_RS232Port.DataBits = _iDataBits;
-            //m_RS232Port.Handshake = _Handshake;
-            //m_RS232Port.Parity = _Parity;
-            //m_RS232Port.StopBits = _StopBits;
-            m_RS232Port.PortName = _sPortName;
-        }*/
 
         public static SerialPort RS232Port
         {
@@ -90,5 +83,6 @@ namespace KugelfallDbg
 
         private static SerialPort m_RS232Port = new SerialPort();
         private static string m_sDebugText;             //Ausgaben, welche vom Arduino kommen
+        private static bool m_bWatch;   //Ausgaben des Arduino aufzeichnen
     }
 }
