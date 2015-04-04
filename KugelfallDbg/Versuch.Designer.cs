@@ -41,6 +41,8 @@
             this.BtnOK = new System.Windows.Forms.Button();
             this.CBChosenPicture = new System.Windows.Forms.CheckBox();
             this.PBTest = new System.Windows.Forms.PictureBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.NDeviation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TBPicture)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -49,7 +51,7 @@
             // 
             // TBComment
             // 
-            this.TBComment.Location = new System.Drawing.Point(341, 25);
+            this.TBComment.Location = new System.Drawing.Point(17, 271);
             this.TBComment.Multiline = true;
             this.TBComment.Name = "TBComment";
             this.TBComment.Size = new System.Drawing.Size(199, 59);
@@ -58,7 +60,8 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(338, 9);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(14, 255);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(127, 13);
             this.label1.TabIndex = 2;
@@ -66,9 +69,9 @@
             // 
             // NDeviation
             // 
-            this.NDeviation.Location = new System.Drawing.Point(410, 203);
+            this.NDeviation.Location = new System.Drawing.Point(274, 393);
             this.NDeviation.Name = "NDeviation";
-            this.NDeviation.Size = new System.Drawing.Size(130, 20);
+            this.NDeviation.Size = new System.Drawing.Size(97, 20);
             this.NDeviation.TabIndex = 3;
             // 
             // TBPicture
@@ -76,14 +79,14 @@
             this.TBPicture.Location = new System.Drawing.Point(6, 13);
             this.TBPicture.Maximum = 5;
             this.TBPicture.Name = "TBPicture";
-            this.TBPicture.Size = new System.Drawing.Size(187, 45);
+            this.TBPicture.Size = new System.Drawing.Size(133, 45);
             this.TBPicture.TabIndex = 5;
             this.TBPicture.ValueChanged += new System.EventHandler(this.TBPicture_ValueChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(344, 205);
+            this.label2.Location = new System.Drawing.Point(229, 395);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(42, 13);
             this.label2.TabIndex = 6;
@@ -101,7 +104,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(172, 45);
+            this.label5.Location = new System.Drawing.Point(119, 45);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(13, 13);
             this.label5.TabIndex = 9;
@@ -112,9 +115,9 @@
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.TBPicture);
-            this.groupBox1.Location = new System.Drawing.Point(341, 90);
+            this.groupBox1.Location = new System.Drawing.Point(226, 266);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(199, 64);
+            this.groupBox1.Size = new System.Drawing.Size(145, 64);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Bilder";
@@ -123,7 +126,7 @@
             // 
             this.CBSuccess.AutoSize = true;
             this.CBSuccess.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CBSuccess.Location = new System.Drawing.Point(341, 180);
+            this.CBSuccess.Location = new System.Drawing.Point(226, 349);
             this.CBSuccess.Name = "CBSuccess";
             this.CBSuccess.Size = new System.Drawing.Size(133, 17);
             this.CBSuccess.TabIndex = 12;
@@ -133,7 +136,7 @@
             // BtnCancel
             // 
             this.BtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.BtnCancel.Location = new System.Drawing.Point(338, 229);
+            this.BtnCancel.Location = new System.Drawing.Point(93, 419);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(79, 23);
             this.BtnCancel.TabIndex = 13;
@@ -143,7 +146,7 @@
             // BtnOK
             // 
             this.BtnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.BtnOK.Location = new System.Drawing.Point(423, 229);
+            this.BtnOK.Location = new System.Drawing.Point(234, 419);
             this.BtnOK.Name = "BtnOK";
             this.BtnOK.Size = new System.Drawing.Size(79, 23);
             this.BtnOK.TabIndex = 14;
@@ -155,27 +158,48 @@
             // 
             this.CBChosenPicture.AutoSize = true;
             this.CBChosenPicture.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CBChosenPicture.Location = new System.Drawing.Point(341, 160);
+            this.CBChosenPicture.Location = new System.Drawing.Point(281, 370);
             this.CBChosenPicture.Name = "CBChosenPicture";
-            this.CBChosenPicture.Size = new System.Drawing.Size(90, 17);
+            this.CBChosenPicture.Size = new System.Drawing.Size(78, 17);
             this.CBChosenPicture.TabIndex = 15;
-            this.CBChosenPicture.Text = "\"Bild wählen\"";
+            this.CBChosenPicture.Text = "Bestes Bild";
             this.CBChosenPicture.UseVisualStyleBackColor = true;
             this.CBChosenPicture.CheckedChanged += new System.EventHandler(this.CBGewBild_CheckedChanged);
             // 
             // PBTest
             // 
-            this.PBTest.Location = new System.Drawing.Point(12, 12);
+            this.PBTest.Location = new System.Drawing.Point(36, 12);
             this.PBTest.Name = "PBTest";
             this.PBTest.Size = new System.Drawing.Size(320, 240);
             this.PBTest.TabIndex = 0;
             this.PBTest.TabStop = false;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(14, 333);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(122, 13);
+            this.label3.TabIndex = 16;
+            this.label3.Text = "Arduino Debugausgabe:";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Enabled = false;
+            this.textBox1.Location = new System.Drawing.Point(17, 349);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(199, 59);
+            this.textBox1.TabIndex = 17;
+            // 
             // FormVersuch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(544, 260);
+            this.ClientSize = new System.Drawing.Size(392, 450);
+            this.ControlBox = false;
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.CBChosenPicture);
             this.Controls.Add(this.BtnOK);
             this.Controls.Add(this.BtnCancel);
@@ -186,8 +210,11 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.TBComment);
             this.Controls.Add(this.PBTest);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FormVersuch";
             this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.Text = "Versuch";
             this.Load += new System.EventHandler(this.FormVersuch_Load);
             ((System.ComponentModel.ISupportInitialize)(this.NDeviation)).EndInit();
@@ -215,5 +242,7 @@
         private System.Windows.Forms.Button BtnCancel;
         private System.Windows.Forms.Button BtnOK;
         private System.Windows.Forms.CheckBox CBChosenPicture;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }

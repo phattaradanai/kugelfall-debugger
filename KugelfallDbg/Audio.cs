@@ -30,7 +30,6 @@ namespace KugelfallDbg
                 sample32 *= 100;
                 sample32 = Math.Abs(sample32);
                 m_iMaxVolume = (int)sample32;
-
             }
         }
         public float getrawvalue() { return rawvalue; }
