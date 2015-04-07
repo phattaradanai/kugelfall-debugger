@@ -109,7 +109,7 @@ namespace KugelfallDbg
 
         private void TSBtnActivateCam_Click(object sender, EventArgs e)
         {
-            if (m_Camera != null)
+            if (m_Camera != null  && m_Audio != null && Arduino.IsSet == true)
             {
                 if (m_Camera.GetCamera.IsRunning == false)
                 {
@@ -244,8 +244,6 @@ namespace KugelfallDbg
 
                     //Statuslabel
                     TSLblCameraActive.Text = "Kamera eingeschaltet";
-
-                    TSLblFPS.Visible = true;
                 }
                 else
                 {
@@ -255,8 +253,6 @@ namespace KugelfallDbg
                     TSBtnActivateCam.Image = KugelfallDbg.Properties.Resources.NoVideo;
                     TSBtnActivateCam.Text = "Kamera ausgeschaltet";
                     TSLblCameraActive.Text = "Kamera einschalten um Versuch zu starten";
-
-                    TSLblFPS.Visible = false;
                 }
             }
         }
@@ -360,6 +356,7 @@ namespace KugelfallDbg
             if (rs232.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 Arduino.OpenPort();
+                Arduino.IsSet = true;
             }
         }
 
@@ -429,7 +426,7 @@ namespace KugelfallDbg
             v.Pictures = (Bitmap[])m_bImageBuffer.Clone();
             if (Arduino.IsOpen() == true)
             {
-                v.Text = Arduino.DebugText;
+                v.Debugtext = Arduino.DebugText;
             }
 
             m_Versuche.Add(v.Test, v);
@@ -438,7 +435,7 @@ namespace KugelfallDbg
             ListViewItem lvi = new ListViewItem();
             lvi.SubItems.Add(v.Test.Remove(0, 8));
             lvi.SubItems.Add(v.Deviation.ToString());
-            lvi.SubItems.Add(v.Text);
+            lvi.SubItems.Add(v.Debugtext);
             lvi.SubItems.Add(v.Comment);
 
             LVTestEvaluation.Items.Add(lvi);
@@ -468,7 +465,7 @@ namespace KugelfallDbg
                 //Itemupdate
                 lvi.Checked = temp.Success;
                 lvi.SubItems[2].Text = temp.Deviation.ToString();
-                lvi.SubItems[3].Text = temp.Text;
+                lvi.SubItems[3].Text = temp.Debugtext;
                 lvi.SubItems[4].Text = temp.Comment;
             }
         }
@@ -485,7 +482,7 @@ namespace KugelfallDbg
             return m_Versuche[key];
         }
 
-        /*
+        /**
          * Ein Item (also ein Versuch) wurde aus der Liste ausgewählt. Um diesen bearbeiten zu können,
          * wird ein Dialog aufgerufen
         */
@@ -558,6 +555,9 @@ namespace KugelfallDbg
             DeletePictures();
         }
 
+        /** void TSBtnDeleteTest_Click
+         *  Dieses Event tritt ein, wenn ein Versuch gelöscht werden soll.
+         */
         private void TSBtnDeleteTest_Click(object sender, EventArgs e)
         {
             //Vorausgesetzt Item wurde ausgewählt

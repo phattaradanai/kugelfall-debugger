@@ -42,7 +42,7 @@
             this.CBChosenPicture = new System.Windows.Forms.CheckBox();
             this.PBTest = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.TBArduino = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.NDeviation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TBPicture)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -126,7 +126,7 @@
             // 
             this.CBSuccess.AutoSize = true;
             this.CBSuccess.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CBSuccess.Location = new System.Drawing.Point(226, 349);
+            this.CBSuccess.Location = new System.Drawing.Point(232, 349);
             this.CBSuccess.Name = "CBSuccess";
             this.CBSuccess.Size = new System.Drawing.Size(133, 17);
             this.CBSuccess.TabIndex = 12;
@@ -135,8 +135,9 @@
             // 
             // BtnCancel
             // 
+            this.BtnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.BtnCancel.Location = new System.Drawing.Point(93, 419);
+            this.BtnCancel.Location = new System.Drawing.Point(71, 419);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(79, 23);
             this.BtnCancel.TabIndex = 13;
@@ -145,6 +146,7 @@
             // 
             // BtnOK
             // 
+            this.BtnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.BtnOK.Location = new System.Drawing.Point(234, 419);
             this.BtnOK.Name = "BtnOK";
@@ -158,7 +160,7 @@
             // 
             this.CBChosenPicture.AutoSize = true;
             this.CBChosenPicture.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CBChosenPicture.Location = new System.Drawing.Point(281, 370);
+            this.CBChosenPicture.Location = new System.Drawing.Point(287, 370);
             this.CBChosenPicture.Name = "CBChosenPicture";
             this.CBChosenPicture.Size = new System.Drawing.Size(78, 17);
             this.CBChosenPicture.TabIndex = 15;
@@ -183,14 +185,14 @@
             this.label3.TabIndex = 16;
             this.label3.Text = "Arduino Debugausgabe:";
             // 
-            // textBox1
+            // TBArduino
             // 
-            this.textBox1.Enabled = false;
-            this.textBox1.Location = new System.Drawing.Point(17, 349);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(199, 59);
-            this.textBox1.TabIndex = 17;
+            this.TBArduino.Enabled = false;
+            this.TBArduino.Location = new System.Drawing.Point(17, 349);
+            this.TBArduino.Multiline = true;
+            this.TBArduino.Name = "TBArduino";
+            this.TBArduino.Size = new System.Drawing.Size(199, 59);
+            this.TBArduino.TabIndex = 17;
             // 
             // FormVersuch
             // 
@@ -198,7 +200,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(392, 450);
             this.ControlBox = false;
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.TBArduino);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.CBChosenPicture);
             this.Controls.Add(this.BtnOK);
@@ -243,6 +245,6 @@
         private System.Windows.Forms.Button BtnOK;
         private System.Windows.Forms.CheckBox CBChosenPicture;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox TBArduino;
     }
 }

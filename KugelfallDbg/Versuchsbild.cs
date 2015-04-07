@@ -49,7 +49,7 @@ namespace KugelfallDbg
         }
 
         //Arduino Debugausgaben
-        public string Text
+        public string Debugtext
         {
             get { return m_sText; }
             set { m_sText = value; }

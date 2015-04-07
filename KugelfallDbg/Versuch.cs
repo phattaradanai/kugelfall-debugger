@@ -50,6 +50,7 @@ namespace KugelfallDbg
             TBComment.Text = m_Versuchsbild.Comment;
             NDeviation.Value = m_Versuchsbild.Deviation;
             CBSuccess.Checked = m_Versuchsbild.Success;
+            TBArduino.Text = m_Versuchsbild.Debugtext;
         }
 
         private void CBGewBild_CheckedChanged(object sender, EventArgs e)

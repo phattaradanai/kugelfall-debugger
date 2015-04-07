@@ -18,22 +18,24 @@ namespace KugelfallDbg
             m_iWaveInDevice.DeviceNumber = m_iDeviceNumber;
         }
 
-        //Sample aus dem Buffer holen
+        /**
+         * void waveIn_DataAvailable(...)
+         * Sobald Daten am Audioeingang vorliegen, wird dieses Event
+         * aufgerufen und verarbeitet
+         */
         void waveIn_DataAvailable(object sender, NAudio.Wave.WaveInEventArgs e)
         {
             for (int index = 0; index < e.BytesRecorded; index += 2)
             {
-                short sample = (short)((e.Buffer[index + 1] << 8) |
-                                        e.Buffer[index + 0]);
+                short sample = (short)((e.Buffer[index + 1] << 8) | e.Buffer[index + 0]);
+
+                //Sample in 32-bit (4 Byte) umwandeln
                 float sample32 = sample / 32768f;
-                rawvalue = sample32;
-                sample32 *= 100;
+                sample32 *= 100;    //Mal 100 um die Lautstärke zwischen 0 und 100 pendeln zu lassen (sonst 0.0f und 1.0f)
                 sample32 = Math.Abs(sample32);
                 m_iMaxVolume = (int)sample32;
             }
         }
-        public float getrawvalue() { return rawvalue; }
-        private float rawvalue = 0;
 
         public void StartRecording()
         {
@@ -49,6 +51,10 @@ namespace KugelfallDbg
             m_iWaveInDevice.StartRecording();
         }
 
+        /**
+         *  void StopRecording():
+         *  Stoppt die Audioaufnahme 
+         */
         public void StopRecording()
         {
             if (m_iWaveInDevice != null)
@@ -63,6 +69,10 @@ namespace KugelfallDbg
             get { return m_iWaveInDevice; }
         }
 
+        /**
+         * int MaxVolume:
+         * Gibt die aktuelle Lautstärke zurück
+         */
         public int MaxVolume
         {
             get { return m_iMaxVolume; }
@@ -70,12 +80,12 @@ namespace KugelfallDbg
         }
 
         private int m_iSampleRate = 44100;
-        private int m_iChannels = 1;
-        private int m_iDeviceNumber;    //Nummer des Soundaufnahmegerätes
-        private int m_iMaxVolume;
+        private int m_iChannels = 1;    ///Wieviele Kanäle sollen zur Aufnahme benutzt werden (Default: 1 -> Mono)
+        private int m_iDeviceNumber;    ///Nummer des Soundaufnahmegerätes (Dient zur Identifikation)
+        private int m_iMaxVolume;       ///Die aktuelle eingehende Lautstärke
         private NAudio.Wave.WaveIn m_iWaveInDevice;
         
-        /*
+        /* AB WINDOWS VISTA
         public NAudio.CoreAudioApi.MMDevice AudioDevice
         {
             get { return m_AudioDevice; }

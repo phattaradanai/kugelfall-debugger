@@ -40,7 +40,6 @@
             this.MenuDatenCSVExport = new System.Windows.Forms.ToolStripMenuItem();
             this.hilfeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.TSLblFPS = new System.Windows.Forms.ToolStripStatusLabel();
             this.TSLblCameraActive = new System.Windows.Forms.ToolStripStatusLabel();
             this.TSLblVolume = new System.Windows.Forms.ToolStripStatusLabel();
             this.TSLblAudioActive = new System.Windows.Forms.ToolStripStatusLabel();
@@ -157,7 +156,6 @@
             // 
             this.statusStrip1.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.TSLblFPS,
             this.TSLblCameraActive,
             this.TSLblVolume,
             this.TSLblAudioActive,
@@ -168,17 +166,10 @@
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // TSLblFPS
-            // 
-            this.TSLblFPS.Name = "TSLblFPS";
-            this.TSLblFPS.Size = new System.Drawing.Size(26, 17);
-            this.TSLblFPS.Text = "FPS";
-            this.TSLblFPS.Visible = false;
-            // 
             // TSLblCameraActive
             // 
             this.TSLblCameraActive.Name = "TSLblCameraActive";
-            this.TSLblCameraActive.Size = new System.Drawing.Size(490, 17);
+            this.TSLblCameraActive.Size = new System.Drawing.Size(640, 17);
             this.TSLblCameraActive.Spring = true;
             this.TSLblCameraActive.Text = "Keine Kamera ausgewählt";
             this.TSLblCameraActive.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -201,6 +192,7 @@
             this.TSLblThreshold.Name = "TSLblThreshold";
             this.TSLblThreshold.Size = new System.Drawing.Size(150, 17);
             this.TSLblThreshold.Text = "Eingestellter Schwellenwert";
+            this.TSLblThreshold.Visible = false;
             // 
             // MainVideoSourcePlayer
             // 
@@ -224,6 +216,7 @@
             this.CHKommentar});
             this.LVTestEvaluation.FullRowSelect = true;
             this.LVTestEvaluation.GridLines = true;
+            this.LVTestEvaluation.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.LVTestEvaluation.Location = new System.Drawing.Point(78, 422);
             this.LVTestEvaluation.MultiSelect = false;
             this.LVTestEvaluation.Name = "LVTestEvaluation";
@@ -453,7 +446,6 @@
         private System.Windows.Forms.ToolStripMenuItem MenuDatei;
         private System.Windows.Forms.ToolStripMenuItem MenuDateiKamEinstellungen;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripStatusLabel TSLblFPS;
         private System.Windows.Forms.ToolStripMenuItem MenuDateiBeenden;
         private AForge.Controls.VideoSourcePlayer MainVideoSourcePlayer;
         private System.Windows.Forms.ListView LVTestEvaluation;

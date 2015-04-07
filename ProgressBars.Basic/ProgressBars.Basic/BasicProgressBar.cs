@@ -65,6 +65,7 @@ namespace ProgressBars.Basic
 
         private bool hasErrors = false;
         private string errorLog = null;
+        private bool bThresholdRefresh = false; //Gibt an, ob der Threshold (Schwellenwert) momentan aktualisiert wird
 
         /// <summary>
         /// BasicProgressBar initialization
@@ -108,10 +109,11 @@ namespace ProgressBars.Basic
              * 2. Das Ergebnis aus 1 durch die Höhe der Progressbar dividieren
              * 3. Das Ergebnis aus 2 mal dem eingestellten Maximum
              */
-
+            bThresholdRefresh = true;
             double dRatio = (double)(Math.Abs(this.Height - e.Location.Y)) / (double)this.Height;
             dRatio *= (double)maximum;
             threshold = (int)dRatio;
+            bThresholdRefresh = false;
         }
 
         /// <summary>
@@ -145,7 +147,11 @@ namespace ProgressBars.Basic
         [Description("Der Schwellenwert.")]
         public int Threshold
         {
-            get { return threshold; }
+            get
+            {
+                while (bThresholdRefresh) { }
+                return threshold;
+            }
         }
 
 
