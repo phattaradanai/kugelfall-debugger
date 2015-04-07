@@ -362,6 +362,7 @@ namespace KugelfallDbg
             {
                 Arduino.OpenPort();
                 Arduino.IsSet = true;
+                TSLblArduino.Text = "Arduino wurde ausgewählt";
             }
         }
 

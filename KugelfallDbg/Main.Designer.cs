@@ -44,7 +44,7 @@
             this.TSLblVolume = new System.Windows.Forms.ToolStripStatusLabel();
             this.TSLblAudioActive = new System.Windows.Forms.ToolStripStatusLabel();
             this.TSLblThreshold = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.TSLblArduino = new System.Windows.Forms.ToolStripStatusLabel();
             this.MainVideoSourcePlayer = new AForge.Controls.VideoSourcePlayer();
             this.LVTestEvaluation = new System.Windows.Forms.ListView();
             this.CHGetroffen = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -161,7 +161,7 @@
             this.TSLblVolume,
             this.TSLblAudioActive,
             this.TSLblThreshold,
-            this.toolStripStatusLabel1});
+            this.TSLblArduino});
             this.statusStrip1.Location = new System.Drawing.Point(0, 522);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(810, 22);
@@ -171,7 +171,7 @@
             // TSLblCameraActive
             // 
             this.TSLblCameraActive.Name = "TSLblCameraActive";
-            this.TSLblCameraActive.Size = new System.Drawing.Size(494, 17);
+            this.TSLblCameraActive.Size = new System.Drawing.Size(203, 17);
             this.TSLblCameraActive.Spring = true;
             this.TSLblCameraActive.Text = "Keine Kamera ausgewählt";
             this.TSLblCameraActive.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -196,11 +196,11 @@
             this.TSLblThreshold.Text = "Eingestellter Schwellenwert";
             this.TSLblThreshold.Visible = false;
             // 
-            // toolStripStatusLabel1
+            // TSLblArduino
             // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(146, 17);
-            this.toolStripStatusLabel1.Text = "Arduino nicht ausgewählt!";
+            this.TSLblArduino.Name = "TSLblArduino";
+            this.TSLblArduino.Size = new System.Drawing.Size(146, 17);
+            this.TSLblArduino.Text = "Arduino nicht ausgewählt!";
             // 
             // MainVideoSourcePlayer
             // 
@@ -490,7 +490,7 @@
         private System.Windows.Forms.PictureBox pb_Images;
         private ProgressBars.Basic.BasicProgressBar VolumeMeter;
         private System.Windows.Forms.ToolStripStatusLabel TSLblThreshold;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel TSLblArduino;
     }
 }
 
