@@ -17,15 +17,22 @@ namespace KugelfallDbg
         private int m_iBufferSize = 6;
         private Bitmap[] m_bImageBuffer;
         private bool m_bIsCapturing = false;    //Flag: Signalisiert, ob gerade ein Bild aufgenommen wurde
-        private bool m_bAutoCheck = false;
+        
 
         public Main()
         {
             InitializeComponent();
 
-            this.LVTestEvaluation.LostFocus += (s, e) => this.LVTestEvaluation.SelectedIndices.Clear();
             m_Versuche = new Dictionary<string, Versuchsbild>();
             m_bImageBuffer = new Bitmap[m_iBufferSize];
+            this.LVTestEvaluation.LostFocus += LVTestEvaluation_LostFocus;
+        }
+
+        void LVTestEvaluation_LostFocus(object sender, EventArgs e)
+        {
+            //throw new NotImplementedException();
+            LVTestEvaluation.SelectedItems.Clear();
+            LVTestEvaluation.Update();
         }
 
         ~Main()
@@ -42,8 +49,8 @@ namespace KugelfallDbg
         /**
          * NewFrame-Event: Schreibt in den Imagebuffer um Bilder (im Falle einer Schwellenüberschreitung der Lautstärke) zur Besichtigung parat zu haben
          */
-        private short m_sPassedFrames = 0;  //Beinhaltet die Anzahl der bereits gemachten Bilder 
-        private short m_sIndex = 0;         //Dient also "Zeiger" in der Buffervariable (maximal m_iBufferSize Bilder)
+        private short m_sPassedFrames = 0;  ///Beinhaltet die Anzahl der bereits gemachten Bilder 
+        private short m_sIndex = 0;         ///Dient also "Zeiger" in der Buffervariable (maximal m_iBufferSize Bilder)
         private void MainVideoSourcePlayer_NewFrame(object sender, ref Bitmap image)
         {
             //(Nach wie vielen gemachten Bildern soll eines davon im Buffer abgelegt werden)?
@@ -152,7 +159,7 @@ namespace KugelfallDbg
                     TimerAudio.Enabled = true;
                     TimerAudio.Start();
                     m_Audio.StartRecording();
-                    TSLblVolume.Visible = true;
+                    //TSLblVolume.Visible = true;
                     TSLblAudioActive.Text = "Audio aktiviert";
                 }
                 else
@@ -160,7 +167,7 @@ namespace KugelfallDbg
                     TimerAudio.Enabled = false;
                     TimerAudio.Stop();
                     m_Audio.StopRecording();
-                    TSLblVolume.Visible = false;
+                    //TSLblVolume.Visible = false;
                 }
             }
         }
@@ -352,7 +359,10 @@ namespace KugelfallDbg
             ArduinoSettings();
         }
 
-        //Arduino Einstellungen
+        /**
+         * void ArduinoSettings():
+         * Arduino Konfiguration
+         */
         private void ArduinoSettings()
         {
             ArduinoConfig rs232 = new ArduinoConfig();
@@ -600,6 +610,9 @@ namespace KugelfallDbg
             m_Audio.StopRecording();
         }
 
+
+        #region ListView: Versehentlichen CheckBox-Click vermeiden
+        //Die Events MouseDown, MouseUp, ItemCheck dienen dem Zweck, dass nicht versehentlich der Versuch als OK bzw. nicht OK markiert wird
         private void LVTestEvaluation_MouseDown(object sender, MouseEventArgs e)
         {
             m_bAutoCheck = true;
@@ -616,6 +629,14 @@ namespace KugelfallDbg
             {
                 e.NewValue = e.CurrentValue;
             }
+        }
+
+        private bool m_bAutoCheck = false;
+        #endregion
+
+        private void Main_Click(object sender, EventArgs e)
+        {
+            LVTestEvaluation.SelectedItems.Clear();
         }
     }
 }

@@ -41,7 +41,6 @@
             this.hilfeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.TSLblCameraActive = new System.Windows.Forms.ToolStripStatusLabel();
-            this.TSLblVolume = new System.Windows.Forms.ToolStripStatusLabel();
             this.TSLblAudioActive = new System.Windows.Forms.ToolStripStatusLabel();
             this.TSLblThreshold = new System.Windows.Forms.ToolStripStatusLabel();
             this.TSLblArduino = new System.Windows.Forms.ToolStripStatusLabel();
@@ -158,7 +157,6 @@
             this.statusStrip1.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.TSLblCameraActive,
-            this.TSLblVolume,
             this.TSLblAudioActive,
             this.TSLblThreshold,
             this.TSLblArduino});
@@ -171,17 +169,10 @@
             // TSLblCameraActive
             // 
             this.TSLblCameraActive.Name = "TSLblCameraActive";
-            this.TSLblCameraActive.Size = new System.Drawing.Size(203, 17);
+            this.TSLblCameraActive.Size = new System.Drawing.Size(494, 17);
             this.TSLblCameraActive.Spring = true;
             this.TSLblCameraActive.Text = "Keine Kamera ausgewählt";
             this.TSLblCameraActive.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // TSLblVolume
-            // 
-            this.TSLblVolume.Name = "TSLblVolume";
-            this.TSLblVolume.Size = new System.Drawing.Size(110, 17);
-            this.TSLblVolume.Text = "Aktuelle Lautstärke:";
-            this.TSLblVolume.Visible = false;
             // 
             // TSLblAudioActive
             // 
@@ -439,6 +430,7 @@
             this.Text = "Kugelfall-Debugger";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.Click += new System.EventHandler(this.Main_Click);
             this.MenuStripMain.ResumeLayout(false);
             this.MenuStripMain.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
@@ -467,7 +459,6 @@
         private System.Windows.Forms.ColumnHeader CHKommentar;
         private System.Windows.Forms.ColumnHeader CHGetroffen;
         private System.Windows.Forms.ToolStripButton TSBtnExportCSV;
-        private System.Windows.Forms.ToolStripStatusLabel TSLblVolume;
         private System.Windows.Forms.ColumnHeader CHArduino;
         private System.Windows.Forms.ImageList ILVersuchsbilder;
         private System.Windows.Forms.ToolStripMenuItem datenToolStripMenuItem;
