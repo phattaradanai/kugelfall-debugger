@@ -17,7 +17,8 @@ namespace KugelfallDbg
         private int m_iBufferSize = 6;
         private Bitmap[] m_bImageBuffer;
         private bool m_bIsCapturing = false;    //Flag: Signalisiert, ob gerade ein Bild aufgenommen wurde
-        
+        private bool m_bAutoCheck = false;
+
         public Main()
         {
             InitializeComponent();
@@ -109,7 +110,7 @@ namespace KugelfallDbg
 
         private void TSBtnActivateCam_Click(object sender, EventArgs e)
         {
-            if (m_Camera != null  && m_Audio != null && Arduino.IsSet == true)
+            if (m_Camera != null && m_Audio != null && Arduino.IsSet == true)
             {
                 if (m_Camera.GetCamera.IsRunning == false)
                 {
@@ -129,6 +130,10 @@ namespace KugelfallDbg
                     TSBtnArduinoSettings.Enabled = true;
                     TSBtnAudioConfiguration.Enabled = true;
                 }
+            }
+            else
+            {
+                MessageBox.Show("Bitte stellen Sie sicher, dass eine Kamera, ein Audiogerät und ein Arduino ausgewählt wurden", "Nicht alle Geräte festgelegt", MessageBoxButtons.OK,MessageBoxIcon.Asterisk);
             }
         }
 
@@ -592,6 +597,24 @@ namespace KugelfallDbg
             if (TimerAudio.Enabled) { TimerAudio.Stop(); }
             if (m_Camera.GetCamera.IsRunning) { m_Camera.Stop(); }
             m_Audio.StopRecording();
+        }
+
+        private void LVTestEvaluation_MouseDown(object sender, MouseEventArgs e)
+        {
+            m_bAutoCheck = true;
+        }
+
+        private void LVTestEvaluation_MouseUp(object sender, MouseEventArgs e)
+        {
+            m_bAutoCheck = false;
+        }
+
+        private void LVTestEvaluation_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (m_bAutoCheck)
+            {
+                e.NewValue = e.CurrentValue;
+            }
         }
     }
 }

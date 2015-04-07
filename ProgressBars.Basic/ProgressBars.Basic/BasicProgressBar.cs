@@ -193,6 +193,7 @@ namespace ProgressBars.Basic
         /// </summary>
         [Description("The current value."),
         DefaultValue(25)]
+
         public int Value
         {
             get { return currentValue; }

@@ -110,7 +110,6 @@ namespace KugelfallDbg
             set { m_RS232Port = value; }
         }
 
-
         /**
          * static bool IsSet:
          * Get-/Set-Methode um den RS232-Port festzulegen oder zurückzugeben

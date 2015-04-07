@@ -44,6 +44,7 @@
             this.TSLblVolume = new System.Windows.Forms.ToolStripStatusLabel();
             this.TSLblAudioActive = new System.Windows.Forms.ToolStripStatusLabel();
             this.TSLblThreshold = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.MainVideoSourcePlayer = new AForge.Controls.VideoSourcePlayer();
             this.LVTestEvaluation = new System.Windows.Forms.ListView();
             this.CHGetroffen = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -65,8 +66,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.TimerAudio = new System.Windows.Forms.Timer(this.components);
-            this.VolumeMeter = new ProgressBars.Basic.BasicProgressBar();
             this.pb_Images = new System.Windows.Forms.PictureBox();
+            this.VolumeMeter = new ProgressBars.Basic.BasicProgressBar();
             this.MenuStripMain.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -159,7 +160,8 @@
             this.TSLblCameraActive,
             this.TSLblVolume,
             this.TSLblAudioActive,
-            this.TSLblThreshold});
+            this.TSLblThreshold,
+            this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 522);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(810, 22);
@@ -169,7 +171,7 @@
             // TSLblCameraActive
             // 
             this.TSLblCameraActive.Name = "TSLblCameraActive";
-            this.TSLblCameraActive.Size = new System.Drawing.Size(640, 17);
+            this.TSLblCameraActive.Size = new System.Drawing.Size(494, 17);
             this.TSLblCameraActive.Spring = true;
             this.TSLblCameraActive.Text = "Keine Kamera ausgewählt";
             this.TSLblCameraActive.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -193,6 +195,12 @@
             this.TSLblThreshold.Size = new System.Drawing.Size(150, 17);
             this.TSLblThreshold.Text = "Eingestellter Schwellenwert";
             this.TSLblThreshold.Visible = false;
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(146, 17);
+            this.toolStripStatusLabel1.Text = "Arduino nicht ausgewählt!";
             // 
             // MainVideoSourcePlayer
             // 
@@ -224,8 +232,11 @@
             this.LVTestEvaluation.TabIndex = 16;
             this.LVTestEvaluation.UseCompatibleStateImageBehavior = false;
             this.LVTestEvaluation.View = System.Windows.Forms.View.Details;
+            this.LVTestEvaluation.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.LVTestEvaluation_ItemCheck);
             this.LVTestEvaluation.SelectedIndexChanged += new System.EventHandler(this.LVTestEvaluation_SelectedIndexChanged);
             this.LVTestEvaluation.DoubleClick += new System.EventHandler(this.LVVersuchsauswertung_DoubleClick);
+            this.LVTestEvaluation.MouseDown += new System.Windows.Forms.MouseEventHandler(this.LVTestEvaluation_MouseDown);
+            this.LVTestEvaluation.MouseUp += new System.Windows.Forms.MouseEventHandler(this.LVTestEvaluation_MouseUp);
             // 
             // CHGetroffen
             // 
@@ -385,6 +396,15 @@
             this.TimerAudio.Interval = 10;
             this.TimerAudio.Tick += new System.EventHandler(this.TimerAudio_Tick);
             // 
+            // pb_Images
+            // 
+            this.pb_Images.Location = new System.Drawing.Point(78, 111);
+            this.pb_Images.Name = "pb_Images";
+            this.pb_Images.Size = new System.Drawing.Size(560, 304);
+            this.pb_Images.TabIndex = 25;
+            this.pb_Images.TabStop = false;
+            this.pb_Images.Visible = false;
+            // 
             // VolumeMeter
             // 
             this.VolumeMeter.BackColor = System.Drawing.Color.DarkGray;
@@ -397,15 +417,6 @@
             this.VolumeMeter.Text = "basicProgressBar1";
             this.VolumeMeter.Value = 0;
             this.VolumeMeter.Click += new System.EventHandler(this.VolumeMeter_Click);
-            // 
-            // pb_Images
-            // 
-            this.pb_Images.Location = new System.Drawing.Point(78, 111);
-            this.pb_Images.Name = "pb_Images";
-            this.pb_Images.Size = new System.Drawing.Size(560, 304);
-            this.pb_Images.TabIndex = 25;
-            this.pb_Images.TabStop = false;
-            this.pb_Images.Visible = false;
             // 
             // Main
             // 
@@ -479,6 +490,7 @@
         private System.Windows.Forms.PictureBox pb_Images;
         private ProgressBars.Basic.BasicProgressBar VolumeMeter;
         private System.Windows.Forms.ToolStripStatusLabel TSLblThreshold;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
     }
 }
 

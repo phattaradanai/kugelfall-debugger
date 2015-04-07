@@ -48,12 +48,17 @@ namespace KugelfallDbg
             { m_bPictures = value; }
         }
 
-        //Arduino Debugausgaben
+        /**
+         * string Debugtext:
+         * Hier werden die Debugausgaben des Arduino gespeichert
+         */
         public string Debugtext
         {
             get { return m_sText; }
             set { m_sText = value; }
         }
+
+
         public string Test
         {
             get { return m_sTest; }
