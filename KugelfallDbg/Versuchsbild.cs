@@ -20,7 +20,10 @@ namespace KugelfallDbg
             m_bSuccess = false;
         }
 
-        //Kommentar zum Bild
+        /**
+         * string Comment:
+         * Beinhaltet den Kommentar zum Bild
+         */
         public string Comment
         {
             get { return m_sComment; }
@@ -75,6 +78,10 @@ namespace KugelfallDbg
             set { m_bSuccess = value; }
         }
 
+        /**
+         * int BestPicture:
+         * Gibt das beste Bild an, also welches Bild den (Miss-)Erfolg am Besten darstellt
+         */
         public int BestPicture
         {
             get { return m_iBestPicture;  }
