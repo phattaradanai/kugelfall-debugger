@@ -481,7 +481,7 @@ namespace ProgressBars.Basic
                                 double p = Convert.ToDouble((100d / maximum) * Value);
                                 txt = String.Format("{0}%", p);
                             }
-                            else if (textStyle == TextStyleType.Text && !String.IsNullOrWhiteSpace(this.Text))
+                            else if (textStyle == TextStyleType.Text && !String.IsNullOrEmpty(this.Text))//IsNullOrWhiteSpace(this.Text))
                             {
                                 txt = this.Text;
                             }

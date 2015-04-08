@@ -390,14 +390,22 @@ namespace KugelfallDbg
         private void TimerAudio_Tick(object sender, EventArgs e)
         {
             //Den Maximalwert des Audioeingangs abfragen
+            if (iRefresh == 5)
+            {
+                VolumeMeter.Value = m_Audio.Volume;
+               
+                iRefresh = 0;
+            }
+            else { iRefresh++; }
 
-            //TSLblVolume.Text = (m_Audio.getrawvalue()*100).ToString();//m_Audio.MaxVolume.ToString();
-            VolumeMeter.Value = m_Audio.Volume;
 
             //Prüfen, ob eine bestimmte Schwelle überschritten wurde (regelbar)
             if (m_Audio.MaxVolume > VolumeMeter.Threshold)
             {
+                VolumeMeter.Value = m_Audio.MaxVolume;  //Der User soll noch sehen können, wo der Pegel als letztes war
+                
                 m_Audio.MaxVolume = 0;
+
                 if (m_bIsCapturing == false)
                 {
                     m_bIsCapturing = true;
@@ -411,6 +419,8 @@ namespace KugelfallDbg
                 m_bIsCapturing = false;
             }
         }
+
+        int iRefresh = 0;
 
         /**
          * void CaptureImage():
@@ -633,6 +643,19 @@ namespace KugelfallDbg
         private void Main_Click(object sender, EventArgs e)
         {
             LVTestEvaluation.SelectedItems.Clear();
+        }
+
+        private void VolumeMeter_Click(object sender, EventArgs e)
+        {
+            //Sollte der Schwellenwert geändert worden sein, muss auch die letzte maximale
+            try
+            {
+                m_Audio.MaxVolume = 0;
+            }
+            catch (NullReferenceException nre)
+            {
+                MessageBox.Show("Bitte Audiogerät auswählen");
+            }
         }
     }
 }

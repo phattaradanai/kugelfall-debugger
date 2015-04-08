@@ -30,15 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
-            this.MenuStripMain = new System.Windows.Forms.MenuStrip();
-            this.MenuDatei = new System.Windows.Forms.ToolStripMenuItem();
-            this.MenuDateiKamEinstellungen = new System.Windows.Forms.ToolStripMenuItem();
-            this.audioeinstellungenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.MenuDateiRS232 = new System.Windows.Forms.ToolStripMenuItem();
-            this.MenuDateiBeenden = new System.Windows.Forms.ToolStripMenuItem();
-            this.datenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.MenuDatenCSVExport = new System.Windows.Forms.ToolStripMenuItem();
-            this.hilfeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.TSLblCameraActive = new System.Windows.Forms.ToolStripStatusLabel();
             this.TSLblAudioActive = new System.Windows.Forms.ToolStripStatusLabel();
@@ -67,110 +58,30 @@
             this.TimerAudio = new System.Windows.Forms.Timer(this.components);
             this.pb_Images = new System.Windows.Forms.PictureBox();
             this.VolumeMeter = new ProgressBars.Basic.BasicProgressBar();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.MenuStripMain.SuspendLayout();
+            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_Images)).BeginInit();
             this.SuspendLayout();
             // 
-            // MenuStripMain
-            // 
-            this.MenuStripMain.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.MenuStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MenuDatei,
-            this.datenToolStripMenuItem,
-            this.hilfeToolStripMenuItem});
-            this.MenuStripMain.Location = new System.Drawing.Point(0, 0);
-            this.MenuStripMain.Name = "MenuStripMain";
-            this.MenuStripMain.Size = new System.Drawing.Size(810, 24);
-            this.MenuStripMain.TabIndex = 0;
-            this.MenuStripMain.Text = "menuStrip1";
-            // 
-            // MenuDatei
-            // 
-            this.MenuDatei.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MenuDateiKamEinstellungen,
-            this.audioeinstellungenToolStripMenuItem,
-            this.MenuDateiRS232,
-            this.MenuDateiBeenden});
-            this.MenuDatei.Name = "MenuDatei";
-            this.MenuDatei.Size = new System.Drawing.Size(46, 20);
-            this.MenuDatei.Text = "Datei";
-            // 
-            // MenuDateiKamEinstellungen
-            // 
-            this.MenuDateiKamEinstellungen.Image = ((System.Drawing.Image)(resources.GetObject("MenuDateiKamEinstellungen.Image")));
-            this.MenuDateiKamEinstellungen.Name = "MenuDateiKamEinstellungen";
-            this.MenuDateiKamEinstellungen.Size = new System.Drawing.Size(185, 22);
-            this.MenuDateiKamEinstellungen.Text = "Kameraeinstellungen";
-            this.MenuDateiKamEinstellungen.Click += new System.EventHandler(this.MenuDateiKamEinstellungen_Click);
-            // 
-            // audioeinstellungenToolStripMenuItem
-            // 
-            this.audioeinstellungenToolStripMenuItem.Image = global::KugelfallDbg.Properties.Resources.Microphone;
-            this.audioeinstellungenToolStripMenuItem.Name = "audioeinstellungenToolStripMenuItem";
-            this.audioeinstellungenToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
-            this.audioeinstellungenToolStripMenuItem.Text = "Audioeinstellungen";
-            // 
-            // MenuDateiRS232
-            // 
-            this.MenuDateiRS232.Image = ((System.Drawing.Image)(resources.GetObject("MenuDateiRS232.Image")));
-            this.MenuDateiRS232.Name = "MenuDateiRS232";
-            this.MenuDateiRS232.Size = new System.Drawing.Size(185, 22);
-            this.MenuDateiRS232.Text = "RS232-Einstellungen";
-            this.MenuDateiRS232.Click += new System.EventHandler(this.MenuDateiRS232_Click);
-            // 
-            // MenuDateiBeenden
-            // 
-            this.MenuDateiBeenden.Image = ((System.Drawing.Image)(resources.GetObject("MenuDateiBeenden.Image")));
-            this.MenuDateiBeenden.Name = "MenuDateiBeenden";
-            this.MenuDateiBeenden.Size = new System.Drawing.Size(185, 22);
-            this.MenuDateiBeenden.Text = "Beenden";
-            this.MenuDateiBeenden.Click += new System.EventHandler(this.MenuDateiBeenden_Click);
-            // 
-            // datenToolStripMenuItem
-            // 
-            this.datenToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.MenuDatenCSVExport});
-            this.datenToolStripMenuItem.Name = "datenToolStripMenuItem";
-            this.datenToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
-            this.datenToolStripMenuItem.Text = "Daten";
-            // 
-            // MenuDatenCSVExport
-            // 
-            this.MenuDatenCSVExport.AutoToolTip = true;
-            this.MenuDatenCSVExport.Image = ((System.Drawing.Image)(resources.GetObject("MenuDatenCSVExport.Image")));
-            this.MenuDatenCSVExport.Name = "MenuDatenCSVExport";
-            this.MenuDatenCSVExport.Size = new System.Drawing.Size(208, 22);
-            this.MenuDatenCSVExport.Text = "Daten als CSV exportieren";
-            this.MenuDatenCSVExport.ToolTipText = "Als CSV-Datei exportieren";
-            this.MenuDatenCSVExport.Click += new System.EventHandler(this.MenuDatenCSVExport_Click);
-            // 
-            // hilfeToolStripMenuItem
-            // 
-            this.hilfeToolStripMenuItem.Name = "hilfeToolStripMenuItem";
-            this.hilfeToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.hilfeToolStripMenuItem.Text = "Hilfe";
-            // 
             // statusStrip1
             // 
-            this.statusStrip1.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.statusStrip1.BackColor = System.Drawing.Color.LightSteelBlue;
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.TSLblCameraActive,
             this.TSLblAudioActive,
             this.TSLblThreshold,
             this.TSLblArduino});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 522);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 421);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(810, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1244, 22);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
             // TSLblCameraActive
             // 
             this.TSLblCameraActive.Name = "TSLblCameraActive";
-            this.TSLblCameraActive.Size = new System.Drawing.Size(494, 17);
+            this.TSLblCameraActive.Size = new System.Drawing.Size(928, 17);
             this.TSLblCameraActive.Spring = true;
             this.TSLblCameraActive.Text = "Keine Kamera ausgewählt";
             this.TSLblCameraActive.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -196,8 +107,8 @@
             // 
             // MainVideoSourcePlayer
             // 
-            this.MainVideoSourcePlayer.BackColor = System.Drawing.Color.Gray;
-            this.MainVideoSourcePlayer.Location = new System.Drawing.Point(78, 111);
+            this.MainVideoSourcePlayer.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.MainVideoSourcePlayer.Location = new System.Drawing.Point(12, 111);
             this.MainVideoSourcePlayer.Name = "MainVideoSourcePlayer";
             this.MainVideoSourcePlayer.Size = new System.Drawing.Size(560, 304);
             this.MainVideoSourcePlayer.TabIndex = 1;
@@ -217,10 +128,10 @@
             this.LVTestEvaluation.FullRowSelect = true;
             this.LVTestEvaluation.GridLines = true;
             this.LVTestEvaluation.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.LVTestEvaluation.Location = new System.Drawing.Point(78, 422);
+            this.LVTestEvaluation.Location = new System.Drawing.Point(593, 111);
             this.LVTestEvaluation.MultiSelect = false;
             this.LVTestEvaluation.Name = "LVTestEvaluation";
-            this.LVTestEvaluation.Size = new System.Drawing.Size(639, 97);
+            this.LVTestEvaluation.Size = new System.Drawing.Size(639, 304);
             this.LVTestEvaluation.TabIndex = 16;
             this.LVTestEvaluation.UseCompatibleStateImageBehavior = false;
             this.LVTestEvaluation.View = System.Windows.Forms.View.Details;
@@ -267,10 +178,11 @@
             this.toolStripSeparator1,
             this.TSBtnCamSettings,
             this.TSBtnArduinoSettings,
-            this.TSBtnAudioConfiguration});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 24);
+            this.TSBtnAudioConfiguration,
+            this.toolStripProgressBar1});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(810, 59);
+            this.toolStrip1.Size = new System.Drawing.Size(1244, 59);
             this.toolStrip1.TabIndex = 17;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -368,7 +280,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(296, 95);
+            this.label2.Location = new System.Drawing.Point(230, 95);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(100, 13);
             this.label2.TabIndex = 20;
@@ -377,7 +289,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(652, 96);
+            this.label3.Location = new System.Drawing.Point(551, 74);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(57, 13);
             this.label3.TabIndex = 21;
@@ -390,7 +302,8 @@
             // 
             // pb_Images
             // 
-            this.pb_Images.Location = new System.Drawing.Point(78, 111);
+            this.pb_Images.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.pb_Images.Location = new System.Drawing.Point(12, 111);
             this.pb_Images.Name = "pb_Images";
             this.pb_Images.Size = new System.Drawing.Size(560, 304);
             this.pb_Images.TabIndex = 25;
@@ -402,27 +315,25 @@
             this.VolumeMeter.BackColor = System.Drawing.Color.DarkGray;
             this.VolumeMeter.Font = new System.Drawing.Font("Consolas", 10.25F);
             this.VolumeMeter.ForeColor = System.Drawing.Color.ForestGreen;
-            this.VolumeMeter.Location = new System.Drawing.Point(644, 112);
+            this.VolumeMeter.Location = new System.Drawing.Point(698, 62);
             this.VolumeMeter.Name = "VolumeMeter";
-            this.VolumeMeter.Size = new System.Drawing.Size(73, 303);
+            this.VolumeMeter.Size = new System.Drawing.Size(73, 43);
             this.VolumeMeter.TabIndex = 26;
             this.VolumeMeter.Text = "basicProgressBar1";
             this.VolumeMeter.Value = 0;
+            this.VolumeMeter.Click += new System.EventHandler(this.VolumeMeter_Click);
             // 
-            // progressBar1
+            // toolStripProgressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(431, 85);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(207, 23);
-            this.progressBar1.TabIndex = 27;
+            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 56);
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.ClientSize = new System.Drawing.Size(810, 544);
-            this.Controls.Add(this.progressBar1);
+            this.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.ClientSize = new System.Drawing.Size(1244, 443);
             this.Controls.Add(this.VolumeMeter);
             this.Controls.Add(this.pb_Images);
             this.Controls.Add(this.label3);
@@ -431,16 +342,13 @@
             this.Controls.Add(this.LVTestEvaluation);
             this.Controls.Add(this.MainVideoSourcePlayer);
             this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.MenuStripMain);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MainMenuStrip = this.MenuStripMain;
             this.Name = "Main";
             this.Text = "Kugelfall-Debugger";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Click += new System.EventHandler(this.Main_Click);
-            this.MenuStripMain.ResumeLayout(false);
-            this.MenuStripMain.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
@@ -453,11 +361,7 @@
 
         #endregion
 
-        private System.Windows.Forms.MenuStrip MenuStripMain;
-        private System.Windows.Forms.ToolStripMenuItem MenuDatei;
-        private System.Windows.Forms.ToolStripMenuItem MenuDateiKamEinstellungen;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripMenuItem MenuDateiBeenden;
         private AForge.Controls.VideoSourcePlayer MainVideoSourcePlayer;
         private System.Windows.Forms.ListView LVTestEvaluation;
         private System.Windows.Forms.ToolStrip toolStrip1;
@@ -469,28 +373,23 @@
         private System.Windows.Forms.ToolStripButton TSBtnExportCSV;
         private System.Windows.Forms.ColumnHeader CHArduino;
         private System.Windows.Forms.ImageList ILVersuchsbilder;
-        private System.Windows.Forms.ToolStripMenuItem datenToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem MenuDatenCSVExport;
         private System.Windows.Forms.ToolStripButton TSBtnDeleteAll;
-        private System.Windows.Forms.ToolStripMenuItem MenuDateiRS232;
         private System.Windows.Forms.ToolStripStatusLabel TSLblCameraActive;
         private System.Windows.Forms.ToolStripButton TSBtnArduinoSettings;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ToolStripButton TSBtnCamSettings;
-        private System.Windows.Forms.ToolStripMenuItem hilfeToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton TSBtnAudioConfiguration;
         private System.Windows.Forms.Timer TimerAudio;
-        private System.Windows.Forms.ToolStripMenuItem audioeinstellungenToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton TSBtnRemoveTest;
         private System.Windows.Forms.ToolStripStatusLabel TSLblAudioActive;
         private System.Windows.Forms.PictureBox pb_Images;
         private ProgressBars.Basic.BasicProgressBar VolumeMeter;
         private System.Windows.Forms.ToolStripStatusLabel TSLblThreshold;
         private System.Windows.Forms.ToolStripStatusLabel TSLblArduino;
-        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
     }
 }
 
