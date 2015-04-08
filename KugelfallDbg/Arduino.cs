@@ -39,17 +39,7 @@ namespace KugelfallDbg
         {
             string sTemp = m_RS232Port.ReadLine();  //Temporärer String
             sTemp = sTemp.Replace("\r", "");
-
-            if (sTemp == "trigger") //Der Switch wurde betätigt
-            {
-                m_bWatch = true;
-                m_sDebugText = string.Empty;
-            }
-            else if (sTemp == "drop") { m_bWatch = false; } //Die Kugel ist durch den Sensor gefallen
-            else if (m_bWatch == true)
-            {
-                m_sDebugText += sTemp;
-            }
+            m_sDebugText = sTemp;
         }
 
         /**
