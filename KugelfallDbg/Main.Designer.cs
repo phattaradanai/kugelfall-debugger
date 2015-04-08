@@ -67,6 +67,7 @@
             this.TimerAudio = new System.Windows.Forms.Timer(this.components);
             this.pb_Images = new System.Windows.Forms.PictureBox();
             this.VolumeMeter = new ProgressBars.Basic.BasicProgressBar();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.MenuStripMain.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -408,12 +409,20 @@
             this.VolumeMeter.Text = "basicProgressBar1";
             this.VolumeMeter.Value = 0;
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(431, 85);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(207, 23);
+            this.progressBar1.TabIndex = 27;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.ClientSize = new System.Drawing.Size(810, 544);
+            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.VolumeMeter);
             this.Controls.Add(this.pb_Images);
             this.Controls.Add(this.label3);
@@ -481,6 +490,7 @@
         private ProgressBars.Basic.BasicProgressBar VolumeMeter;
         private System.Windows.Forms.ToolStripStatusLabel TSLblThreshold;
         private System.Windows.Forms.ToolStripStatusLabel TSLblArduino;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }
 

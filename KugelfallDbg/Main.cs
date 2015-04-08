@@ -185,6 +185,7 @@ namespace KugelfallDbg
             {
                 //Falls aktive Kamera bereits vorhanden, diese löschen
                 ActivateAudio(false);
+
                 if (m_Camera != null)
                 {
                     m_Camera = null;
@@ -391,11 +392,12 @@ namespace KugelfallDbg
             //Den Maximalwert des Audioeingangs abfragen
 
             //TSLblVolume.Text = (m_Audio.getrawvalue()*100).ToString();//m_Audio.MaxVolume.ToString();
-            VolumeMeter.Value = m_Audio.MaxVolume;
+            VolumeMeter.Value = m_Audio.Volume;
 
             //Prüfen, ob eine bestimmte Schwelle überschritten wurde (regelbar)
             if (m_Audio.MaxVolume > VolumeMeter.Threshold)
             {
+                m_Audio.MaxVolume = 0;
                 if (m_bIsCapturing == false)
                 {
                     m_bIsCapturing = true;

@@ -33,7 +33,12 @@ namespace KugelfallDbg
                 float sample32 = sample / 32768f;
                 sample32 *= 100;    //Mal 100 um die Lautstärke zwischen 0 und 100 pendeln zu lassen (sonst 0.0f und 1.0f)
                 sample32 = Math.Abs(sample32);
-                m_iMaxVolume = Convert.ToInt32(sample32);
+                
+                m_iVolume = Convert.ToInt32(sample32);
+                if (m_iVolume > m_iMaxVolume)
+                {
+                    m_iMaxVolume = m_iVolume;
+                }
             }
         }
 
@@ -73,16 +78,26 @@ namespace KugelfallDbg
          * int MaxVolume:
          * Gibt die aktuelle Lautstärke zurück
          */
+
+        public int Volume
+        {
+            get { return m_iVolume; }
+            set { m_iVolume = value; }
+        }
         public int MaxVolume
         {
-            get { return m_iMaxVolume; }
+            get
+            {
+                    return m_iMaxVolume;
+            }
             set { m_iMaxVolume = value; }
         }
 
         private int m_iSampleRate = 44100;
         private int m_iChannels = 1;    ///Wieviele Kanäle sollen zur Aufnahme benutzt werden (Default: 1 -> Mono)
         private int m_iDeviceNumber;    ///Nummer des Soundaufnahmegerätes (Dient zur Identifikation)
-        private int m_iMaxVolume;       ///Die aktuelle eingehende Lautstärke
+        private int m_iVolume;
+        private int m_iMaxVolume;       ///Die aktuelle maximale Lautstärke
         private NAudio.Wave.WaveIn m_iWaveInDevice;
         
         /* AB WINDOWS VISTA
