@@ -517,6 +517,12 @@ namespace ProgressBars.Basic
                             pe.Graphics.DrawLine(new Pen(brush), new Point(0, this.Height - (this.Height * threshold / maximum)), new Point(this.Width, this.Height - (this.Height * threshold / maximum)));
                         }
                     }
+
+                    using (Font font = new Font(this.Font.Name, this.Font.SizeInPoints, this.Font.Style, GraphicsUnit.Pixel))
+                    {
+                        //Draw Threshold Text
+                        TextRenderer.DrawText(pe.Graphics, threshold.ToString(), font, new Rectangle(0, 0, this.Width, this.Height-20), Color.Red, flags);
+                    }
                 }
 
             }

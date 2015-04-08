@@ -589,14 +589,8 @@ namespace KugelfallDbg
             if (MessageBox.Show("Möchten Sie diesen Versuch wirklich löschen?", "Versuch löschen", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
             {
                 m_Versuche.Remove(key);
-                LVTestEvaluation.Items.Remove(lvi);//RemoveByKey(key);
+                LVTestEvaluation.Items.Remove(lvi);
             }
-        }
-
-        private void VolumeMeter_Click(object sender, EventArgs e)
-        {
-            //Schwellenwert aktualisieren
-            //TSLblThreshold.Text = VolumeMeter.Threshold.ToString();
         }
 
         /**

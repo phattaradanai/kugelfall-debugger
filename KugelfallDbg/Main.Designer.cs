@@ -407,7 +407,6 @@
             this.VolumeMeter.TabIndex = 26;
             this.VolumeMeter.Text = "basicProgressBar1";
             this.VolumeMeter.Value = 0;
-            this.VolumeMeter.Click += new System.EventHandler(this.VolumeMeter_Click);
             // 
             // Main
             // 

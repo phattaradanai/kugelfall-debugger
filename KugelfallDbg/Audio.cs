@@ -33,7 +33,7 @@ namespace KugelfallDbg
                 float sample32 = sample / 32768f;
                 sample32 *= 100;    //Mal 100 um die Lautstärke zwischen 0 und 100 pendeln zu lassen (sonst 0.0f und 1.0f)
                 sample32 = Math.Abs(sample32);
-                m_iMaxVolume = (int)sample32;
+                m_iMaxVolume = Convert.ToInt32(sample32);
             }
         }
 
