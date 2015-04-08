@@ -127,15 +127,8 @@ namespace KugelfallDbg
                     TSBtnCamSettings.Enabled = false;
                     TSBtnArduinoSettings.Enabled = false;
                     TSBtnAudioConfiguration.Enabled = false;
-                }
-                else
-                {
-                    ActivateCamera(false);
-                    ActivateAudio(false);
-
-                    TSBtnCamSettings.Enabled = true;
-                    TSBtnArduinoSettings.Enabled = true;
-                    TSBtnAudioConfiguration.Enabled = true;
+                    TSBtnActivateCam.Enabled = false;
+                    TSBtnDeactivateCam.Enabled = true;
                 }
             }
             else
@@ -449,8 +442,8 @@ namespace KugelfallDbg
             }
 
             Versuchsbild v = new Versuchsbild(m_iBufferSize);
-
-            v.Test = "Versuch " + (m_Versuche.Count + 1);  //Versuchsbeschreibung dient zur Identifizierung im Dictionary (m_Versuche)
+           
+            v.Test = "Versuch " + m_iAnzVersuche;   //(m_Versuche.Count + 1);  //Versuchsbeschreibung dient zur Identifizierung im Dictionary (m_Versuche)
             v.Pictures = (Bitmap[])m_bImageBuffer.Clone();
             if (Arduino.IsOpen() == true)
             {
@@ -468,7 +461,8 @@ namespace KugelfallDbg
 
             LVTestEvaluation.Items.Add(lvi);
 
-            System.Threading.Thread.Sleep(100);
+            m_iAnzVersuche++;
+            System.Threading.Thread.Sleep(50);
 
             //Aufnahme wieder erlauben
             ActivateAudio(true);
@@ -476,6 +470,7 @@ namespace KugelfallDbg
 
         //Jeder Versuch wird in einer Map abgespeichert und ist eindeutig identifizierbar über einen String und einer Versuchsklasse
         private System.Collections.Generic.Dictionary<string, Versuchsbild> m_Versuche;
+        private int m_iAnzVersuche = 1;
 
         private void LVVersuchsauswertung_DoubleClick(object sender, EventArgs e)
         {
@@ -507,7 +502,7 @@ namespace KugelfallDbg
 
             string key = "Versuch " + lvi.SubItems[1].Text;
 
-            return m_Versuche[key];
+            return m_Versuche[key]; //EVTL HIER NOCH KRITISCH!!
         }
 
         /**
@@ -655,6 +650,21 @@ namespace KugelfallDbg
             catch (NullReferenceException nre)
             {
                 MessageBox.Show("Bitte Audiogerät auswählen");
+            }
+        }
+
+        private void TSBtnDeactivateCam_Click(object sender, EventArgs e)
+        {
+            if (m_Camera != null && m_Audio != null && Arduino.IsSet == true && m_Camera.GetCamera.IsRunning)
+            {
+                ActivateCamera(false);
+                ActivateAudio(false);
+
+                TSBtnCamSettings.Enabled = true;
+                TSBtnArduinoSettings.Enabled = true;
+                TSBtnAudioConfiguration.Enabled = true;
+                TSBtnActivateCam.Enabled = true;
+                TSBtnDeactivateCam.Enabled = false;
             }
         }
     }

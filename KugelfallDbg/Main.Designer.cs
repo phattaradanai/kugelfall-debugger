@@ -44,6 +44,7 @@
             this.CHKommentar = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.TSBtnRemoveTest = new System.Windows.Forms.ToolStripButton();
+            this.TSBtnDeactivateCam = new System.Windows.Forms.ToolStripButton();
             this.TSBtnActivateCam = new System.Windows.Forms.ToolStripButton();
             this.TSBtnDeleteAll = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
@@ -52,13 +53,13 @@
             this.TSBtnCamSettings = new System.Windows.Forms.ToolStripButton();
             this.TSBtnArduinoSettings = new System.Windows.Forms.ToolStripButton();
             this.TSBtnAudioConfiguration = new System.Windows.Forms.ToolStripButton();
+            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.ILVersuchsbilder = new System.Windows.Forms.ImageList(this.components);
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.TimerAudio = new System.Windows.Forms.Timer(this.components);
             this.pb_Images = new System.Windows.Forms.PictureBox();
             this.VolumeMeter = new ProgressBars.Basic.BasicProgressBar();
-            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_Images)).BeginInit();
@@ -171,6 +172,7 @@
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.TSBtnRemoveTest,
+            this.TSBtnDeactivateCam,
             this.TSBtnActivateCam,
             this.TSBtnDeleteAll,
             this.toolStripSeparator2,
@@ -197,13 +199,25 @@
             this.TSBtnRemoveTest.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TSBtnRemoveTest.Click += new System.EventHandler(this.TSBtnDeleteTest_Click);
             // 
+            // TSBtnDeactivateCam
+            // 
+            this.TSBtnDeactivateCam.Enabled = false;
+            this.TSBtnDeactivateCam.Image = ((System.Drawing.Image)(resources.GetObject("TSBtnDeactivateCam.Image")));
+            this.TSBtnDeactivateCam.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.TSBtnDeactivateCam.Name = "TSBtnDeactivateCam";
+            this.TSBtnDeactivateCam.Size = new System.Drawing.Size(116, 56);
+            this.TSBtnDeactivateCam.Text = "Kamera ausschalten";
+            this.TSBtnDeactivateCam.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.TSBtnDeactivateCam.ToolTipText = "Versuchskamera einschalten";
+            this.TSBtnDeactivateCam.Click += new System.EventHandler(this.TSBtnDeactivateCam_Click);
+            // 
             // TSBtnActivateCam
             // 
-            this.TSBtnActivateCam.Image = ((System.Drawing.Image)(resources.GetObject("TSBtnActivateCam.Image")));
+            this.TSBtnActivateCam.Image = global::KugelfallDbg.Properties.Resources.Video;
             this.TSBtnActivateCam.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.TSBtnActivateCam.Name = "TSBtnActivateCam";
-            this.TSBtnActivateCam.Size = new System.Drawing.Size(126, 56);
-            this.TSBtnActivateCam.Text = "Kamera ausgeschaltet";
+            this.TSBtnActivateCam.Size = new System.Drawing.Size(114, 56);
+            this.TSBtnActivateCam.Text = "Kamera einschalten";
             this.TSBtnActivateCam.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TSBtnActivateCam.ToolTipText = "Versuchskamera einschalten";
             this.TSBtnActivateCam.Click += new System.EventHandler(this.TSBtnActivateCam_Click);
@@ -271,6 +285,11 @@
             this.TSBtnAudioConfiguration.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TSBtnAudioConfiguration.Click += new System.EventHandler(this.TSBtnAudioConfiguration_Click);
             // 
+            // toolStripProgressBar1
+            // 
+            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 56);
+            // 
             // ILVersuchsbilder
             // 
             this.ILVersuchsbilder.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
@@ -322,11 +341,6 @@
             this.VolumeMeter.Text = "basicProgressBar1";
             this.VolumeMeter.Value = 0;
             this.VolumeMeter.Click += new System.EventHandler(this.VolumeMeter_Click);
-            // 
-            // toolStripProgressBar1
-            // 
-            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
-            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 56);
             // 
             // Main
             // 
@@ -390,6 +404,7 @@
         private System.Windows.Forms.ToolStripStatusLabel TSLblThreshold;
         private System.Windows.Forms.ToolStripStatusLabel TSLblArduino;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
+        private System.Windows.Forms.ToolStripButton TSBtnDeactivateCam;
     }
 }
 
