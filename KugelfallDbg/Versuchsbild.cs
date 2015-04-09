@@ -6,11 +6,8 @@ using System.Text;
 
 namespace KugelfallDbg
 {
-    /**
-     * class Versuchsbild
-     * Dient zum generieren von Bildern, die mit Kommentaren 
-     * und Abweichungen des Versuches versehen werden können.
-     */
+    //Dient zum generieren von Bildern, die mit Kommentaren 
+    //und Abweichungen des Versuches versehen werden können
     public class Versuchsbild
     {
         public Versuchsbild(int _iBufferSize)
@@ -91,12 +88,12 @@ namespace KugelfallDbg
             set { m_iBestPicture = value; }
         }
 
-        private int m_iBestPicture;         ///Das Bild, welches den Versuch am Besten darstellt (bspw. die durchgefallene Kugel)
-        private string m_sText              ///Arduino Debuggingtext
-        private string m_sTest;             ///Versuch
-        private bool m_bSuccess = false;    ///War der Versuch erfolgreich?
-        private string m_sComment;          ///Kommentar zum Versuchsbild
-        private int m_iDeviation;           ///Abweichung der Kugel zur Aussparung
-        private System.Drawing.Bitmap[] m_bPictures;   ///Bild des Versuchs
+        private int m_iBestPicture;         //Das Bild, welches den Versuch am Besten darstellt (bspw. die durchgefallene Kugel)
+        private string m_sText;                //Arduino Debuggingtext
+        private string m_sTest;          //Versuch
+        private bool m_bSuccess = false;    //War der Versuch erfolgreich?
+        private string m_sComment;          //Kommentar zum Versuchsbild
+        private int m_iDeviation;            //Abweichung der Kugel zur Aussparung
+        private System.Drawing.Bitmap[] m_bPictures;   //Bild des Versuchs
     }
 }
