@@ -60,6 +60,7 @@
             this.TimerAudio = new System.Windows.Forms.Timer(this.components);
             this.pb_Images = new System.Windows.Forms.PictureBox();
             this.VolumeMeter = new ProgressBars.Basic.BasicProgressBar();
+            this.ldata = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_Images)).BeginInit();
@@ -342,12 +343,22 @@
             this.VolumeMeter.Value = 0;
             this.VolumeMeter.Click += new System.EventHandler(this.VolumeMeter_Click);
             // 
+            // ldata
+            // 
+            this.ldata.AutoSize = true;
+            this.ldata.Location = new System.Drawing.Point(232, 78);
+            this.ldata.Name = "ldata";
+            this.ldata.Size = new System.Drawing.Size(35, 13);
+            this.ldata.TabIndex = 27;
+            this.ldata.Text = "label1";
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightSteelBlue;
             this.ClientSize = new System.Drawing.Size(1244, 443);
+            this.Controls.Add(this.ldata);
             this.Controls.Add(this.VolumeMeter);
             this.Controls.Add(this.pb_Images);
             this.Controls.Add(this.label3);
@@ -405,6 +416,7 @@
         private System.Windows.Forms.ToolStripStatusLabel TSLblArduino;
         private System.Windows.Forms.ToolStripProgressBar TSVolumeMeter;
         private System.Windows.Forms.ToolStripButton TSBtnDeactivateCam;
+        private System.Windows.Forms.Label ldata;
     }
 }
 

@@ -16,7 +16,7 @@ namespace KugelfallDbg
         private int m_iBufferSize = 6;
         private Bitmap[] m_bImageBuffer;
         private bool m_bIsCapturing = false;    //Flag: Signalisiert, ob gerade ein Bild aufgenommen wurde
-        
+        private bool m_bTestAvailable = false;   //Versuch ist verfügbar
 
         public Main()
         {
@@ -29,7 +29,6 @@ namespace KugelfallDbg
 
         void LVTestEvaluation_LostFocus(object sender, EventArgs e)
         {
-            //throw new NotImplementedException();
             LVTestEvaluation.SelectedItems.Clear();
             LVTestEvaluation.Update();
         }
@@ -53,17 +52,21 @@ namespace KugelfallDbg
                                             
         private void MainVideoSourcePlayer_NewFrame(object sender, ref Bitmap image)
         {
-            //(Nach wie vielen gemachten Bildern soll eines davon im Buffer abgelegt werden)?
-            if (m_sPassedFrames == 2)
+            if (Arduino.DataAvailable == true)
             {
-                m_bImageBuffer[m_sIndex] = (Bitmap)image.Clone();   //Aktuelles Bild wird im Buffer abgelegt
-                m_sIndex++;
-                if (m_sIndex == m_iBufferSize) { m_sIndex = 0; }    //Bufferende erreicht
-                m_sPassedFrames = 0;                                //zurücksetzen
-            }
-            else
-            {
-                m_sPassedFrames++;
+                
+                //(Nach wie vielen gemachten Bildern soll eines davon im Buffer abgelegt werden)?
+                if (m_sPassedFrames == 0)
+                {
+                    m_bImageBuffer[m_sIndex] = (Bitmap)image.Clone();   //Aktuelles Bild wird im Buffer abgelegt
+                    m_sIndex++;
+                    if (m_sIndex == m_iBufferSize) { m_sIndex = 0; m_bTestAvailable = true; }    //Bufferende erreicht
+                    m_sPassedFrames = 0;                                //zurücksetzen
+                }
+                else
+                {
+                    m_sPassedFrames++;
+                }
             }
         }
 
@@ -162,10 +165,6 @@ namespace KugelfallDbg
 
         private void TSBtnActivateCam_Click(object sender, EventArgs e)
         {
-            if (m_Camera == null) { MessageBox.Show("kamera"); }
-            if (m_Audio == null) { MessageBox.Show("audio"); }
-            if (m_Camera == null) { MessageBox.Show("arduino"); }
-
             if (m_Camera != null && m_Audio != null && Arduino.IsSet == true)
             {
                 if (m_Camera.GetCamera.IsRunning == false)
@@ -445,8 +444,8 @@ namespace KugelfallDbg
         private void TimerAudio_Tick(object sender, EventArgs e)
         {
             //Den Maximalwert des Audioeingangs abfragen
-
-            
+            if (Arduino.DataAvailable) { ldata.Text = "data"; }
+            else { ldata.Text = "no data";}
             if (iRefresh == 30)
             {
                 //VolumeMeter.Value = m_Audio.Volume;
@@ -467,6 +466,7 @@ namespace KugelfallDbg
                 {
                     m_bIsCapturing = true;
                     CaptureImage();
+                    m_bIsCapturing = false;
                 }
             }
             else if(m_Audio.MaxVolume <= VolumeMeter.Threshold)    /* Stellt sicher, dass nicht endlos viele Bilder gemacht 
@@ -489,50 +489,53 @@ namespace KugelfallDbg
         */
         private void CaptureImage()
         {
-            //Audioaufnahme temporär stoppen um keine weiteren Aufnahmen zu erzeugen
-            ActivateAudio(false);
-            ActivateCamera(false);
-
-            //Für den Fall, dass die Kamera aktiviert wurde und gleich auslösen sollte. Verhindert, dass null-Referenzen (dadurch
-            //dass der ImageBuffer noch nicht gefüllt ist) in den Versuch kopiert werden.
-
-            foreach (Bitmap b in m_bImageBuffer)
+            if (m_bTestAvailable == true)
             {
-                if (b == null)
+                //Audioaufnahme temporär stoppen um keine weiteren Aufnahmen zu erzeugen
+                ActivateAudio(false);
+                //ActivateCamera(false);
+
+                //Für den Fall, dass die Kamera aktiviert wurde und gleich auslösen sollte. Verhindert, dass null-Referenzen (dadurch
+                //dass der ImageBuffer noch nicht gefüllt ist) in den Versuch kopiert werden.
+
+                foreach (Bitmap b in m_bImageBuffer)
                 {
-                    MessageBox.Show("ImageBuffer noch nicht bereit!");
-                    ActivateAudio(true);
-                    return;
+                    if (b == null)
+                    {
+                        MessageBox.Show("ImageBuffer noch nicht bereit!");
+                        ActivateAudio(true);
+                        return;
+                    }
                 }
+
+                Versuchsbild v = new Versuchsbild(m_iBufferSize);
+
+                v.Test = "Versuch " + m_iAnzVersuche;   //(m_Versuche.Count + 1);  //Versuchsbeschreibung dient zur Identifizierung im Dictionary (m_Versuche)
+                v.Pictures = (Bitmap[])m_bImageBuffer.Clone();
+                if (Arduino.IsOpen() == true)
+                {
+                    v.Debugtext = Arduino.DebugText;
+                }
+
+                m_Versuche.Add(v.Test, v);
+
+                //OK,Versuch,Versatz,Geschwindigkeit,Kommentar
+                ListViewItem lvi = new ListViewItem();
+                lvi.SubItems.Add(v.Test.Remove(0, 8));
+                lvi.SubItems.Add(v.Deviation.ToString());
+                lvi.SubItems.Add(v.Debugtext);
+                lvi.SubItems.Add(v.Comment);
+
+                LVTestEvaluation.Items.Add(lvi);
+
+                m_iAnzVersuche++;
+
+                //System.Threading.Thread.Sleep(50);
+
+                //Aufnahme wieder erlauben
+                ActivateAudio(true);
+                ActivateCamera(true);
             }
-
-            Versuchsbild v = new Versuchsbild(m_iBufferSize);
-           
-            v.Test = "Versuch " + m_iAnzVersuche;   //(m_Versuche.Count + 1);  //Versuchsbeschreibung dient zur Identifizierung im Dictionary (m_Versuche)
-            v.Pictures = (Bitmap[])m_bImageBuffer.Clone();
-            if (Arduino.IsOpen() == true)
-            {
-                v.Debugtext = Arduino.DebugText;
-            }
-
-            m_Versuche.Add(v.Test, v);
-
-            //OK,Versuch,Versatz,Geschwindigkeit,Kommentar
-            ListViewItem lvi = new ListViewItem();
-            lvi.SubItems.Add(v.Test.Remove(0, 8));
-            lvi.SubItems.Add(v.Deviation.ToString());
-            lvi.SubItems.Add(v.Debugtext);
-            lvi.SubItems.Add(v.Comment);
-
-            LVTestEvaluation.Items.Add(lvi);
-
-            m_iAnzVersuche++;
-            
-            //System.Threading.Thread.Sleep(50);
-
-            //Aufnahme wieder erlauben
-            ActivateAudio(true);
-            ActivateCamera(true);
         }
 
         //Jeder Versuch wird in einer Map abgespeichert und ist eindeutig identifizierbar über einen String und einer Versuchsklasse

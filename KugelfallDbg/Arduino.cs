@@ -39,6 +39,7 @@ namespace KugelfallDbg
         static void m_RS232Port_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             string sTemp = m_RS232Port.ReadLine();  //Temporärer String
+            m_bDataAvailable = true;
             sTemp = sTemp.Replace("\r", "");
             m_sDebugText = sTemp;
         }
@@ -111,9 +112,16 @@ namespace KugelfallDbg
             set { m_bArduinoSet = value; }
         }
 
+        public static bool DataAvailable
+        {
+            get { return m_bDataAvailable; }
+            set { m_bDataAvailable = value; }
+        }
+
         private static SerialPort m_RS232Port = new SerialPort();   ///Der RS232-Port des Arduino
         private static string m_sDebugText;         ///Hier werden Ausgaben gespeichert, die vom Arduino kommen
         private static bool m_bWatch;               ///Ausgaben des Arduino aufzeichnen?
         private static bool m_bArduinoSet = false;  ///Wurde der Arduino bereits eingerichtet? (Port)
+        private static bool m_bDataAvailable = false;
     }
 }
