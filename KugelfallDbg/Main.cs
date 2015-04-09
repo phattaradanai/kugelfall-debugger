@@ -208,6 +208,10 @@ namespace KugelfallDbg
                     TSBtnActivateCam.Enabled = false;
                     TSBtnDeactivateCam.Enabled = true;
                 }
+                if (Arduino.IsSet == true && Arduino.IsOpen() == false)
+                {
+                    Arduino.OpenPort();
+                }
             }
             else
             {
@@ -327,7 +331,6 @@ namespace KugelfallDbg
 
                     //Buttontoolstrip
                     TSBtnActivateCam.Image = KugelfallDbg.Properties.Resources.Video;
-                    TSBtnActivateCam.Text = m_sCameraOn;
 
                     //Statuslabel
                     TSLblCameraActive.Text = m_sCameraOn;
@@ -336,9 +339,6 @@ namespace KugelfallDbg
                 {
                     CloseVideoSource();
 
-                    //Gui-Anpassung
-                    TSBtnActivateCam.Image = KugelfallDbg.Properties.Resources.NoVideo;
-                    TSBtnActivateCam.Text = m_sCameraOff;
                     TSLblCameraActive.Text = m_sCameraOff;
                 }
             }
@@ -447,6 +447,8 @@ namespace KugelfallDbg
             {
                 if (Arduino.OpenPort() == true)
                 {
+                    Arduino.ClosePort();
+
                     Arduino.IsSet = true;
                     TSLblArduino.Text = m_sArduinoChosen;
 
@@ -570,6 +572,7 @@ namespace KugelfallDbg
                 ActivateCamera(true);
             }
             */
+            //Version 2
                 //Audioaufnahme temporär stoppen um keine weiteren Aufnahmen zu erzeugen
                 ActivateAudio(false);
                 //ActivateCamera(false);
@@ -807,6 +810,8 @@ namespace KugelfallDbg
             {
                 ActivateCamera(false);
                 ActivateAudio(false);
+
+                if (Arduino.IsOpen() == true) { Arduino.ClosePort(); }
 
                 TSBtnCamSettings.Enabled = true;
                 TSBtnArduinoSettings.Enabled = true;
