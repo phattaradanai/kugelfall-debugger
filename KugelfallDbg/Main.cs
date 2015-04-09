@@ -54,13 +54,43 @@ namespace KugelfallDbg
         {
             if (Arduino.DataAvailable == true)
             {
-                
+                m_bStopBuffering = false;
                 //(Nach wie vielen gemachten Bildern soll eines davon im Buffer abgelegt werden)?
+                /*  Version 1
+                if (m_sPassedFrames == 1)
+                {
+                    m_bImageBuffer[m_sIndex] = (Bitmap)image.Clone();   //Aktuelles Bild wird im Buffer abgelegt
+                    m_sIndex++;
+                    if (m_sIndex == m_iBufferSize) 
+                    { 
+                        m_sIndex = 0;
+                        m_bTestAvailable = true; 
+                        Arduino.DataAvailable = false;
+                    }
+
+                    m_sPassedFrames = 0;                                //zurücksetzen
+                }
+                else
+                {
+                    m_sPassedFrames++;
+                }*/
+
+                //Version 2:
                 if (m_sPassedFrames == 0)
                 {
                     m_bImageBuffer[m_sIndex] = (Bitmap)image.Clone();   //Aktuelles Bild wird im Buffer abgelegt
                     m_sIndex++;
-                    if (m_sIndex == m_iBufferSize) { m_sIndex = 0; m_bTestAvailable = true; }    //Bufferende erreicht
+                    if (m_sIndex == m_iBufferSize)
+                    {
+                        m_sIndex = 0;
+                    }
+
+                    if(m_bStopBuffering == true)
+                    {
+                        m_bTestAvailable = true;
+                        Arduino.DataAvailable = false;
+                    }
+
                     m_sPassedFrames = 0;                                //zurücksetzen
                 }
                 else
@@ -445,7 +475,8 @@ namespace KugelfallDbg
         {
             //Den Maximalwert des Audioeingangs abfragen
             if (Arduino.DataAvailable) { ldata.Text = "data"; }
-            else { ldata.Text = "no data";}
+            else { ldata.Text = "no data"; }
+
             if (iRefresh == 30)
             {
                 //VolumeMeter.Value = m_Audio.Volume;
@@ -489,6 +520,8 @@ namespace KugelfallDbg
         */
         private void CaptureImage()
         {
+            m_bStopBuffering = true;
+            /* Version 1
             if (m_bTestAvailable == true)
             {
                 //Audioaufnahme temporär stoppen um keine weiteren Aufnahmen zu erzeugen
@@ -536,6 +569,51 @@ namespace KugelfallDbg
                 ActivateAudio(true);
                 ActivateCamera(true);
             }
+            */
+                //Audioaufnahme temporär stoppen um keine weiteren Aufnahmen zu erzeugen
+                ActivateAudio(false);
+                //ActivateCamera(false);
+
+                //Für den Fall, dass die Kamera aktiviert wurde und gleich auslösen sollte. Verhindert, dass null-Referenzen (dadurch
+                //dass der ImageBuffer noch nicht gefüllt ist) in den Versuch kopiert werden.
+
+                foreach (Bitmap b in m_bImageBuffer)
+                {
+                    if (b == null)
+                    {
+                        MessageBox.Show("ImageBuffer noch nicht bereit!");
+                        ActivateAudio(true);
+                        return;
+                    }
+                }
+
+                Versuchsbild v = new Versuchsbild(m_iBufferSize);
+
+                v.Test = "Versuch " + m_iAnzVersuche;   //(m_Versuche.Count + 1);  //Versuchsbeschreibung dient zur Identifizierung im Dictionary (m_Versuche)
+                v.Pictures = (Bitmap[])m_bImageBuffer.Clone();
+                if (Arduino.IsOpen() == true)
+                {
+                    v.Debugtext = Arduino.DebugText;
+                }
+
+                m_Versuche.Add(v.Test, v);
+
+                //OK,Versuch,Versatz,Geschwindigkeit,Kommentar
+                ListViewItem lvi = new ListViewItem();
+                lvi.SubItems.Add(v.Test.Remove(0, 8));
+                lvi.SubItems.Add(v.Deviation.ToString());
+                lvi.SubItems.Add(v.Debugtext);
+                lvi.SubItems.Add(v.Comment);
+
+                LVTestEvaluation.Items.Add(lvi);
+
+                m_iAnzVersuche++;
+
+                //System.Threading.Thread.Sleep(50);
+
+                //Aufnahme wieder erlauben
+                ActivateAudio(true);
+                ActivateCamera(true);
         }
 
         //Jeder Versuch wird in einer Map abgespeichert und ist eindeutig identifizierbar über einen String und einer Versuchsklasse
@@ -738,6 +816,7 @@ namespace KugelfallDbg
             }
         }
 
+        private bool m_bStopBuffering = true;
         private string m_sArduinoChosen = "Arduino wurde ausgewählt";
         private string m_sAudioChosen = "Audiogerät wurde ausgewählt";
         private string m_sAudioOn = "Audio aktiviert";
