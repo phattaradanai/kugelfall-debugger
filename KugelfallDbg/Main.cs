@@ -54,17 +54,17 @@ namespace KugelfallDbg
         private void MainVideoSourcePlayer_NewFrame(object sender, ref Bitmap image)
         {
             //(Nach wie vielen gemachten Bildern soll eines davon im Buffer abgelegt werden)?
-            /*if (m_sPassedFrames == 0)
-            {*/
+            if (m_sPassedFrames == 2)
+            {
                 m_bImageBuffer[m_sIndex] = (Bitmap)image.Clone();   //Aktuelles Bild wird im Buffer abgelegt
                 m_sIndex++;
                 if (m_sIndex == m_iBufferSize) { m_sIndex = 0; }    //Bufferende erreicht
                 m_sPassedFrames = 0;                                //zurücksetzen
-           /*}
+            }
             else
             {
                 m_sPassedFrames++;
-            }*/
+            }
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -333,11 +333,7 @@ namespace KugelfallDbg
          */
         private void DeletePictures()
         {
-            if(LVTestEvaluation.Items.Count == 0)
-            {
-                MessageBox.Show("Keine Versuchsdaten zum Löschen vorhanden!");
-            }
-            else if (MessageBox.Show("Möchten Sie wirklich alle Versuchsdaten löschen?", "Versuchsdaten löschen", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
+            if (MessageBox.Show("Möchten Sie wirklich alle Versuchsdaten löschen?", "Versuchsdaten löschen", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
             {
                 LVTestEvaluation.Items.Clear();
                 m_Versuche.Clear();
@@ -493,10 +489,9 @@ namespace KugelfallDbg
         */
         private void CaptureImage()
         {
-            ActivateCamera(false);
             //Audioaufnahme temporär stoppen um keine weiteren Aufnahmen zu erzeugen
             ActivateAudio(false);
-            
+            ActivateCamera(false);
 
             //Für den Fall, dass die Kamera aktiviert wurde und gleich auslösen sollte. Verhindert, dass null-Referenzen (dadurch
             //dass der ImageBuffer noch nicht gefüllt ist) in den Versuch kopiert werden.
@@ -547,7 +542,7 @@ namespace KugelfallDbg
         private void LVVersuchsauswertung_DoubleClick(object sender, EventArgs e)
         {
             ListViewItem lvi = LVTestEvaluation.SelectedItems[0];
-            string key = "Versuch " + GetSelectedItem();//(lvi.Index + 1).ToString();
+            string key = "Versuch " + (lvi.Index + 1).ToString();
 
             Versuchsbild temp = GetSelectedItem();
             FormVersuch fv = new FormVersuch(ref temp);
@@ -570,11 +565,11 @@ namespace KugelfallDbg
          */
         private Versuchsbild GetSelectedItem()
         {
-                ListViewItem lvi = LVTestEvaluation.SelectedItems[0];
+            ListViewItem lvi = LVTestEvaluation.SelectedItems[0];
 
-                string key = "Versuch " + lvi.SubItems[1].Text;
+            string key = "Versuch " + lvi.SubItems[1].Text;
 
-                return m_Versuche[key]; //EVTL HIER NOCH KRITISCH!!
+            return m_Versuche[key]; //EVTL HIER NOCH KRITISCH!!
         }
 
         /**
@@ -662,10 +657,9 @@ namespace KugelfallDbg
             }
 
             ListViewItem lvi = LVTestEvaluation.SelectedItems[0];
-            MessageBox.Show(lvi.Index.ToString());
 
-            string key = "Versuch " + lvi.SubItems[1].ToString();
-            MessageBox.Show(key);
+            string key = "Versuch " + (lvi.Index + 1).ToString();
+
             if (MessageBox.Show("Möchten Sie diesen Versuch wirklich löschen?", "Versuch löschen", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
             {
                 m_Versuche.Remove(key);
