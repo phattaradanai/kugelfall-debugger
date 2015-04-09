@@ -33,8 +33,6 @@
             this.NDeviation = new System.Windows.Forms.NumericUpDown();
             this.TBPicture = new System.Windows.Forms.TrackBar();
             this.label2 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.CBSuccess = new System.Windows.Forms.CheckBox();
             this.BtnCancel = new System.Windows.Forms.Button();
@@ -43,6 +41,8 @@
             this.PBTest = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
             this.TBArduino = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NDeviation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TBPicture)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -70,6 +70,11 @@
             // NDeviation
             // 
             this.NDeviation.Location = new System.Drawing.Point(274, 393);
+            this.NDeviation.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
             this.NDeviation.Name = "NDeviation";
             this.NDeviation.Size = new System.Drawing.Size(97, 20);
             this.NDeviation.TabIndex = 3;
@@ -79,9 +84,10 @@
             this.TBPicture.Location = new System.Drawing.Point(6, 13);
             this.TBPicture.Maximum = 5;
             this.TBPicture.Name = "TBPicture";
-            this.TBPicture.Size = new System.Drawing.Size(133, 45);
+            this.TBPicture.Size = new System.Drawing.Size(120, 45);
             this.TBPicture.TabIndex = 5;
             this.TBPicture.ValueChanged += new System.EventHandler(this.TBPicture_ValueChanged);
+            this.TBPicture.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TBPicture_MouseDown);
             // 
             // label2
             // 
@@ -92,32 +98,14 @@
             this.label2.TabIndex = 6;
             this.label2.Text = "Versatz";
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(10, 45);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(13, 13);
-            this.label4.TabIndex = 8;
-            this.label4.Text = "1";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(119, 45);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(13, 13);
-            this.label5.TabIndex = 9;
-            this.label5.Text = "6";
-            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.TBPicture);
-            this.groupBox1.Location = new System.Drawing.Point(226, 266);
+            this.groupBox1.Location = new System.Drawing.Point(224, 271);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(145, 64);
+            this.groupBox1.Size = new System.Drawing.Size(132, 61);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Bilder";
@@ -194,6 +182,24 @@
             this.TBArduino.Size = new System.Drawing.Size(199, 59);
             this.TBArduino.TabIndex = 17;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(12, 46);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(13, 13);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "1";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(107, 46);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(13, 13);
+            this.label5.TabIndex = 7;
+            this.label5.Text = "6";
+            // 
             // FormVersuch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -237,8 +243,6 @@
         private System.Windows.Forms.NumericUpDown NDeviation;
         private System.Windows.Forms.TrackBar TBPicture;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckBox CBSuccess;
         private System.Windows.Forms.Button BtnCancel;
@@ -246,5 +250,7 @@
         private System.Windows.Forms.CheckBox CBChosenPicture;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox TBArduino;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
     }
 }

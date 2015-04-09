@@ -27,6 +27,7 @@ namespace KugelfallDbg
             catch (Exception e)
             {
                 System.Windows.Forms.MessageBox.Show("Port konnte nicht geöffnet werden! " + e.Message, "Portfehler");
+                return false;
             }
 
             return true;

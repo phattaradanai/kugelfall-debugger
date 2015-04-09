@@ -5,7 +5,6 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
- 
 using System.Windows.Forms;
 
 namespace KugelfallDbg
@@ -51,10 +50,11 @@ namespace KugelfallDbg
          */
         private short m_sPassedFrames = 0;  ///Beinhaltet die Anzahl der bereits gemachten Bilder 
         private short m_sIndex = 0;         ///Dient also "Zeiger" in der Buffervariable (maximal m_iBufferSize Bilder)
+                                            
         private void MainVideoSourcePlayer_NewFrame(object sender, ref Bitmap image)
         {
             //(Nach wie vielen gemachten Bildern soll eines davon im Buffer abgelegt werden)?
-            if (m_sPassedFrames == 1)
+            if (m_sPassedFrames == 2)
             {
                 m_bImageBuffer[m_sIndex] = (Bitmap)image.Clone();   //Aktuelles Bild wird im Buffer abgelegt
                 m_sIndex++;
@@ -104,19 +104,68 @@ namespace KugelfallDbg
         {
             //ToDo: Prüfen ob eine Kamera vorhanden ist und bereits ausgewählt wurde
             TSLblThreshold.Text = "Schwellenwert: " + VolumeMeter.Threshold;
+
+            //Evtl. vorhandene Geräte eintragen
+            CheckSettings();
+        }
+
+        /**
+         * void CheckSettings():
+         * Prüfen, ob evtl. bereits vorhandene Geräte vorliegen 
+         */
+        private void CheckSettings()
+        {
+            //Kamera abfragen
+            if (string.IsNullOrEmpty(Properties.Settings.Default.VideoDevice) == false)
+            {
+                if (m_Camera == null)
+                {
+                    m_Camera = new Camera(new AForge.Video.DirectShow.VideoCaptureDevice(Properties.Settings.Default.VideoDevice));
+                    MainVideoSourcePlayer.VideoSource = m_Camera.GetCamera;
+                    TSLblCameraActive.Text = m_sCameraChosen;
+                }
+            }
+
+            //Audio abfragen
+            if (string.IsNullOrEmpty(Properties.Settings.Default.VideoDevice) == false)
+            {
+                if (m_Audio == null)
+                {
+                    m_Audio = new Audio(Properties.Settings.Default.AudioDevice);
+                    TSLblAudioActive.Text = m_sAudioChosen;
+                }
+            }
+
+            //Arduino abfragen
+            if (string.IsNullOrEmpty(Properties.Settings.Default.ArduinoPort) == false)
+            {
+                if (Arduino.RS232Port == null) { Arduino.RS232Port = new System.IO.Ports.SerialPort(); }
+
+                Arduino.SetParameters(Properties.Settings.Default.ArduinoBaudRate, Properties.Settings.Default.ArduinoPort);
+
+                if (Arduino.OpenPort() == true)
+                {
+                    Arduino.IsSet = true;
+                    TSLblArduino.Text = m_sArduinoChosen;
+                }
+            }
         }
 
         //Dient zum Öffnen der Videoquelle
-        private void OpenVideoSource()//AForge.Video.IVideoSource _VideoSource)
+        private void OpenVideoSource()
         {
             MainVideoSourcePlayer.Start();
-            TSLblCameraActive.Text = "Kamera eingeschaltet";
+            TSLblCameraActive.Text = m_sCameraOn;
         }
 
         private Camera m_Camera;
 
         private void TSBtnActivateCam_Click(object sender, EventArgs e)
         {
+            if (m_Camera == null) { MessageBox.Show("kamera"); }
+            if (m_Audio == null) { MessageBox.Show("audio"); }
+            if (m_Camera == null) { MessageBox.Show("arduino"); }
+
             if (m_Camera != null && m_Audio != null && Arduino.IsSet == true)
             {
                 if (m_Camera.GetCamera.IsRunning == false)
@@ -153,7 +202,7 @@ namespace KugelfallDbg
                     TimerAudio.Start();
                     m_Audio.StartRecording();
                     //TSLblVolume.Visible = true;
-                    TSLblAudioActive.Text = "Audio aktiviert";
+                    TSLblAudioActive.Text = m_sAudioOn;
                 }
                 else
                 {
@@ -186,9 +235,12 @@ namespace KugelfallDbg
 
                 //Videoquelle erstellen
                 m_Camera = new Camera(vcdf.VideoDevice);
+                
+                Properties.Settings.Default.VideoDevice = vcdf.VideoDeviceMoniker;  //Gerätebezeichner abspeichern
+                Properties.Settings.Default.Save();
 
                 MainVideoSourcePlayer.VideoSource = vcdf.VideoDevice;
-                TSLblCameraActive.Text = "Kamera bereit";
+                TSLblCameraActive.Text = m_sCameraChosen;
             }
         }
 
@@ -246,10 +298,10 @@ namespace KugelfallDbg
 
                     //Buttontoolstrip
                     TSBtnActivateCam.Image = KugelfallDbg.Properties.Resources.Video;
-                    TSBtnActivateCam.Text = "Kamera eingeschaltet";
+                    TSBtnActivateCam.Text = m_sCameraOn;
 
                     //Statuslabel
-                    TSLblCameraActive.Text = "Kamera eingeschaltet";
+                    TSLblCameraActive.Text = m_sCameraOn;
                 }
                 else
                 {
@@ -257,8 +309,8 @@ namespace KugelfallDbg
 
                     //Gui-Anpassung
                     TSBtnActivateCam.Image = KugelfallDbg.Properties.Resources.NoVideo;
-                    TSBtnActivateCam.Text = "Kamera ausgeschaltet";
-                    TSLblCameraActive.Text = "Kamera einschalten um Versuch zu starten";
+                    TSBtnActivateCam.Text = m_sCameraOff;
+                    TSLblCameraActive.Text = m_sCameraOff;
                 }
             }
         }
@@ -364,9 +416,19 @@ namespace KugelfallDbg
             if (Arduino.IsOpen() == true) {Arduino.ClosePort(); }
             if (rs232.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                Arduino.OpenPort();
-                Arduino.IsSet = true;
-                TSLblArduino.Text = "Arduino wurde ausgewählt";
+                if (Arduino.OpenPort() == true)
+                {
+                    Arduino.IsSet = true;
+                    TSLblArduino.Text = m_sArduinoChosen;
+
+                    //Arduinoeinstellungen speichern
+                    Properties.Settings.Default.ArduinoPort = string.Empty;
+
+                    Properties.Settings.Default.ArduinoPort = Arduino.RS232Port.PortName;
+                    Properties.Settings.Default.ArduinoBaudRate = Arduino.RS232Port.BaudRate;
+
+                    Properties.Settings.Default.Save();
+                }
             }
         }
 
@@ -383,10 +445,12 @@ namespace KugelfallDbg
         private void TimerAudio_Tick(object sender, EventArgs e)
         {
             //Den Maximalwert des Audioeingangs abfragen
-            if (iRefresh == 5)
+
+            
+            if (iRefresh == 30)
             {
-                VolumeMeter.Value = m_Audio.Volume;
-               
+                //VolumeMeter.Value = m_Audio.Volume;
+                TSVolumeMeter.Value = m_Audio.Volume;
                 iRefresh = 0;
             }
             else { iRefresh++; }
@@ -395,7 +459,7 @@ namespace KugelfallDbg
             //Prüfen, ob eine bestimmte Schwelle überschritten wurde (regelbar)
             if (m_Audio.MaxVolume > VolumeMeter.Threshold)
             {
-                VolumeMeter.Value = m_Audio.MaxVolume;  //Der User soll noch sehen können, wo der Pegel als letztes war
+                //VolumeMeter.Value = m_Audio.MaxVolume;  //Der User soll noch sehen können, wo der Pegel als letztes war
                 
                 m_Audio.MaxVolume = 0;
 
@@ -427,6 +491,7 @@ namespace KugelfallDbg
         {
             //Audioaufnahme temporär stoppen um keine weiteren Aufnahmen zu erzeugen
             ActivateAudio(false);
+            ActivateCamera(false);
 
             //Für den Fall, dass die Kamera aktiviert wurde und gleich auslösen sollte. Verhindert, dass null-Referenzen (dadurch
             //dass der ImageBuffer noch nicht gefüllt ist) in den Versuch kopiert werden.
@@ -462,10 +527,12 @@ namespace KugelfallDbg
             LVTestEvaluation.Items.Add(lvi);
 
             m_iAnzVersuche++;
-            System.Threading.Thread.Sleep(50);
+            
+            //System.Threading.Thread.Sleep(50);
 
             //Aufnahme wieder erlauben
             ActivateAudio(true);
+            ActivateCamera(true);
         }
 
         //Jeder Versuch wird in einer Map abgespeichert und ist eindeutig identifizierbar über einen String und einer Versuchsklasse
@@ -568,8 +635,8 @@ namespace KugelfallDbg
                     m_Audio = null;
                 }
 
-                m_Audio = new Audio(fad.m_iSelectedDevice);
-                TSLblAudioActive.Text = "Audiogerät ausgewählt";
+                m_Audio = new Audio(fad.SelectedDevice);
+                TSLblAudioActive.Text = m_sAudioChosen;
             }
         }
 
@@ -667,5 +734,12 @@ namespace KugelfallDbg
                 TSBtnDeactivateCam.Enabled = false;
             }
         }
+
+        private string m_sArduinoChosen = "Arduino wurde ausgewählt";
+        private string m_sAudioChosen = "Audiogerät wurde ausgewählt";
+        private string m_sAudioOn = "Audio aktiviert";
+        private string m_sCameraChosen = "Kamera wurde ausgewählt";
+        private string m_sCameraOn = "Kamera eingeschaltet";
+        private string m_sCameraOff = "Kamera ausgeschaltet";
     }
 }

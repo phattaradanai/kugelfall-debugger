@@ -68,5 +68,14 @@ namespace KugelfallDbg
             { CBChosenPicture.Checked = true; }
             else { CBChosenPicture.Checked = false; }
         }
+
+        private void TBPicture_MouseDown(object sender, MouseEventArgs e)
+        {
+            double dblValue = 0.0;
+
+            // Jump to the clicked location
+            dblValue = ((double)e.X / (double)TBPicture.Width) * (TBPicture.Maximum - TBPicture.Minimum);
+            TBPicture.Value = Convert.ToInt32(dblValue);
+        }
     }
 }

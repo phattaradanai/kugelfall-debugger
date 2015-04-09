@@ -17,10 +17,13 @@ namespace KugelfallDbg
             InitializeComponent();
         }
 
-
-
         //public NAudio.CoreAudioApi.MMDevice m_Device;
-        public int m_iSelectedDevice;
+        private int m_iSelectedDevice;
+        public int SelectedDevice
+        {
+            get { return m_iSelectedDevice; }
+            set { m_iSelectedDevice = value; }
+        }
 
         private void FormAudioDevice_Load(object sender, EventArgs e)
         {
@@ -59,6 +62,9 @@ namespace KugelfallDbg
             {
                 //m_Device = (NAudio.CoreAudioApi.MMDevice)CBAudioDevices.SelectedItem;
                 m_iSelectedDevice = CBAudioDevices.SelectedIndex;
+
+                Properties.Settings.Default.AudioDevice = m_iSelectedDevice;//NAudio.Wave.WaveIn.GetCapabilities(CBAudioDevices.SelectedIndex).ProductName;
+                Properties.Settings.Default.Save();
             }
             else
             {

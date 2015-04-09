@@ -53,7 +53,7 @@
             this.TSBtnCamSettings = new System.Windows.Forms.ToolStripButton();
             this.TSBtnArduinoSettings = new System.Windows.Forms.ToolStripButton();
             this.TSBtnAudioConfiguration = new System.Windows.Forms.ToolStripButton();
-            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
+            this.TSVolumeMeter = new System.Windows.Forms.ToolStripProgressBar();
             this.ILVersuchsbilder = new System.Windows.Forms.ImageList(this.components);
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -181,7 +181,7 @@
             this.TSBtnCamSettings,
             this.TSBtnArduinoSettings,
             this.TSBtnAudioConfiguration,
-            this.toolStripProgressBar1});
+            this.TSVolumeMeter});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(1244, 59);
@@ -285,10 +285,10 @@
             this.TSBtnAudioConfiguration.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TSBtnAudioConfiguration.Click += new System.EventHandler(this.TSBtnAudioConfiguration_Click);
             // 
-            // toolStripProgressBar1
+            // TSVolumeMeter
             // 
-            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
-            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 56);
+            this.TSVolumeMeter.Name = "TSVolumeMeter";
+            this.TSVolumeMeter.Size = new System.Drawing.Size(100, 56);
             // 
             // ILVersuchsbilder
             // 
@@ -308,7 +308,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(551, 74);
+            this.label3.Location = new System.Drawing.Point(635, 80);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(57, 13);
             this.label3.TabIndex = 21;
@@ -403,7 +403,7 @@
         private ProgressBars.Basic.BasicProgressBar VolumeMeter;
         private System.Windows.Forms.ToolStripStatusLabel TSLblThreshold;
         private System.Windows.Forms.ToolStripStatusLabel TSLblArduino;
-        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
+        private System.Windows.Forms.ToolStripProgressBar TSVolumeMeter;
         private System.Windows.Forms.ToolStripButton TSBtnDeactivateCam;
     }
 }

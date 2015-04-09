@@ -96,7 +96,7 @@ namespace KugelfallDbg
         private int m_iSampleRate = 44100;
         private int m_iChannels = 1;    ///Wieviele Kanäle sollen zur Aufnahme benutzt werden (Default: 1 -> Mono)
         private int m_iDeviceNumber;    ///Nummer des Soundaufnahmegerätes (Dient zur Identifikation)
-        private int m_iVolume;
+        private int m_iVolume;          ///Die aktuelle Lautstärke
         private int m_iMaxVolume;       ///Die aktuelle maximale Lautstärke
         private NAudio.Wave.WaveIn m_iWaveInDevice;
         
