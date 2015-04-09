@@ -135,8 +135,7 @@ namespace KugelfallDbg
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //ToDo: Prüfen ob eine Kamera vorhanden ist und bereits ausgewählt wurde
-            TSLblThreshold.Text = "Schwellenwert: " + VolumeMeter.Threshold;
+            TBTresholdControl.Maximum = PBVolumeMeter.Maximum;
 
             //Evtl. vorhandene Geräte eintragen
             CheckSettings();
@@ -475,14 +474,10 @@ namespace KugelfallDbg
          */
         private void TimerAudio_Tick(object sender, EventArgs e)
         {
-            //Den Maximalwert des Audioeingangs abfragen
-            if (Arduino.DataAvailable) { ldata.Text = "data"; }
-            else { ldata.Text = "no data"; }
-
             if (iRefresh == 30)
             {
                 //VolumeMeter.Value = m_Audio.Volume;
-                TSVolumeMeter.Value = m_Audio.Volume;
+                //TSVolumeMeter.Value = m_Audio.Volume;
                 iRefresh = 0;
             }
             else { iRefresh++; }
