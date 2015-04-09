@@ -10,6 +10,10 @@ using System.Windows.Forms;
 
 namespace KugelfallDbg
 {
+    /**
+     * class ArduinoConfig:
+     * Dient der Auswahl eines angeschlossenen Arduino.
+     */
     public partial class ArduinoConfig : Form
     {
         public ArduinoConfig()
@@ -17,9 +21,10 @@ namespace KugelfallDbg
             InitializeComponent();
         }
 
-        private string[] m_sArrayComPortsNames = null;
-
-        //RS232Ports ermitteln und auflisten
+        /**
+         * bool GetSerialPorts():
+         * Ermittelt alle verfügbaren SerialPorts
+         */
         private bool GetSerialPorts()
         {
             m_sArrayComPortsNames = System.IO.Ports.SerialPort.GetPortNames(); //Alle ComPorts abfragen
@@ -38,14 +43,14 @@ namespace KugelfallDbg
 
                 CBRS232Ports.SelectedIndex = 0;
 
-                //CBRS232Ports.Update();
-
                 return true;
             }
         }
 
-        //Restliche Parameter in Comboboxen eintragen
-        
+        /**
+         * void GetParameters():
+         * Schreibt auswählbare Bits/Sekunde in die Comboboxen
+         */
         private void GetParameters()
         {
             //Bits pro Sekunde
@@ -63,45 +68,17 @@ namespace KugelfallDbg
             CBBps.Items.Add(56000);
             CBBps.Items.Add(57600);
             CBBps.Items.Add(115200);
-
-            //Datenbits
-            //CBDataBits.Items.Add(7);
-            //CBDataBits.Items.Add(8);
-
-            ////Parität
-            //CBParity.Items.Add(System.IO.Ports.Parity.Even);
-            //CBParity.Items.Add(System.IO.Ports.Parity.Mark);
-            //CBParity.Items.Add(System.IO.Ports.Parity.None);
-            //CBParity.Items.Add(System.IO.Ports.Parity.Odd);
-            //CBParity.Items.Add(System.IO.Ports.Parity.Space);
-
-            ////Flusssteuerung
-            //CBFlowControl.Items.Add(System.IO.Ports.Handshake.XOnXOff);
-            //CBFlowControl.Items.Add(System.IO.Ports.Handshake.RequestToSend);
-            //CBFlowControl.Items.Add(System.IO.Ports.Handshake.RequestToSendXOnXOff);
-            //CBFlowControl.Items.Add(System.IO.Ports.Handshake.None);
-
-            ////Stoppbits
-            //CBStopBits.Items.Add(System.IO.Ports.StopBits.One);
-            //CBStopBits.Items.Add(System.IO.Ports.StopBits.OnePointFive);
-            //CBStopBits.Items.Add(System.IO.Ports.StopBits.Two);
         }
         
         private void BtnOK_Click(object sender, EventArgs e)
         {
-            if (CBBps.SelectedIndex < 0 ||/* CBDataBits.SelectedIndex < 0 || CBFlowControl.SelectedIndex < 0 || CBParity.SelectedIndex < 0 ||*/
-               CBRS232Ports.SelectedIndex < 0 /*|| CBStopBits.SelectedIndex < 0*/)
+            if (CBBps.SelectedIndex < 0 || CBRS232Ports.SelectedIndex < 0)
             {
                 MessageBox.Show("Bitte prüfen ob alle Parameter ausgewählt wurden.", "Fehlende Parameter!");
             }
             else
             {
-                Arduino.SetParameters((int)CBBps.SelectedItem,
-                                      /*(int)CBDataBits.SelectedItem,
-                                      (System.IO.Ports.Parity)CBParity.SelectedItem,
-                                      (System.IO.Ports.Handshake)CBFlowControl.SelectedItem,
-                                      (System.IO.Ports.StopBits)CBStopBits.SelectedItem,*/
-                                      (string)CBRS232Ports.SelectedItem);
+                Arduino.SetParameters((int)CBBps.SelectedItem, (string)CBRS232Ports.SelectedItem);
                 this.Close();
                 return;
             }
@@ -124,8 +101,6 @@ namespace KugelfallDbg
             GetParameters();
         }
 
-
+        private string[] m_sArrayComPortsNames = null;
     }
-
-    //Alle Parameter in einer Variable
 }

@@ -6,7 +6,10 @@ using System.Text;
 
 namespace KugelfallDbg
 {
-    //Das Gerät, von dem der Ton aufgezeichnet wird
+    /**
+     * class Audio:
+     * Dient der Verwaltung des Aufnahmegerätes und der Aufnahmesteuerung
+     */
     class Audio
     {
         public Audio(int _iDeviceNumber)
@@ -42,6 +45,10 @@ namespace KugelfallDbg
             }
         }
 
+        /**
+         * void StartRecording()
+         * Lässt die Audioaufnahme starten
+         */
         public void StartRecording()
         {
             //Sollte der Recordingvorgang unterbrochen worden sein, muss das WaveInDevice neu angefordert werden
@@ -74,16 +81,21 @@ namespace KugelfallDbg
             get { return m_iWaveInDevice; }
         }
 
+
         /**
-         * int MaxVolume:
+         * int Volume:
          * Gibt die aktuelle Lautstärke zurück
          */
-
         public int Volume
         {
             get { return m_iVolume; }
             set { m_iVolume = value; }
         }
+
+        /**
+         * int MaxVolume:
+         * Gibt die maximale bisher erreichte Lautstärke zurück
+         */
         public int MaxVolume
         {
             get
