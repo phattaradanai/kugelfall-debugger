@@ -74,16 +74,18 @@ namespace KugelfallDbg
             get { return m_iWaveInDevice; }
         }
 
-        /**
-         * int MaxVolume:
-         * Gibt die aktuelle Lautstärke zurück
-         */
+        
 
         public int Volume
         {
             get { return m_iVolume; }
             set { m_iVolume = value; }
         }
+
+        /**
+         * int MaxVolume:
+         * Gibt die aktuelle Lautstärke zurück
+         */
         public int MaxVolume
         {
             get

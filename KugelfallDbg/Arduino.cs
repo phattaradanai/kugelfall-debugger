@@ -95,7 +95,10 @@ namespace KugelfallDbg
             m_RS232Port.PortName = _sPortName;
         }
 
-        
+        /**
+         *  SerialPort RS232Port:
+         *  Beinhaltet den Arduino
+         */
         public static SerialPort RS232Port
         {
             get { return m_RS232Port; }

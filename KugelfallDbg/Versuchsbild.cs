@@ -61,7 +61,7 @@ namespace KugelfallDbg
             set { m_sText = value; }
         }
 
-
+        //Versuch + Nummer
         public string Test
         {
             get { return m_sTest; }

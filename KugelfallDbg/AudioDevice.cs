@@ -35,25 +35,7 @@ namespace KugelfallDbg
             }
 
             CBAudioDevices.SelectedIndex = 0;
-            /*
-            //Alle aufzeichnenden aktiven Geräte auflisten
-            NAudio.CoreAudioApi.MMDeviceEnumerator mde = new NAudio.CoreAudioApi.MMDeviceEnumerator();
-            NAudio.CoreAudioApi.MMDeviceCollection mdc = mde.EnumerateAudioEndPoints(NAudio.CoreAudioApi.DataFlow.Capture,NAudio.CoreAudioApi.DeviceState.Active);
-
-            //Geräte anschließend zur Auswahl stellen
-            for(int i = 0;i < mdc.Count; i++)
-            {
-                CBAudioDevices.Items.Add(mdc[i]);
-            }
-
-            if (CBAudioDevices.Items.Count > 0)
-            {
-                CBAudioDevices.SelectedIndex = 0;
-            }
-            else
-            {
-                MessageBox.Show("Keine Aufnahmegeräte vorhanden");
-            }*/
+             
         }
 
         private void BtnOK_Click(object sender, EventArgs e)

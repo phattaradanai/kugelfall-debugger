@@ -19,8 +19,8 @@ namespace KugelfallDbg
             CloseVideoSource();
         }
 
-        public void Stop() { m_Camera.Stop(); }
-        public void Start() { m_Camera.Start(); }
+        public void Stop() { m_Camera.Stop(); } ///Aufnahme stoppen
+        public void Start() { m_Camera.Start(); }   ///Aufnahme starten
 
         //Sämtliche Aktivitäten beenden
         public void Exit()
