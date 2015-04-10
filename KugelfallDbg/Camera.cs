@@ -19,7 +19,6 @@ namespace KugelfallDbg
             CloseVideoSource();
         }
 
-        //public bool IsRunning() { return m_Camera.IsRunning; }
         public void Stop() { m_Camera.Stop(); }
         public void Start() { m_Camera.Start(); }
 

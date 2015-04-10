@@ -93,11 +93,18 @@ namespace KugelfallDbg
             set { m_iMaxVolume = value; }
         }
 
-        private int m_iSampleRate = 44100;
-        private int m_iChannels = 1;    ///Wieviele Kanäle sollen zur Aufnahme benutzt werden (Default: 1 -> Mono)
-        private int m_iDeviceNumber;    ///Nummer des Soundaufnahmegerätes (Dient zur Identifikation)
-        private int m_iVolume;          ///Die aktuelle Lautstärke
-        private int m_iMaxVolume;       ///Die aktuelle maximale Lautstärke
+        public int Threshold
+        {
+            get { return m_iThreshold;  }
+            set { m_iThreshold = value; }
+        }
+
+        private volatile int m_iThreshold = 100;  ///Schwellenwert
+        private int m_iSampleRate = 22050;
+        private int m_iChannels = 1;        ///Wieviele Kanäle sollen zur Aufnahme benutzt werden (Default: 1 -> Mono)
+        private int m_iDeviceNumber;        ///Nummer des Soundaufnahmegerätes (Dient zur Identifikation)
+        private volatile int m_iVolume;     ///Die aktuelle Lautstärke
+        private int m_iMaxVolume = 0;           ///Die aktuelle maximale Lautstärke
         private NAudio.Wave.WaveIn m_iWaveInDevice;
         
         /* AB WINDOWS VISTA

@@ -11,12 +11,7 @@ namespace KugelfallDbg
 {
     public partial class Main : Form
     {
-        private Audio m_Audio;  //Audioaufnahmegerät
-
-        private int m_iBufferSize = 6;
-        private Bitmap[] m_bImageBuffer;
-        private bool m_bIsCapturing = false;    //Flag: Signalisiert, ob gerade ein Bild aufgenommen wurde
-        private bool m_bTestAvailable = false;   //Versuch ist verfügbar
+        
 
         public Main()
         {
@@ -97,6 +92,7 @@ namespace KugelfallDbg
                 {
                     m_sPassedFrames++;
                 }
+                
             }
         }
 
@@ -135,8 +131,7 @@ namespace KugelfallDbg
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //ToDo: Prüfen ob eine Kamera vorhanden ist und bereits ausgewählt wurde
-            TSLblThreshold.Text = "Schwellenwert: " + VolumeMeter.Threshold;
+            TBTresholdControl.Maximum = PBVolumeMeter.Maximum;
 
             //Evtl. vorhandene Geräte eintragen
             CheckSettings();
@@ -475,30 +470,29 @@ namespace KugelfallDbg
          */
         private void TimerAudio_Tick(object sender, EventArgs e)
         {
-            //Den Maximalwert des Audioeingangs abfragen
-            if (Arduino.DataAvailable) { ldata.Text = "data"; }
-            else { ldata.Text = "no data"; }
-
-            if (iRefresh == 30)
+            if (m_Audio.Volume > m_Audio.Threshold)
             {
-                //VolumeMeter.Value = m_Audio.Volume;
-                TSVolumeMeter.Value = m_Audio.Volume;
+                PBVolumeMeter.Value = m_Audio.Volume;
+            }
+            else if(iRefresh == 5)
+            {
+                PBVolumeMeter.Value = m_Audio.Volume;
                 iRefresh = 0;
             }
             else { iRefresh++; }
 
 
             //Prüfen, ob eine bestimmte Schwelle überschritten wurde (regelbar)
-            if (m_Audio.MaxVolume > VolumeMeter.Threshold)
+            if (m_Audio.MaxVolume > m_Audio.Threshold)
             {
-                //VolumeMeter.Value = m_Audio.MaxVolume;  //Der User soll noch sehen können, wo der Pegel als letztes war
-                
-                m_Audio.MaxVolume = 0;
+                PBVolumeMeter.Value = m_Audio.MaxVolume;  //Der User soll noch sehen können, wo der Pegel als letztes war
 
                 if (m_bIsCapturing == false)
                 {
                     m_bIsCapturing = true;
-                    CaptureImage();
+                    m_Audio.MaxVolume = 0;
+                    if(m_Camera.GetCamera.IsRunning)
+                        CaptureImage();
                     m_bIsCapturing = false;
                 }
             }
@@ -507,7 +501,7 @@ namespace KugelfallDbg
                                                  * (bspw. zu lauter Pegel) */
             {
                 m_bIsCapturing = false;
-            }
+            }            
         }
 
         int iRefresh = 0;
@@ -688,7 +682,7 @@ namespace KugelfallDbg
             {
                 TSBtnRemoveTest.Enabled = true;
 
-                Versuchsbild temp = GetSelectedItem();// m_Versuche[key];
+                Versuchsbild temp = GetSelectedItem();
 
                 MainVideoSourcePlayer.Visible = false;
                 pb_Images.Visible = true;
@@ -821,12 +815,26 @@ namespace KugelfallDbg
             }
         }
 
+        private Audio m_Audio;  //Audioaufnahmegerät
+
+        private int m_iBufferSize = 6;
+        private Bitmap[] m_bImageBuffer;
+        private bool m_bIsCapturing = false;    //Flag: Signalisiert, ob gerade ein Bild aufgenommen wurde
+        private bool m_bTestAvailable = false;   //Versuch ist verfügbar
         private bool m_bStopBuffering = true;
+
+        //Textvariablen zur einheitlichen Beschriftung
         private string m_sArduinoChosen = "Arduino wurde ausgewählt";
         private string m_sAudioChosen = "Audiogerät wurde ausgewählt";
         private string m_sAudioOn = "Audio aktiviert";
         private string m_sCameraChosen = "Kamera wurde ausgewählt";
         private string m_sCameraOn = "Kamera eingeschaltet";
         private string m_sCameraOff = "Kamera ausgeschaltet";
+
+        private void TBTresholdControl_ValueChanged(object sender, EventArgs e)
+        {
+            m_Audio.Threshold = TBTresholdControl.Value;
+            m_Audio.MaxVolume = 0;
+        }
     }
 }
