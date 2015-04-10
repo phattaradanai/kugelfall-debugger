@@ -53,22 +53,17 @@
             this.TSBtnCamSettings = new System.Windows.Forms.ToolStripButton();
             this.TSBtnArduinoSettings = new System.Windows.Forms.ToolStripButton();
             this.TSBtnAudioConfiguration = new System.Windows.Forms.ToolStripButton();
+            this.TSVolumeMeter = new System.Windows.Forms.ToolStripProgressBar();
             this.ILVersuchsbilder = new System.Windows.Forms.ImageList(this.components);
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.TimerAudio = new System.Windows.Forms.Timer(this.components);
             this.pb_Images = new System.Windows.Forms.PictureBox();
             this.VolumeMeter = new ProgressBars.Basic.BasicProgressBar();
-            this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
-            this.PBVolumeMeter = new System.Windows.Forms.ProgressBar();
-            this.TBTresholdControl = new System.Windows.Forms.TrackBar();
-            this.label1 = new System.Windows.Forms.Label();
+            this.ldata = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_Images)).BeginInit();
-            this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
-            this.toolStripContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.TBTresholdControl)).BeginInit();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -115,7 +110,7 @@
             // MainVideoSourcePlayer
             // 
             this.MainVideoSourcePlayer.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.MainVideoSourcePlayer.Location = new System.Drawing.Point(12, 84);
+            this.MainVideoSourcePlayer.Location = new System.Drawing.Point(12, 111);
             this.MainVideoSourcePlayer.Name = "MainVideoSourcePlayer";
             this.MainVideoSourcePlayer.Size = new System.Drawing.Size(560, 304);
             this.MainVideoSourcePlayer.TabIndex = 1;
@@ -135,7 +130,7 @@
             this.LVTestEvaluation.FullRowSelect = true;
             this.LVTestEvaluation.GridLines = true;
             this.LVTestEvaluation.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.LVTestEvaluation.Location = new System.Drawing.Point(593, 84);
+            this.LVTestEvaluation.Location = new System.Drawing.Point(593, 111);
             this.LVTestEvaluation.MultiSelect = false;
             this.LVTestEvaluation.Name = "LVTestEvaluation";
             this.LVTestEvaluation.Size = new System.Drawing.Size(639, 304);
@@ -175,7 +170,6 @@
             // 
             this.toolStrip1.AutoSize = false;
             this.toolStrip1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.TSBtnRemoveTest,
@@ -187,11 +181,11 @@
             this.toolStripSeparator1,
             this.TSBtnCamSettings,
             this.TSBtnArduinoSettings,
-            this.TSBtnAudioConfiguration});
-            this.toolStrip1.Location = new System.Drawing.Point(3, 0);
+            this.TSBtnAudioConfiguration,
+            this.TSVolumeMeter});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Padding = new System.Windows.Forms.Padding(0);
-            this.toolStrip1.Size = new System.Drawing.Size(909, 59);
+            this.toolStrip1.Size = new System.Drawing.Size(1244, 59);
             this.toolStrip1.TabIndex = 17;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -292,6 +286,11 @@
             this.TSBtnAudioConfiguration.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TSBtnAudioConfiguration.Click += new System.EventHandler(this.TSBtnAudioConfiguration_Click);
             // 
+            // TSVolumeMeter
+            // 
+            this.TSVolumeMeter.Name = "TSVolumeMeter";
+            this.TSVolumeMeter.Size = new System.Drawing.Size(100, 56);
+            // 
             // ILVersuchsbilder
             // 
             this.ILVersuchsbilder.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
@@ -301,7 +300,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(230, 68);
+            this.label2.Location = new System.Drawing.Point(230, 95);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(100, 13);
             this.label2.TabIndex = 20;
@@ -310,7 +309,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(471, 412);
+            this.label3.Location = new System.Drawing.Point(635, 80);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(57, 13);
             this.label3.TabIndex = 21;
@@ -324,7 +323,7 @@
             // pb_Images
             // 
             this.pb_Images.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.pb_Images.Location = new System.Drawing.Point(12, 84);
+            this.pb_Images.Location = new System.Drawing.Point(12, 111);
             this.pb_Images.Name = "pb_Images";
             this.pb_Images.Size = new System.Drawing.Size(560, 304);
             this.pb_Images.TabIndex = 25;
@@ -336,7 +335,7 @@
             this.VolumeMeter.BackColor = System.Drawing.Color.DarkGray;
             this.VolumeMeter.Font = new System.Drawing.Font("Consolas", 10.25F);
             this.VolumeMeter.ForeColor = System.Drawing.Color.ForestGreen;
-            this.VolumeMeter.Location = new System.Drawing.Point(534, 394);
+            this.VolumeMeter.Location = new System.Drawing.Point(698, 62);
             this.VolumeMeter.Name = "VolumeMeter";
             this.VolumeMeter.Size = new System.Drawing.Size(73, 43);
             this.VolumeMeter.TabIndex = 26;
@@ -344,48 +343,14 @@
             this.VolumeMeter.Value = 0;
             this.VolumeMeter.Click += new System.EventHandler(this.VolumeMeter_Click);
             // 
-            // toolStripContainer1
+            // ldata
             // 
-            // 
-            // toolStripContainer1.ContentPanel
-            // 
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(912, 2);
-            this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
-            this.toolStripContainer1.Margin = new System.Windows.Forms.Padding(0);
-            this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(912, 61);
-            this.toolStripContainer1.TabIndex = 28;
-            this.toolStripContainer1.Text = "toolStripContainer1";
-            // 
-            // toolStripContainer1.TopToolStripPanel
-            // 
-            this.toolStripContainer1.TopToolStripPanel.Controls.Add(this.toolStrip1);
-            // 
-            // PBVolumeMeter
-            // 
-            this.PBVolumeMeter.Location = new System.Drawing.Point(930, 12);
-            this.PBVolumeMeter.Name = "PBVolumeMeter";
-            this.PBVolumeMeter.Size = new System.Drawing.Size(302, 23);
-            this.PBVolumeMeter.TabIndex = 29;
-            // 
-            // TBTresholdControl
-            // 
-            this.TBTresholdControl.Location = new System.Drawing.Point(920, 27);
-            this.TBTresholdControl.Maximum = 100;
-            this.TBTresholdControl.Name = "TBTresholdControl";
-            this.TBTresholdControl.Size = new System.Drawing.Size(320, 45);
-            this.TBTresholdControl.TabIndex = 30;
-            this.TBTresholdControl.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
-            this.TBTresholdControl.Value = 50;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(862, 68);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(118, 13);
-            this.label1.TabIndex = 31;
-            this.label1.Text = "Versuchsauswertungen";
+            this.ldata.AutoSize = true;
+            this.ldata.Location = new System.Drawing.Point(232, 78);
+            this.ldata.Name = "ldata";
+            this.ldata.Size = new System.Drawing.Size(35, 13);
+            this.ldata.TabIndex = 27;
+            this.ldata.Text = "label1";
             // 
             // Main
             // 
@@ -393,14 +358,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightSteelBlue;
             this.ClientSize = new System.Drawing.Size(1244, 443);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.PBVolumeMeter);
-            this.Controls.Add(this.TBTresholdControl);
-            this.Controls.Add(this.toolStripContainer1);
+            this.Controls.Add(this.ldata);
             this.Controls.Add(this.VolumeMeter);
             this.Controls.Add(this.pb_Images);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
+            this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.LVTestEvaluation);
             this.Controls.Add(this.MainVideoSourcePlayer);
             this.Controls.Add(this.statusStrip1);
@@ -416,10 +379,6 @@
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_Images)).EndInit();
-            this.toolStripContainer1.TopToolStripPanel.ResumeLayout(false);
-            this.toolStripContainer1.ResumeLayout(false);
-            this.toolStripContainer1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.TBTresholdControl)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -455,11 +414,9 @@
         private ProgressBars.Basic.BasicProgressBar VolumeMeter;
         private System.Windows.Forms.ToolStripStatusLabel TSLblThreshold;
         private System.Windows.Forms.ToolStripStatusLabel TSLblArduino;
+        private System.Windows.Forms.ToolStripProgressBar TSVolumeMeter;
         private System.Windows.Forms.ToolStripButton TSBtnDeactivateCam;
-        private System.Windows.Forms.ToolStripContainer toolStripContainer1;
-        private System.Windows.Forms.ProgressBar PBVolumeMeter;
-        private System.Windows.Forms.TrackBar TBTresholdControl;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label ldata;
     }
 }
 
