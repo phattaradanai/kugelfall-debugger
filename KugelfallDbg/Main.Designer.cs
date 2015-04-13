@@ -55,10 +55,7 @@
             this.TSBtnAudioConfiguration = new System.Windows.Forms.ToolStripButton();
             this.ILVersuchsbilder = new System.Windows.Forms.ImageList(this.components);
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.TimerAudio = new System.Windows.Forms.Timer(this.components);
             this.pb_Images = new System.Windows.Forms.PictureBox();
-            this.VolumeMeter = new ProgressBars.Basic.BasicProgressBar();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.PBVolumeMeter = new System.Windows.Forms.ProgressBar();
             this.TBTresholdControl = new System.Windows.Forms.TrackBar();
@@ -310,20 +307,6 @@
             this.label2.TabIndex = 20;
             this.label2.Text = "Livebild der Kamera";
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(471, 412);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(57, 13);
-            this.label3.TabIndex = 21;
-            this.label3.Text = "Lautstärke";
-            // 
-            // TimerAudio
-            // 
-            this.TimerAudio.Interval = 10;
-            this.TimerAudio.Tick += new System.EventHandler(this.TimerAudio_Tick);
-            // 
             // pb_Images
             // 
             this.pb_Images.BackColor = System.Drawing.Color.WhiteSmoke;
@@ -333,19 +316,7 @@
             this.pb_Images.TabIndex = 25;
             this.pb_Images.TabStop = false;
             this.pb_Images.Visible = false;
-            // 
-            // VolumeMeter
-            // 
-            this.VolumeMeter.BackColor = System.Drawing.Color.DarkGray;
-            this.VolumeMeter.Font = new System.Drawing.Font("Consolas", 10.25F);
-            this.VolumeMeter.ForeColor = System.Drawing.Color.ForestGreen;
-            this.VolumeMeter.Location = new System.Drawing.Point(534, 394);
-            this.VolumeMeter.Name = "VolumeMeter";
-            this.VolumeMeter.Size = new System.Drawing.Size(73, 43);
-            this.VolumeMeter.TabIndex = 26;
-            this.VolumeMeter.Text = "basicProgressBar1";
-            this.VolumeMeter.Value = 0;
-            this.VolumeMeter.Click += new System.EventHandler(this.VolumeMeter_Click);
+            this.pb_Images.WaitOnLoad = true;
             // 
             // toolStripContainer1
             // 
@@ -426,9 +397,7 @@
             this.Controls.Add(this.PBVolumeMeter);
             this.Controls.Add(this.TBTresholdControl);
             this.Controls.Add(this.toolStripContainer1);
-            this.Controls.Add(this.VolumeMeter);
             this.Controls.Add(this.pb_Images);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.LVTestEvaluation);
             this.Controls.Add(this.MainVideoSourcePlayer);
@@ -472,16 +441,13 @@
         private System.Windows.Forms.ToolStripStatusLabel TSLblCameraActive;
         private System.Windows.Forms.ToolStripButton TSBtnArduinoSettings;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ToolStripButton TSBtnCamSettings;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton TSBtnAudioConfiguration;
-        private System.Windows.Forms.Timer TimerAudio;
         private System.Windows.Forms.ToolStripButton TSBtnRemoveTest;
         private System.Windows.Forms.ToolStripStatusLabel TSLblAudioActive;
         private System.Windows.Forms.PictureBox pb_Images;
-        private ProgressBars.Basic.BasicProgressBar VolumeMeter;
         private System.Windows.Forms.ToolStripStatusLabel TSLblThreshold;
         private System.Windows.Forms.ToolStripStatusLabel TSLblArduino;
         private System.Windows.Forms.ToolStripButton TSBtnDeactivateCam;

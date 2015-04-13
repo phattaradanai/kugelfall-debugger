@@ -25,20 +25,24 @@ namespace KugelfallDbg
          */
         void waveIn_DataAvailable(object sender, NAudio.Wave.WaveInEventArgs e)
         {
+            float _maxsample = 0.0f;
+
             for (int index = 0; index < e.BytesRecorded; index += 2)
             {
                 short sample = (short)((e.Buffer[index + 1] << 8) | e.Buffer[index + 0]);
 
                 //Sample in 32-bit (4 Byte) umwandeln
                 float sample32 = sample / 32768f;
-                sample32 *= 100;    //Mal 100 um die Lautstärke zwischen 0 und 100 pendeln zu lassen (sonst 0.0f und 1.0f)
-                sample32 = Math.Abs(sample32);
-                
-                m_iVolume = Convert.ToInt32(sample32);
-                if (m_iVolume > m_iMaxVolume)
-                {
-                    m_iMaxVolume = m_iVolume;
-                }
+
+                _maxsample = Math.Max(sample32, _maxsample);
+            }
+
+            OnNewMaxSample(this, _maxsample* 100);
+
+            //Schwelle überschritten, Event herausgeben
+            if(_maxsample >= m_fThreshold)
+            {
+                OnThresholdExceed(this, _maxsample);
             }
         }
 
@@ -95,28 +99,44 @@ namespace KugelfallDbg
             set { m_iMaxVolume = value; }
         }
 
-        public int Threshold
+        public float Threshold
         {
-            get { return m_iThreshold;  }
-            set { m_iThreshold = value; }
+            get { return m_fThreshold;  }
+            set { m_fThreshold = value; }
         }
 
-        private volatile int m_iThreshold = 100;  ///Schwellenwert
-        private int m_iSampleRate = 22050;
+        private volatile float m_fThreshold = 1;  ///Schwellenwert
+        private int m_iSampleRate = 8000;   //Wieviele Samples pro Sekunde
         private int m_iChannels = 1;        ///Wieviele Kanäle sollen zur Aufnahme benutzt werden (Default: 1 -> Mono)
         private int m_iDeviceNumber;        ///Nummer des Soundaufnahmegerätes (Dient zur Identifikation)
         private volatile int m_iVolume;     ///Die aktuelle Lautstärke
         private int m_iMaxVolume = 0;           ///Die aktuelle maximale Lautstärke
         private NAudio.Wave.WaveIn m_iWaveInDevice;
         
-        /* AB WINDOWS VISTA
-        public NAudio.CoreAudioApi.MMDevice AudioDevice
+        
+        //Eigene Eventhandler, welche zur Überwachung des Audiosignals dienen
+        
+        //Handler, der immer das aktuellste, lauteste Sample herausgibt
+        public delegate void MaxSampleHandler(object sender, float MaxSample);
+        public event MaxSampleHandler NewMaxSample;
+        protected void OnNewMaxSample(object sender, float MaxSample)
         {
-            get { return m_AudioDevice; }
-            set { m_AudioDevice = value; }
+            if (NewMaxSample != null)   //Prüfung, ob sich sich jemand in das Event eingeschrieben hat
+            {
+                NewMaxSample(this, MaxSample);  //Das aktuelle MaxSample weitergeben
+            }
         }
 
-        private NAudio.CoreAudioApi.MMDevice m_AudioDevice;
-        **/
+
+        //Handler bei Überschreitung des Schwellenwerts
+        public delegate void ThresholdExceedHandler(object sender, float fSample);
+        public event ThresholdExceedHandler ThresholdExceeded;
+        protected void OnThresholdExceed(object sender, float fSample)
+        {
+            if (ThresholdExceeded != null)
+            {
+                ThresholdExceeded(this, fSample);
+            }
+        }
     }
 }

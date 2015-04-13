@@ -192,12 +192,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ProgressBars.Basic\ProgressBars.Basic\ProgressBars.Basic.csproj">
-      <Project>{ff455dc4-70f8-4158-a9b3-b5f406091e5b}</Project>
-      <Name>ProgressBars.Basic</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Graphics\ArduinoCommunityLogo_SVG.png" />
     <None Include="Resources\ArduinoCommunityLogo.bmp" />
   </ItemGroup>

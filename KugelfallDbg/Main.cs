@@ -47,53 +47,7 @@ namespace KugelfallDbg
                                             
         private void MainVideoSourcePlayer_NewFrame(object sender, ref Bitmap image)
         {
-            if (Arduino.DataAvailable == true)
-            {
-                m_bStopBuffering = false;
-                //(Nach wie vielen gemachten Bildern soll eines davon im Buffer abgelegt werden)?
-                /*  Version 1
-                if (m_sPassedFrames == 1)
-                {
-                    m_bImageBuffer[m_sIndex] = (Bitmap)image.Clone();   //Aktuelles Bild wird im Buffer abgelegt
-                    m_sIndex++;
-                    if (m_sIndex == m_iBufferSize) 
-                    { 
-                        m_sIndex = 0;
-                        m_bTestAvailable = true; 
-                        Arduino.DataAvailable = false;
-                    }
 
-                    m_sPassedFrames = 0;                                //zurücksetzen
-                }
-                else
-                {
-                    m_sPassedFrames++;
-                }*/
-
-                //Version 2:
-                if (m_sPassedFrames == 0)
-                {
-                    m_bImageBuffer[m_sIndex] = (Bitmap)image.Clone();   //Aktuelles Bild wird im Buffer abgelegt
-                    m_sIndex++;
-                    if (m_sIndex == m_iBufferSize)
-                    {
-                        m_sIndex = 0;
-                    }
-
-                    if(m_bStopBuffering == true)
-                    {
-                        m_bTestAvailable = true;
-                        Arduino.DataAvailable = false;
-                    }
-
-                    m_sPassedFrames = 0;                                //zurücksetzen
-                }
-                else
-                {
-                    m_sPassedFrames++;
-                }
-                
-            }
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -162,6 +116,9 @@ namespace KugelfallDbg
                     m_Audio = new Audio(Properties.Settings.Default.AudioDevice);
                     TSLblAudioActive.Text = m_sAudioChosen;
                 }
+
+                m_Audio.NewMaxSample += m_Audio_NewMaxSample;
+                m_Audio.ThresholdExceeded += m_Audio_ThresholdExceeded;
             }
 
             //Arduino abfragen
@@ -177,6 +134,16 @@ namespace KugelfallDbg
                     TSLblArduino.Text = m_sArduinoChosen;
                 }
             }
+        }
+
+        void m_Audio_ThresholdExceeded(object sender, float fSample)
+        {
+          //  throw new NotImplementedException();
+        }
+
+        void m_Audio_NewMaxSample(object sender, float MaxSample)
+        {
+            PBVolumeMeter.Value = (int)(MaxSample);
         }
 
         //Dient zum Öffnen der Videoquelle
@@ -226,18 +193,12 @@ namespace KugelfallDbg
             {
                 if (_bActivate == true)
                 {
-                    TimerAudio.Enabled = true;
-                    TimerAudio.Start();
                     m_Audio.StartRecording();
-                    //TSLblVolume.Visible = true;
                     TSLblAudioActive.Text = m_sAudioOn;
                 }
                 else
                 {
-                    TimerAudio.Enabled = false;
-                    TimerAudio.Stop();
                     m_Audio.StopRecording();
-                    //TSLblVolume.Visible = false;
                 }
             }
         }
@@ -464,49 +425,6 @@ namespace KugelfallDbg
         }
 
         /**
-         * void TimerAudio_Tick(object sender, EventArgs e)
-         * Der AudioTimer fragt in regelmäßigen Abständen den Lautstärkepegel ab
-         * und aktualisiert das Label (mit dem Pegel), sowie das VolumeMeter
-         */
-        private void TimerAudio_Tick(object sender, EventArgs e)
-        {
-            if (m_Audio.Volume > m_Audio.Threshold)
-            {
-                PBVolumeMeter.Value = m_Audio.Volume;
-            }
-            else if(iRefresh == 5)
-            {
-                PBVolumeMeter.Value = m_Audio.Volume;
-                iRefresh = 0;
-            }
-            else { iRefresh++; }
-
-
-            //Prüfen, ob eine bestimmte Schwelle überschritten wurde (regelbar)
-            if (m_Audio.MaxVolume > m_Audio.Threshold)
-            {
-                PBVolumeMeter.Value = m_Audio.MaxVolume;  //Der User soll noch sehen können, wo der Pegel als letztes war
-
-                if (m_bIsCapturing == false)
-                {
-                    m_bIsCapturing = true;
-                    m_Audio.MaxVolume = 0;
-                    if(m_Camera.GetCamera.IsRunning)
-                        CaptureImage();
-                    m_bIsCapturing = false;
-                }
-            }
-            else if(m_Audio.MaxVolume <= VolumeMeter.Threshold)    /* Stellt sicher, dass nicht endlos viele Bilder gemacht 
-                                                 * werden können, sobald die Schwelle einmal überschritten wurde 
-                                                 * (bspw. zu lauter Pegel) */
-            {
-                m_bIsCapturing = false;
-            }            
-        }
-
-        int iRefresh = 0;
-
-        /**
          * void CaptureImage():
          * CaptureImage deaktiviert kurzzeitig das Audiosignal, um nicht während
          * des Bildaufnahmeprozesses auf weitere Schwellüberschreitungen zu reagieren.
@@ -522,7 +440,7 @@ namespace KugelfallDbg
             {
                 //Audioaufnahme temporär stoppen um keine weiteren Aufnahmen zu erzeugen
                 ActivateAudio(false);
-                //ActivateCamera(false);
+                //ActivateCamera(f alse);
 
                 //Für den Fall, dass die Kamera aktiviert wurde und gleich auslösen sollte. Verhindert, dass null-Referenzen (dadurch
                 //dass der ImageBuffer noch nicht gefüllt ist) in den Versuch kopiert werden.
@@ -714,6 +632,8 @@ namespace KugelfallDbg
                 }
 
                 m_Audio = new Audio(fad.SelectedDevice);
+                m_Audio.NewMaxSample += m_Audio_NewMaxSample;
+                m_Audio.ThresholdExceeded += m_Audio_ThresholdExceeded;
                 TSLblAudioActive.Text = m_sAudioChosen;
             }
         }
@@ -751,7 +671,6 @@ namespace KugelfallDbg
          */
         private void Shutdown()
         {
-            if (TimerAudio.Enabled) { TimerAudio.Stop(); }
             if (m_Camera.GetCamera.IsRunning) { m_Camera.Stop(); }
             m_Audio.StopRecording();
         }
