@@ -37,7 +37,7 @@ namespace KugelfallDbg
                 _maxsample = Math.Max(sample32, _maxsample);
             }
 
-            OnNewMaxSample(this, _maxsample* 100);
+            OnNewMaxSample(this, _maxsample * 100);
 
             //Schwelle überschritten, Event herausgeben
             if(_maxsample >= m_fThreshold)
@@ -102,7 +102,7 @@ namespace KugelfallDbg
         public float Threshold
         {
             get { return m_fThreshold;  }
-            set { m_fThreshold = value; }
+            set { m_fThreshold = value/100; }
         }
 
         private volatile float m_fThreshold = 1;  ///Schwellenwert

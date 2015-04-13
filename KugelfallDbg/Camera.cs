@@ -11,36 +11,18 @@ namespace KugelfallDbg
         public Camera(AForge.Video.IVideoSource _VideoSource)
         {
             m_Camera = _VideoSource;
-            m_StopWatch = new System.Diagnostics.Stopwatch();
         }
 
         ~Camera()
         {
-            CloseVideoSource();
-        }
-
-        public void Stop() { m_Camera.Stop(); } ///Aufnahme stoppen
-        public void Start() { m_Camera.Start(); }   ///Aufnahme starten
-
-        //Sämtliche Aktivitäten beenden
-        public void Exit()
-        {
-            CloseVideoSource();
-        }
-
-        private void CloseVideoSource()
-        {
-            if (m_Camera.IsRunning) //Nur falls Kamera noch aktiv
+            if(m_Camera != null)
             {
-                //Kamera und Stoppuhr anhalten
-                m_Camera.Stop();
-                m_StopWatch.Stop();
+                if (m_Camera.IsRunning)
+                {
+                    m_Camera.SignalToStop();
+                    m_Camera.WaitForStop();
+                }
             }
-        }        
-
-        public System.Diagnostics.Stopwatch Stopwatch
-        {
-            get { return m_StopWatch; }
         }
 
         public AForge.Video.IVideoSource GetCamera
@@ -49,8 +31,5 @@ namespace KugelfallDbg
         }
 
         private AForge.Video.IVideoSource m_Camera; //Gewählte Kamera
-        
-        //Stoppuhr für FPS-Berechnung erstellen
-        private System.Diagnostics.Stopwatch m_StopWatch;
     }
 }

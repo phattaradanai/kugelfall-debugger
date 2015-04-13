@@ -11,8 +11,6 @@ namespace KugelfallDbg
 {
     public partial class Main : Form
     {
-        
-
         public Main()
         {
             InitializeComponent();
@@ -42,12 +40,14 @@ namespace KugelfallDbg
         /**
          * NewFrame-Event: Schreibt in den Imagebuffer um Bilder (im Falle einer Schwellenüberschreitung der Lautstärke) zur Besichtigung parat zu haben
          */
-        private short m_sPassedFrames = 0;  ///Beinhaltet die Anzahl der bereits gemachten Bilder 
         private short m_sIndex = 0;         ///Dient also "Zeiger" in der Buffervariable (maximal m_iBufferSize Bilder)
                                             
         private void MainVideoSourcePlayer_NewFrame(object sender, ref Bitmap image)
         {
-
+            if (m_bImageBuffer[m_sIndex] != null) { m_bImageBuffer[m_sIndex].Dispose(); }
+            m_bImageBuffer[m_sIndex] = (Bitmap)image.Clone();
+            if (m_sIndex == m_iBufferSize - 1) { m_sIndex = 0; }
+            m_sIndex++;
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -63,7 +63,8 @@ namespace KugelfallDbg
         {
             if (m_Camera.GetCamera.IsRunning == true)
             {
-                MainVideoSourcePlayer.VideoSource.Stop();
+                MainVideoSourcePlayer.SignalToStop();
+                MainVideoSourcePlayer.WaitForStop();
             }
         }
 
@@ -136,9 +137,24 @@ namespace KugelfallDbg
             }
         }
 
+        private bool m_bInProgress = false;
+
         void m_Audio_ThresholdExceeded(object sender, float fSample)
         {
-          //  throw new NotImplementedException();
+            if (m_bInProgress == false)
+            {
+                m_bInProgress = true;
+                ActivateCamera(false);
+                ActivateAudio(false);
+                MessageBox.Show("ejasldkjaoekg");
+
+                CaptureImage();
+
+                //Aufnahme wieder erlauben
+                ActivateAudio(true);
+                ActivateCamera(true);
+                m_bInProgress = false;
+            }
         }
 
         void m_Audio_NewMaxSample(object sender, float MaxSample)
@@ -191,15 +207,19 @@ namespace KugelfallDbg
         {
             if (m_Camera != null && m_Audio != null)   //Eine Kamera sowie ein Audiogerät muss unbedingt vorhanden sein
             {
-                if (_bActivate == true)
+                try
                 {
-                    m_Audio.StartRecording();
-                    TSLblAudioActive.Text = m_sAudioOn;
+                    if (_bActivate == true)
+                    {
+                        m_Audio.StartRecording();
+                        TSLblAudioActive.Text = m_sAudioOn;
+                    }
+                    else
+                    {
+                        m_Audio.StopRecording();
+                    }
                 }
-                else
-                {
-                    m_Audio.StopRecording();
-                }
+                finally { }
             }
         }
 
@@ -282,6 +302,8 @@ namespace KugelfallDbg
                 {
                     //Videoquelle öffnen
                     OpenVideoSource();
+
+                    timer1.Start();
 
                     //GUI entsprechend anpassen
 
@@ -434,101 +456,40 @@ namespace KugelfallDbg
         */
         private void CaptureImage()
         {
-            m_bStopBuffering = true;
-            /* Version 1
-            if (m_bTestAvailable == true)
+            int _iBilder = 6;
+            Bitmap[] _Frames = new Bitmap[_iBilder];
+
+            for (int index = m_iBufferSize - _iBilder, i = 0; index < m_iBufferSize; i++, index++ )
             {
-                //Audioaufnahme temporär stoppen um keine weiteren Aufnahmen zu erzeugen
-                ActivateAudio(false);
-                //ActivateCamera(f alse);
-
-                //Für den Fall, dass die Kamera aktiviert wurde und gleich auslösen sollte. Verhindert, dass null-Referenzen (dadurch
-                //dass der ImageBuffer noch nicht gefüllt ist) in den Versuch kopiert werden.
-
-                foreach (Bitmap b in m_bImageBuffer)
-                {
-                    if (b == null)
-                    {
-                        MessageBox.Show("ImageBuffer noch nicht bereit!");
-                        ActivateAudio(true);
-                        return;
-                    }
-                }
-
-                Versuchsbild v = new Versuchsbild(m_iBufferSize);
-
-                v.Test = "Versuch " + m_iAnzVersuche;   //(m_Versuche.Count + 1);  //Versuchsbeschreibung dient zur Identifizierung im Dictionary (m_Versuche)
-                v.Pictures = (Bitmap[])m_bImageBuffer.Clone();
-                if (Arduino.IsOpen() == true)
-                {
-                    v.Debugtext = Arduino.DebugText;
-                }
-
-                m_Versuche.Add(v.Test, v);
-
-                //OK,Versuch,Versatz,Geschwindigkeit,Kommentar
-                ListViewItem lvi = new ListViewItem();
-                lvi.SubItems.Add(v.Test.Remove(0, 8));
-                lvi.SubItems.Add(v.Deviation.ToString());
-                lvi.SubItems.Add(v.Debugtext);
-                lvi.SubItems.Add(v.Comment);
-
-                LVTestEvaluation.Items.Add(lvi);
-
-                m_iAnzVersuche++;
-
-                //System.Threading.Thread.Sleep(50);
-
-                //Aufnahme wieder erlauben
-                ActivateAudio(true);
-                ActivateCamera(true);
+                _Frames[i] = (Bitmap)m_bImageBuffer[i].Clone();
             }
-            */
-            //Version 2
-                //Audioaufnahme temporär stoppen um keine weiteren Aufnahmen zu erzeugen
-                ActivateAudio(false);
-                //ActivateCamera(false);
 
-                //Für den Fall, dass die Kamera aktiviert wurde und gleich auslösen sollte. Verhindert, dass null-Referenzen (dadurch
-                //dass der ImageBuffer noch nicht gefüllt ist) in den Versuch kopiert werden.
+            Versuchsbild v = new Versuchsbild(_iBilder);
 
-                foreach (Bitmap b in m_bImageBuffer)
-                {
-                    if (b == null)
-                    {
-                        MessageBox.Show("ImageBuffer noch nicht bereit!");
-                        ActivateAudio(true);
-                        return;
-                    }
-                }
+            v.Test = "Versuch " + m_iAnzVersuche;   //Versuchsbeschreibung dient zur Identifizierung im Dictionary (m_Versuche)
+            v.Pictures = (Bitmap[])_Frames.Clone();
 
-                Versuchsbild v = new Versuchsbild(m_iBufferSize);
+            if (Arduino.IsOpen() == true)
+            {
+                v.Debugtext = Arduino.DebugText;
+            }
 
-                v.Test = "Versuch " + m_iAnzVersuche;   //(m_Versuche.Count + 1);  //Versuchsbeschreibung dient zur Identifizierung im Dictionary (m_Versuche)
-                v.Pictures = (Bitmap[])m_bImageBuffer.Clone();
-                if (Arduino.IsOpen() == true)
-                {
-                    v.Debugtext = Arduino.DebugText;
-                }
+            m_Versuche.Add(v.Test, v);
 
-                m_Versuche.Add(v.Test, v);
+            //OK,Versuch,Versatz,Geschwindigkeit,Kommentar
+            ListViewItem lvi = new ListViewItem();
+            lvi.SubItems.Add(v.Test.Remove(0, 8));
+            lvi.SubItems.Add(v.Deviation.ToString());
+            lvi.SubItems.Add(v.Debugtext);
+            lvi.SubItems.Add(v.Comment);
 
-                //OK,Versuch,Versatz,Geschwindigkeit,Kommentar
-                ListViewItem lvi = new ListViewItem();
-                lvi.SubItems.Add(v.Test.Remove(0, 8));
-                lvi.SubItems.Add(v.Deviation.ToString());
-                lvi.SubItems.Add(v.Debugtext);
-                lvi.SubItems.Add(v.Comment);
+            LVTestEvaluation.Items.Add(lvi);
 
-                LVTestEvaluation.Items.Add(lvi);
+            m_iAnzVersuche++;
 
-                m_iAnzVersuche++;
-
-                //System.Threading.Thread.Sleep(50);
-
-                //Aufnahme wieder erlauben
-                ActivateAudio(true);
-                ActivateCamera(true);
+            //Ressourcen freigeben
+            //foreach (Bitmap b in _Frames) { b.Dispose(); }
+                
         }
 
         //Jeder Versuch wird in einer Map abgespeichert und ist eindeutig identifizierbar über einen String und einer Versuchsklasse
@@ -671,8 +632,16 @@ namespace KugelfallDbg
          */
         private void Shutdown()
         {
-            if (m_Camera.GetCamera.IsRunning) { m_Camera.Stop(); }
-            m_Audio.StopRecording();
+            if (MainVideoSourcePlayer.IsRunning)
+            {
+                MainVideoSourcePlayer.SignalToStop();
+                MainVideoSourcePlayer.WaitForStop();
+            }
+            if (m_Audio != null)
+            {
+                try { m_Audio.StopRecording(); }
+                finally { m_Audio = null; }
+            }
         }
 
 
@@ -736,11 +705,8 @@ namespace KugelfallDbg
 
         private Audio m_Audio;  //Audioaufnahmegerät
 
-        private int m_iBufferSize = 6;
+        private int m_iBufferSize = 30; //30 Bilder im Buffer halten
         private Bitmap[] m_bImageBuffer;
-        private bool m_bIsCapturing = false;    //Flag: Signalisiert, ob gerade ein Bild aufgenommen wurde
-        private bool m_bTestAvailable = false;   //Versuch ist verfügbar
-        private bool m_bStopBuffering = true;
 
         //Textvariablen zur einheitlichen Beschriftung
         private string m_sArduinoChosen = "Arduino wurde ausgewählt";
@@ -752,8 +718,13 @@ namespace KugelfallDbg
 
         private void TBTresholdControl_ValueChanged(object sender, EventArgs e)
         {
-            m_Audio.Threshold = TBTresholdControl.Value;
-            m_Audio.MaxVolume = 0;
+            if (TBTresholdControl.Value <= 5) { MessageBox.Show("Wert zu niedrig"); }
+            else { m_Audio.Threshold = TBTresholdControl.Value; }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            label3.Text = MainVideoSourcePlayer.VideoSource.FramesReceived.ToString();
         }
     }
 }
