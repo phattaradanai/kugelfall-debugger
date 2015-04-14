@@ -123,7 +123,6 @@ namespace KugelfallDbg
 
         private static SerialPort m_RS232Port = new SerialPort();   ///Der RS232-Port des Arduino
         private static string m_sDebugText;         ///Hier werden Ausgaben gespeichert, die vom Arduino kommen
-        private static bool m_bWatch;               ///Ausgaben des Arduino aufzeichnen?
         private static bool m_bArduinoSet = false;  ///Wurde der Arduino bereits eingerichtet? (Port)
         private static bool m_bDataAvailable = false;
     }

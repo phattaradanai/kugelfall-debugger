@@ -122,6 +122,12 @@
     <Compile Include="ArduinoConfig.Designer.cs">
       <DependentUpon>ArduinoConfig.cs</DependentUpon>
     </Compile>
+    <Compile Include="ShowPicturesDebug.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ShowPicturesDebug.Designer.cs">
+      <DependentUpon>ShowPicturesDebug.cs</DependentUpon>
+    </Compile>
     <Compile Include="Versuch.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -147,6 +153,9 @@
     </Compile>
     <EmbeddedResource Include="ArduinoConfig.resx">
       <DependentUpon>ArduinoConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ShowPicturesDebug.resx">
+      <DependentUpon>ShowPicturesDebug.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Versuch.resx">
       <DependentUpon>Versuch.cs</DependentUpon>

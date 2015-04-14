@@ -134,6 +134,12 @@ namespace KugelfallDbg
                     Arduino.IsSet = true;
                     TSLblArduino.Text = m_sArduinoChosen;
                 }
+                else
+                {
+                    Properties.Settings.Default.ArduinoBaudRate = 0;
+                    Properties.Settings.Default.ArduinoPort = string.Empty;
+                    Properties.Settings.Default.Save();
+                }
             }
         }
 
@@ -141,12 +147,12 @@ namespace KugelfallDbg
 
         void m_Audio_ThresholdExceeded(object sender, float fSample)
         {
+            FPSTimer.Stop();
             if (m_bInProgress == false)
             {
                 m_bInProgress = true;
                 ActivateCamera(false);
                 ActivateAudio(false);
-                MessageBox.Show("ejasldkjaoekg");
 
                 CaptureImage();
 
@@ -155,6 +161,7 @@ namespace KugelfallDbg
                 ActivateCamera(true);
                 m_bInProgress = false;
             }
+            FPSTimer.Start();
         }
 
         void m_Audio_NewMaxSample(object sender, float MaxSample)
@@ -173,7 +180,7 @@ namespace KugelfallDbg
 
         private void TSBtnActivateCam_Click(object sender, EventArgs e)
         {
-            if (m_Camera != null && m_Audio != null && Arduino.IsSet == true)
+            if (m_Camera != null && m_Audio != null)// && Arduino.IsSet == true)
             {
                 if (m_Camera.GetCamera.IsRunning == false)
                 {
@@ -193,15 +200,13 @@ namespace KugelfallDbg
             }
             else
             {
-                MessageBox.Show("Bitte stellen Sie sicher, dass eine Kamera, ein Audiogerät und ein Arduino ausgewählt wurden", "Nicht alle Geräte festgelegt", MessageBoxButtons.OK,MessageBoxIcon.Asterisk);
+                MessageBox.Show("Bitte stellen Sie sicher, dass eine Kamera und ein Audiogerät ausgewählt wurden", "Nicht alle Geräte festgelegt", MessageBoxButtons.OK,MessageBoxIcon.Asterisk);
             }
         }
 
         /**
          * void ActivateAudio(bool _bActivate):
-         * Aktiviert den AudioTimer, der regelmäßig den Lautstärkepegel
-         * aktualisiert und prüft, ob die gerade eingetroffenen Samples
-         * den Schwellwert überschreiten.
+         * 
          */
         private void ActivateAudio(bool _bActivate)
         {
@@ -303,7 +308,7 @@ namespace KugelfallDbg
                     //Videoquelle öffnen
                     OpenVideoSource();
 
-                    timer1.Start();
+                    FPSTimer.Start();
 
                     //GUI entsprechend anpassen
 
@@ -457,11 +462,30 @@ namespace KugelfallDbg
         private void CaptureImage()
         {
             int _iBilder = 6;
+            //int _iFramesBack = CalculateOptimalPicture();
+
             Bitmap[] _Frames = new Bitmap[_iBilder];
 
-            for (int index = m_iBufferSize - _iBilder, i = 0; index < m_iBufferSize; i++, index++ )
+            int _PictureStart = m_sIndex;// - _iBilder;// -_iFramesBack;
+            
+
+            /*DIENT ZU DEBUGGING ZWECKEN
+            ShowPicturesDebug s = new ShowPicturesDebug(ref m_bImageBuffer, _PictureStart);
+            if (s.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            { }
+            */
+
+            _PictureStart -= _iBilder;
+            if (_PictureStart < 0)
             {
-                _Frames[i] = (Bitmap)m_bImageBuffer[i].Clone();
+                _PictureStart = m_iBufferSize - Math.Abs(_PictureStart);
+            }
+
+            //Noch auf null prüfen
+            for (/*int index = m_iBufferSize - _iBilder - _iFramesBack, */int i = 0; i < _iBilder; i++, _PictureStart++)
+            {
+                if (_PictureStart == m_iBufferSize) { _PictureStart = 0; }
+                _Frames[i] = (Bitmap)m_bImageBuffer[_PictureStart].Clone();
             }
 
             Versuchsbild v = new Versuchsbild(_iBilder);
@@ -688,7 +712,7 @@ namespace KugelfallDbg
 
         private void TSBtnDeactivateCam_Click(object sender, EventArgs e)
         {
-            if (m_Camera != null && m_Audio != null && Arduino.IsSet == true && m_Camera.GetCamera.IsRunning)
+            if (m_Camera != null && m_Audio != null && m_Camera.GetCamera.IsRunning)
             {
                 ActivateCamera(false);
                 ActivateAudio(false);
@@ -716,15 +740,35 @@ namespace KugelfallDbg
         private string m_sCameraOn = "Kamera eingeschaltet";
         private string m_sCameraOff = "Kamera ausgeschaltet";
 
+        private int m_iCurrentFPS = 0;
+        private float m_fMaxSampleDelay = 0.0f;
+
         private void TBTresholdControl_ValueChanged(object sender, EventArgs e)
         {
             if (TBTresholdControl.Value <= 5) { MessageBox.Show("Wert zu niedrig"); }
             else { m_Audio.Threshold = TBTresholdControl.Value; }
         }
 
+        private int CalculateOptimalPicture()
+        {
+            //Frames: (Bufferdelay + maxsample_delay)/fpsdelay [aufgerundet]
+            //(Der Aufnahmebuffer + Die Zeit bis zum Auslösesample)/Delay zwischen den einzelnen Frames
+            if (m_iCurrentFPS == 0) { return 0; }
+            float fpsdelay = (float)(1000 / m_iCurrentFPS);    //Bspw. 10 FPS == 1000ms (1s) / 10 = 100ms pro Frame
+            float Bufferdelay = (float)(m_Audio.BufferMilliseconds);
+
+            double Frames = (Bufferdelay + m_fMaxSampleDelay) / fpsdelay;
+            Frames = Math.Round(Frames, MidpointRounding.AwayFromZero);
+
+            return (int)Frames;
+        }
+
         private void timer1_Tick(object sender, EventArgs e)
         {
-            label3.Text = MainVideoSourcePlayer.VideoSource.FramesReceived.ToString();
+            int _fr = 0;
+            _fr = MainVideoSourcePlayer.VideoSource.FramesReceived;
+            label3.Text = _fr.ToString();
+            m_iCurrentFPS = _fr;
         }
     }
 }

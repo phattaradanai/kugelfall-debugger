@@ -16,6 +16,7 @@ namespace KugelfallDbg
             m_iWaveInDevice.WaveFormat = new NAudio.Wave.WaveFormat(m_iSampleRate, m_iChannels);
             m_iWaveInDevice.DataAvailable += waveIn_DataAvailable;
             m_iWaveInDevice.DeviceNumber = m_iDeviceNumber;
+            BufferMilliseconds = m_iWaveInDevice.BufferMilliseconds;
         }
 
         /**
@@ -26,7 +27,7 @@ namespace KugelfallDbg
         void waveIn_DataAvailable(object sender, NAudio.Wave.WaveInEventArgs e)
         {
             float _maxsample = 0.0f;
-
+            
             for (int index = 0; index < e.BytesRecorded; index += 2)
             {
                 short sample = (short)((e.Buffer[index + 1] << 8) | e.Buffer[index + 0]);
@@ -35,16 +36,24 @@ namespace KugelfallDbg
                 float sample32 = sample / 32768f;
 
                 _maxsample = Math.Max(sample32, _maxsample);
+                
+                if (_maxsample >= m_fThreshold)
+                {
+                    m_BufferTimer.Stop();
+                    OnThresholdExceed(this, (float)m_BufferTimer.ElapsedMilliseconds);
+                    break;
+                    m_BufferTimer.Reset();
+                    m_BufferTimer.Start();
+                }
             }
 
             OnNewMaxSample(this, _maxsample * 100);
 
             //Schwelle überschritten, Event herausgeben
-            if(_maxsample >= m_fThreshold)
-            {
-                OnThresholdExceed(this, _maxsample);
-            }
+            
         }
+
+        private System.Diagnostics.Stopwatch m_BufferTimer = new System.Diagnostics.Stopwatch();
 
         public void StartRecording()
         {
@@ -58,6 +67,7 @@ namespace KugelfallDbg
             }
             
             m_iWaveInDevice.StartRecording();
+            if (m_BufferTimer.IsRunning == false) { m_BufferTimer.Start(); }
         }
 
         /**
@@ -127,6 +137,7 @@ namespace KugelfallDbg
             }
         }
 
+        public int BufferMilliseconds { get; private set; }
 
         //Handler bei Überschreitung des Schwellenwerts
         public delegate void ThresholdExceedHandler(object sender, float fSample);
