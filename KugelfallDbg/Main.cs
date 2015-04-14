@@ -44,11 +44,23 @@ namespace KugelfallDbg
                                             
         private void MainVideoSourcePlayer_NewFrame(object sender, ref Bitmap image)
         {
-            if (m_bImageBuffer[m_sIndex] != null) { m_bImageBuffer[m_sIndex].Dispose(); }
-            m_bImageBuffer[m_sIndex] = (Bitmap)image.Clone();
-            if (m_sIndex == m_iBufferSize - 1) { m_sIndex = 0; }
-            m_sIndex++;
+            if (m_bBuffer)
+            {
+                if (m_bImageBuffer[m_sIndex] != null) { m_bImageBuffer[m_sIndex].Dispose(); }
+
+                m_bImageBuffer[m_sIndex] = (Bitmap)image.Clone();
+
+                if (m_sIndex == m_iBufferSize - 1) { m_sIndex = 0; }
+                m_sIndex++;
+            }
         }
+
+        private void SetBuffering(bool _bBuffer)
+        {
+            m_bBuffer = _bBuffer;    
+        }
+
+        private bool m_bBuffer = true;
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -151,6 +163,7 @@ namespace KugelfallDbg
             if (m_bInProgress == false)
             {
                 m_bInProgress = true;
+                SetBuffering(false);
                 ActivateCamera(false);
                 ActivateAudio(false);
 
@@ -158,6 +171,7 @@ namespace KugelfallDbg
 
                 //Aufnahme wieder erlauben
                 ActivateAudio(true);
+                SetBuffering(true);
                 ActivateCamera(true);
                 m_bInProgress = false;
             }
@@ -186,6 +200,7 @@ namespace KugelfallDbg
                 {
                     ActivateCamera(true);
                     ActivateAudio(true);
+                    TBTresholdControl.Value = (int)Math.Round((float)(PBVolumeMeter.Maximum * 3f / 4f), MidpointRounding.ToEven);
 
                     TSBtnCamSettings.Enabled = false;
                     TSBtnArduinoSettings.Enabled = false;
@@ -695,19 +710,6 @@ namespace KugelfallDbg
         private void Main_Click(object sender, EventArgs e)
         {
             LVTestEvaluation.SelectedItems.Clear();
-        }
-
-        private void VolumeMeter_Click(object sender, EventArgs e)
-        {
-            //Sollte der Schwellenwert geändert worden sein, muss auch die letzte maximale
-            try
-            {
-                m_Audio.MaxVolume = 0;
-            }
-            catch (NullReferenceException nre)
-            {
-                MessageBox.Show("Bitte Audiogerät auswählen");
-            }
         }
 
         private void TSBtnDeactivateCam_Click(object sender, EventArgs e)

@@ -87,7 +87,6 @@ namespace KugelfallDbg
         {
             get { return m_iWaveInDevice; }
         }
-
         
 
         public int Volume
@@ -96,31 +95,17 @@ namespace KugelfallDbg
             set { m_iVolume = value; }
         }
 
-        /**
-         * int MaxVolume:
-         * Gibt die aktuelle Lautstärke zurück
-         */
-        public int MaxVolume
-        {
-            get
-            {
-                    return m_iMaxVolume;
-            }
-            set { m_iMaxVolume = value; }
-        }
-
         public float Threshold
         {
             get { return m_fThreshold;  }
             set { m_fThreshold = value/100; }
         }
 
-        private volatile float m_fThreshold = 1;  ///Schwellenwert
+        private volatile float m_fThreshold = 0.75f;  ///Schwellenwert
         private int m_iSampleRate = 8000;   //Wieviele Samples pro Sekunde
         private int m_iChannels = 1;        ///Wieviele Kanäle sollen zur Aufnahme benutzt werden (Default: 1 -> Mono)
         private int m_iDeviceNumber;        ///Nummer des Soundaufnahmegerätes (Dient zur Identifikation)
         private volatile int m_iVolume;     ///Die aktuelle Lautstärke
-        private int m_iMaxVolume = 0;           ///Die aktuelle maximale Lautstärke
         private NAudio.Wave.WaveIn m_iWaveInDevice;
         
         
