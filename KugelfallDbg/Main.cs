@@ -51,7 +51,7 @@ namespace KugelfallDbg
                 m_bImageBuffer[m_sIndex] = (Bitmap)image.Clone();
 
                 if (m_sIndex == m_iBufferSize - 1) { m_sIndex = 0; }
-                m_sIndex++;
+                else { m_sIndex++; }
             }
         }
 
@@ -159,15 +159,30 @@ namespace KugelfallDbg
 
         void m_Audio_ThresholdExceeded(object sender, float fSample)
         {
-            FPSTimer.Stop();
             if (m_bInProgress == false)
             {
                 m_bInProgress = true;
                 SetBuffering(false);
+
                 //ActivateCamera(false);
                 ActivateAudio(false);
 
-                CaptureImage();
+                bool bBufferReady = true;
+
+                //Prüfung, ob der Buffer bereits gefüllt ist
+                foreach (Bitmap b in m_bImageBuffer)
+                {
+                    if (b == null)
+                    {
+                        bBufferReady = false;
+                    }
+                }
+
+                if (bBufferReady)
+                {
+                    CaptureImage();
+                }
+                else { MessageBox.Show("Der Buffer ist noch nicht bereit"); }
 
                 //Aufnahme wieder erlauben
                 ActivateAudio(true);
@@ -175,7 +190,6 @@ namespace KugelfallDbg
                 ActivateCamera(true);
                 m_bInProgress = false;
             }
-            FPSTimer.Start();
         }
 
         void m_Audio_NewMaxSample(object sender, float MaxSample)
@@ -200,6 +214,7 @@ namespace KugelfallDbg
                 {
                     ActivateCamera(true);
                     ActivateAudio(true);
+
                     TBTresholdControl.Value = (int)Math.Round((float)(PBVolumeMeter.Maximum * 3f / 4f), MidpointRounding.ToEven);
 
                     TSBtnCamSettings.Enabled = false;
@@ -322,10 +337,6 @@ namespace KugelfallDbg
                 {
                     //Videoquelle öffnen
                     OpenVideoSource();
-
-                    FPSTimer.Start();
-
-                    //GUI entsprechend anpassen
 
                     //Buttontoolstrip
                     TSBtnActivateCam.Image = KugelfallDbg.Properties.Resources.Video;
@@ -477,15 +488,15 @@ namespace KugelfallDbg
         private void CaptureImage()
         {
             int _iBilder = 6;
-            //int _iFramesBack = CalculateOptimalPicture();
+            int _iFramesBack = CalculateOptimalPicture();
 
             Bitmap[] _Frames = new Bitmap[_iBilder];
 
-            int _PictureStart = m_sIndex;// - _iBilder;// -_iFramesBack;
+            int _PictureStart = m_sIndex;
 
             
-            //ShowPicturesDebug s = new ShowPicturesDebug(ref m_bImageBuffer, _PictureStart);
-            /*if (s.ShowDialog() == System.Windows.Forms.DialogResult.OK) { }*/
+            ShowPicturesDebug s = new ShowPicturesDebug(ref m_bImageBuffer, _PictureStart);
+            if (s.ShowDialog() == System.Windows.Forms.DialogResult.OK) { }
 
             _PictureStart -= _iBilder;
             if (_PictureStart < 0)
@@ -493,9 +504,9 @@ namespace KugelfallDbg
                 _PictureStart = m_iBufferSize - Math.Abs(_PictureStart);
             }
 
-            for (/*int index = m_iBufferSize - _iBilder - _iFramesBack, */int i = 0; i < _iBilder; i++, _PictureStart++)
+            for (int i = 0; i < _iBilder; i++, _PictureStart++)
             {
-                if (_PictureStart == m_iBufferSize) { _PictureStart = 1; }
+                if (_PictureStart == m_iBufferSize) { _PictureStart = 0; }
                 _Frames[i] = (Bitmap)m_bImageBuffer[_PictureStart].Clone();
             }
 
@@ -758,6 +769,7 @@ namespace KugelfallDbg
         {
             //Frames: (Bufferdelay + maxsample_delay)/fpsdelay [aufgerundet]
             //(Der Aufnahmebuffer + Die Zeit bis zum Auslösesample)/Delay zwischen den einzelnen Frames
+
             if (m_iCurrentFPS == 0) { return 0; }
             float fpsdelay = (float)(1000 / m_iCurrentFPS);    //Bspw. 10 FPS == 1000ms (1s) / 10 = 100ms pro Frame
             float Bufferdelay = (float)(m_Audio.BufferMilliseconds);
@@ -766,14 +778,6 @@ namespace KugelfallDbg
             Frames = Math.Round(Frames, MidpointRounding.AwayFromZero);
 
             return (int)Frames;
-        }
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            int _fr = 0;
-            _fr = MainVideoSourcePlayer.VideoSource.FramesReceived;
-            label3.Text = _fr.ToString();
-            m_iCurrentFPS = _fr;
         }
     }
 }

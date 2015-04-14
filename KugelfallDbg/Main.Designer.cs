@@ -64,7 +64,6 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
-            this.FPSTimer = new System.Windows.Forms.Timer(this.components);
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_Images)).BeginInit();
@@ -396,11 +395,6 @@
             this.label3.Text = "label3";
             this.label3.Visible = false;
             // 
-            // FPSTimer
-            // 
-            this.FPSTimer.Interval = 1000;
-            this.FPSTimer.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -477,7 +471,6 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Timer FPSTimer;
     }
 }
 
