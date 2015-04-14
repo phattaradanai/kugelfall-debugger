@@ -506,7 +506,6 @@ namespace KugelfallDbg
 
             if (Arduino.IsOpen() == true)
             {
-                MessageBox.Show(Arduino.DebugText);
                 v.Debugtext = Arduino.DebugText;
             }
 
@@ -713,27 +712,19 @@ namespace KugelfallDbg
 
         private void TSBtnDeactivateCam_Click(object sender, EventArgs e)
         {
-            try
+            if (m_Camera != null && m_Audio != null && m_Camera.GetCamera.IsRunning)
             {
-                if (m_Camera != null && m_Audio != null && m_Camera.GetCamera.IsRunning)
-                {
-                    ActivateCamera(false);
-                    ActivateAudio(false);
+                ActivateCamera(false);
+                ActivateAudio(false);
 
-                    //if (Arduino.IsOpen() == true) { Arduino.ClosePort(); }
+                if (Arduino.IsOpen() == true) { Arduino.ClosePort(); }
 
-                    TSBtnCamSettings.Enabled = true;
-                    TSBtnArduinoSettings.Enabled = true;
-                    TSBtnAudioConfiguration.Enabled = true;
-                    TSBtnActivateCam.Enabled = true;
-                    TSBtnDeactivateCam.Enabled = false;
-                }
+                TSBtnCamSettings.Enabled = true;
+                TSBtnArduinoSettings.Enabled = true;
+                TSBtnAudioConfiguration.Enabled = true;
+                TSBtnActivateCam.Enabled = true;
+                TSBtnDeactivateCam.Enabled = false;
             }
-            catch (Exception exc)
-            {
-                System.Windows.Forms.MessageBox.Show(exc.Message);
-            }
-            finally {  }
         }
 
         private Audio m_Audio;  //Audioaufnahmegerät
