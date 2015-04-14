@@ -41,7 +41,12 @@ namespace KugelfallDbg
             string sTemp = m_RS232Port.ReadLine();  //Temporärer String
             m_bDataAvailable = true;
             sTemp = sTemp.Replace("\r", "");
-            m_sDebugText = sTemp;
+            m_sDebugText += sTemp;
+            
+            if (m_sDebugText.Length >= 100)
+            {
+                m_sDebugText.Remove(0, 50);
+            }
         }
 
         /**
@@ -50,8 +55,20 @@ namespace KugelfallDbg
          */
         public static bool ClosePort()
         {
+            bool bSuccess = true;
             //Port schließen
-            m_RS232Port.Close();
+            try
+            {
+                m_RS232Port.Close();
+            }
+            catch (Exception e)
+            {
+                System.Windows.Forms.MessageBox.Show(e.Message);
+            }
+            finally
+            {
+
+            }
 
             return true;
         }

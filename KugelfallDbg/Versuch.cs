@@ -63,19 +63,47 @@ namespace KugelfallDbg
 
         private void TBPicture_ValueChanged(object sender, EventArgs e)
         {
-            PBTest.Image = new Bitmap(m_Versuchsbild.Pictures[TBPicture.Value], new Size(PBTest.Width, PBTest.Height));
-            if (m_Versuchsbild.BestPicture == TBPicture.Value)
-            { CBChosenPicture.Checked = true; }
-            else { CBChosenPicture.Checked = false; }
+            try
+            {
+                PBTest.Image = new Bitmap(m_Versuchsbild.Pictures[TBPicture.Value], new Size(PBTest.Width, PBTest.Height));
+                if (m_Versuchsbild.BestPicture == TBPicture.Value)
+                { CBChosenPicture.Checked = true; }
+                else { CBChosenPicture.Checked = false; }
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                if (TBPicture.Value >= TBPicture.Maximum)
+                {
+                    TBPicture.Value = TBPicture.Maximum;
+                }
+                else
+                {
+                    TBPicture.Value = TBPicture.Minimum;
+                }
+            }
         }
 
         private void TBPicture_MouseDown(object sender, MouseEventArgs e)
         {
-            double dblValue = 0.0;
+            try
+            {
+                double dblValue = 0.0;
 
-            // Jump to the clicked location
-            dblValue = ((double)e.X / (double)TBPicture.Width) * (TBPicture.Maximum - TBPicture.Minimum);
-            TBPicture.Value = Convert.ToInt32(dblValue);
+                // Jump to the clicked location
+                dblValue = ((double)e.X / (double)TBPicture.Width) * (TBPicture.Maximum - TBPicture.Minimum);
+                TBPicture.Value = Convert.ToInt32(dblValue);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                if (TBPicture.Value >= TBPicture.Maximum)
+                {
+                    TBPicture.Value = TBPicture.Maximum;
+                }
+                else
+                {
+                    TBPicture.Value = TBPicture.Minimum;
+                }
+            }
         }
     }
 }

@@ -164,7 +164,7 @@ namespace KugelfallDbg
             {
                 m_bInProgress = true;
                 SetBuffering(false);
-                ActivateCamera(false);
+                //ActivateCamera(false);
                 ActivateAudio(false);
 
                 CaptureImage();
@@ -395,7 +395,7 @@ namespace KugelfallDbg
 
                         if ((i + 1) != LVTestEvaluation.Columns.Count)  //Prüfen, ob noch ein Separator gesetzt werden muss
                         {
-                            sw.Write(",");
+                            sw.Write(";");
                         }
                     }
                     sw.Write("\n");
@@ -414,7 +414,7 @@ namespace KugelfallDbg
                         //SubItems durchgehen und eintragen
                         for (int iSubItems = 1; iSubItems < lvi.SubItems.Count; iSubItems++)
                         {
-                            sw.Write(",");
+                            sw.Write(";");
 
                             sw.Write(lvi.SubItems[iSubItems].Text);
                         }
@@ -482,13 +482,10 @@ namespace KugelfallDbg
             Bitmap[] _Frames = new Bitmap[_iBilder];
 
             int _PictureStart = m_sIndex;// - _iBilder;// -_iFramesBack;
-            
 
-            /*DIENT ZU DEBUGGING ZWECKEN
-            ShowPicturesDebug s = new ShowPicturesDebug(ref m_bImageBuffer, _PictureStart);
-            if (s.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            { }
-            */
+            
+            //ShowPicturesDebug s = new ShowPicturesDebug(ref m_bImageBuffer, _PictureStart);
+            /*if (s.ShowDialog() == System.Windows.Forms.DialogResult.OK) { }*/
 
             _PictureStart -= _iBilder;
             if (_PictureStart < 0)
@@ -496,10 +493,9 @@ namespace KugelfallDbg
                 _PictureStart = m_iBufferSize - Math.Abs(_PictureStart);
             }
 
-            //Noch auf null prüfen
             for (/*int index = m_iBufferSize - _iBilder - _iFramesBack, */int i = 0; i < _iBilder; i++, _PictureStart++)
             {
-                if (_PictureStart == m_iBufferSize) { _PictureStart = 0; }
+                if (_PictureStart == m_iBufferSize) { _PictureStart = 1; }
                 _Frames[i] = (Bitmap)m_bImageBuffer[_PictureStart].Clone();
             }
 
@@ -510,6 +506,7 @@ namespace KugelfallDbg
 
             if (Arduino.IsOpen() == true)
             {
+                MessageBox.Show(Arduino.DebugText);
                 v.Debugtext = Arduino.DebugText;
             }
 
@@ -549,7 +546,9 @@ namespace KugelfallDbg
                 m_Versuche[key] = temp;
 
                 //Itemupdate
+                m_bAutoCheck = false;
                 lvi.Checked = temp.Success;
+                m_bAutoCheck = true;
                 lvi.SubItems[2].Text = temp.Deviation.ToString();
                 lvi.SubItems[3].Text = temp.Debugtext;
                 lvi.SubItems[4].Text = temp.Comment;
@@ -565,7 +564,7 @@ namespace KugelfallDbg
 
             string key = "Versuch " + lvi.SubItems[1].Text;
 
-            return m_Versuche[key]; //EVTL HIER NOCH KRITISCH!!
+            return m_Versuche[key];
         }
 
         /**
@@ -714,19 +713,27 @@ namespace KugelfallDbg
 
         private void TSBtnDeactivateCam_Click(object sender, EventArgs e)
         {
-            if (m_Camera != null && m_Audio != null && m_Camera.GetCamera.IsRunning)
+            try
             {
-                ActivateCamera(false);
-                ActivateAudio(false);
+                if (m_Camera != null && m_Audio != null && m_Camera.GetCamera.IsRunning)
+                {
+                    ActivateCamera(false);
+                    ActivateAudio(false);
 
-                if (Arduino.IsOpen() == true) { Arduino.ClosePort(); }
+                    //if (Arduino.IsOpen() == true) { Arduino.ClosePort(); }
 
-                TSBtnCamSettings.Enabled = true;
-                TSBtnArduinoSettings.Enabled = true;
-                TSBtnAudioConfiguration.Enabled = true;
-                TSBtnActivateCam.Enabled = true;
-                TSBtnDeactivateCam.Enabled = false;
+                    TSBtnCamSettings.Enabled = true;
+                    TSBtnArduinoSettings.Enabled = true;
+                    TSBtnAudioConfiguration.Enabled = true;
+                    TSBtnActivateCam.Enabled = true;
+                    TSBtnDeactivateCam.Enabled = false;
+                }
             }
+            catch (Exception exc)
+            {
+                System.Windows.Forms.MessageBox.Show(exc.Message);
+            }
+            finally {  }
         }
 
         private Audio m_Audio;  //Audioaufnahmegerät
@@ -747,7 +754,12 @@ namespace KugelfallDbg
 
         private void TBTresholdControl_ValueChanged(object sender, EventArgs e)
         {
-            if (TBTresholdControl.Value <= 5) { MessageBox.Show("Wert zu niedrig"); }
+            if (TBTresholdControl.Value <= 5)
+            {
+                MessageBox.Show("Wert zu niedrig");
+                m_Audio.Threshold = 15;
+                TBTresholdControl.Value = 15;
+            }
             else { m_Audio.Threshold = TBTresholdControl.Value; }
         }
 

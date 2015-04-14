@@ -34,6 +34,8 @@
             this.TBPicture = new System.Windows.Forms.TrackBar();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.CBSuccess = new System.Windows.Forms.CheckBox();
             this.BtnCancel = new System.Windows.Forms.Button();
             this.BtnOK = new System.Windows.Forms.Button();
@@ -41,8 +43,6 @@
             this.PBTest = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
             this.TBArduino = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NDeviation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TBPicture)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -54,6 +54,7 @@
             this.TBComment.Location = new System.Drawing.Point(17, 271);
             this.TBComment.Multiline = true;
             this.TBComment.Name = "TBComment";
+            this.TBComment.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.TBComment.Size = new System.Drawing.Size(199, 59);
             this.TBComment.TabIndex = 1;
             // 
@@ -109,6 +110,24 @@
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Bilder";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(107, 46);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(13, 13);
+            this.label5.TabIndex = 7;
+            this.label5.Text = "6";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(12, 46);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(13, 13);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "1";
             // 
             // CBSuccess
             // 
@@ -179,26 +198,9 @@
             this.TBArduino.Location = new System.Drawing.Point(17, 349);
             this.TBArduino.Multiline = true;
             this.TBArduino.Name = "TBArduino";
+            this.TBArduino.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.TBArduino.Size = new System.Drawing.Size(199, 59);
             this.TBArduino.TabIndex = 17;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 46);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(13, 13);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "1";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(107, 46);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(13, 13);
-            this.label5.TabIndex = 7;
-            this.label5.Text = "6";
             // 
             // FormVersuch
             // 
