@@ -36,13 +36,13 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.CBSuccess = new System.Windows.Forms.CheckBox();
             this.BtnCancel = new System.Windows.Forms.Button();
             this.BtnOK = new System.Windows.Forms.Button();
             this.CBChosenPicture = new System.Windows.Forms.CheckBox();
             this.PBTest = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
             this.TBArduino = new System.Windows.Forms.TextBox();
+            this.CBSuccess = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.NDeviation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TBPicture)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -129,17 +129,6 @@
             this.label4.TabIndex = 6;
             this.label4.Text = "1";
             // 
-            // CBSuccess
-            // 
-            this.CBSuccess.AutoSize = true;
-            this.CBSuccess.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CBSuccess.Location = new System.Drawing.Point(232, 349);
-            this.CBSuccess.Name = "CBSuccess";
-            this.CBSuccess.Size = new System.Drawing.Size(133, 17);
-            this.CBSuccess.TabIndex = 12;
-            this.CBSuccess.Text = "Kugel ist durchgefallen";
-            this.CBSuccess.UseVisualStyleBackColor = true;
-            // 
             // BtnCancel
             // 
             this.BtnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -167,7 +156,7 @@
             // 
             this.CBChosenPicture.AutoSize = true;
             this.CBChosenPicture.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CBChosenPicture.Location = new System.Drawing.Point(287, 370);
+            this.CBChosenPicture.Location = new System.Drawing.Point(266, 343);
             this.CBChosenPicture.Name = "CBChosenPicture";
             this.CBChosenPicture.Size = new System.Drawing.Size(78, 17);
             this.CBChosenPicture.TabIndex = 15;
@@ -202,18 +191,27 @@
             this.TBArduino.Size = new System.Drawing.Size(199, 59);
             this.TBArduino.TabIndex = 17;
             // 
+            // CBSuccess
+            // 
+            this.CBSuccess.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CBSuccess.FormattingEnabled = true;
+            this.CBSuccess.Location = new System.Drawing.Point(236, 366);
+            this.CBSuccess.Name = "CBSuccess";
+            this.CBSuccess.Size = new System.Drawing.Size(139, 21);
+            this.CBSuccess.TabIndex = 18;
+            // 
             // FormVersuch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(392, 450);
             this.ControlBox = false;
+            this.Controls.Add(this.CBSuccess);
             this.Controls.Add(this.TBArduino);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.CBChosenPicture);
             this.Controls.Add(this.BtnOK);
             this.Controls.Add(this.BtnCancel);
-            this.Controls.Add(this.CBSuccess);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.NDeviation);
@@ -246,7 +244,6 @@
         private System.Windows.Forms.TrackBar TBPicture;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.CheckBox CBSuccess;
         private System.Windows.Forms.Button BtnCancel;
         private System.Windows.Forms.Button BtnOK;
         private System.Windows.Forms.CheckBox CBChosenPicture;
@@ -254,5 +251,6 @@
         private System.Windows.Forms.TextBox TBArduino;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox CBSuccess;
     }
 }

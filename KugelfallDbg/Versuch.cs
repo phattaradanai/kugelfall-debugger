@@ -25,7 +25,7 @@ namespace KugelfallDbg
         {
             m_Versuchsbild.Comment = TBComment.Text;
             m_Versuchsbild.Deviation = int.Parse(NDeviation.Value.ToString());
-            m_Versuchsbild.Success = CBSuccess.Checked;
+            m_Versuchsbild.Success = CBSuccess.SelectedItem.ToString();
         }
 
         //Die aktuellen Versuchsdaten zurückgeben
@@ -36,6 +36,15 @@ namespace KugelfallDbg
 
         private void FormVersuch_Load(object sender, EventArgs e)
         {
+            //Combobox füllen
+            string sTooEarly = "\u21DC  " + "Zu früh";
+            string sSuccess = "\u221A  " + "Durchgefallen";
+            string sTooLate = "\u21DD  " + "Zu spät";
+
+            CBSuccess.Items.Add(sTooEarly);
+            CBSuccess.Items.Add(sSuccess);
+            CBSuccess.Items.Add(sTooLate);
+
             if (m_Versuchsbild.BestPicture != -1)   //Falls es bereits ein Bild geben sollte
             {
                 TBPicture.Value = m_Versuchsbild.BestPicture;
@@ -49,7 +58,19 @@ namespace KugelfallDbg
             //Alle Daten in die Felder laden
             TBComment.Text = m_Versuchsbild.Comment;
             NDeviation.Value = m_Versuchsbild.Deviation;
-            CBSuccess.Checked = m_Versuchsbild.Success;
+
+
+            if (m_Versuchsbild.Success == string.Empty)
+            {
+                CBSuccess.SelectedIndex = 0;
+            }
+            else
+            {
+                if (m_Versuchsbild.Success == sTooEarly) { CBSuccess.SelectedIndex = 0; }
+                else if (m_Versuchsbild.Success == sSuccess) { CBSuccess.SelectedIndex = 1; }
+                else if (m_Versuchsbild.Success == sTooLate) { CBSuccess.SelectedIndex = 2; }
+
+            }
             TBArduino.Text = m_Versuchsbild.Debugtext;
         }
 

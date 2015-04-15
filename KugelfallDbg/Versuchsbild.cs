@@ -17,7 +17,7 @@ namespace KugelfallDbg
             m_iDeviation = 0;
             m_sText = string.Empty;
             m_sComment = string.Empty;
-            m_bSuccess = false;
+            m_sSuccess = string.Empty;
         }
 
         /**
@@ -72,10 +72,10 @@ namespace KugelfallDbg
          * public bool Success:
          * Get/Set Methoden
         */
-        public bool Success
+        public string Success
         {
-            get { return m_bSuccess; }
-            set { m_bSuccess = value; }
+            get { return m_sSuccess; }
+            set { m_sSuccess = value; }
         }
 
         /**
@@ -89,9 +89,9 @@ namespace KugelfallDbg
         }
 
         private int m_iBestPicture;         //Das Bild, welches den Versuch am Besten darstellt (bspw. die durchgefallene Kugel)
-        private string m_sText;                //Arduino Debuggingtext
-        private string m_sTest;          //Versuch
-        private bool m_bSuccess = false;    //War der Versuch erfolgreich?
+        private string m_sText;             //Arduino Debuggingtext
+        private string m_sTest;             //Versuch
+        private string m_sSuccess;          //War der Versuch erfolgreich?
         private string m_sComment;          //Kommentar zum Versuchsbild
         private int m_iDeviation;            //Abweichung der Kugel zur Aussparung
         private System.Drawing.Bitmap[] m_bPictures;   //Bild des Versuchs

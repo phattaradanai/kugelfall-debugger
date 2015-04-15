@@ -126,13 +126,13 @@
             // LVTestEvaluation
             // 
             this.LVTestEvaluation.BackColor = System.Drawing.Color.White;
-            this.LVTestEvaluation.CheckBoxes = true;
             this.LVTestEvaluation.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.CHGetroffen,
             this.CHVersuch,
             this.CHVersatz,
             this.CHArduino,
             this.CHKommentar});
+            this.LVTestEvaluation.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LVTestEvaluation.FullRowSelect = true;
             this.LVTestEvaluation.GridLines = true;
             this.LVTestEvaluation.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
@@ -143,7 +143,7 @@
             this.LVTestEvaluation.TabIndex = 16;
             this.LVTestEvaluation.UseCompatibleStateImageBehavior = false;
             this.LVTestEvaluation.View = System.Windows.Forms.View.Details;
-            this.LVTestEvaluation.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.LVTestEvaluation_ItemCheck);
+            this.LVTestEvaluation.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.LVTestEvaluation_ColumnWidthChanging);
             this.LVTestEvaluation.SelectedIndexChanged += new System.EventHandler(this.LVTestEvaluation_SelectedIndexChanged);
             this.LVTestEvaluation.DoubleClick += new System.EventHandler(this.LVVersuchsauswertung_DoubleClick);
             this.LVTestEvaluation.MouseDown += new System.Windows.Forms.MouseEventHandler(this.LVTestEvaluation_MouseDown);
@@ -151,12 +151,16 @@
             // 
             // CHGetroffen
             // 
-            this.CHGetroffen.Text = "OK";
-            this.CHGetroffen.Width = 28;
+            this.CHGetroffen.DisplayIndex = 1;
+            this.CHGetroffen.Text = "Treffer";
+            this.CHGetroffen.Width = 56;
             // 
             // CHVersuch
             // 
-            this.CHVersuch.Text = "Versuch";
+            this.CHVersuch.DisplayIndex = 0;
+            this.CHVersuch.Text = "Versuchsnummer";
+            this.CHVersuch.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.CHVersuch.Width = 122;
             // 
             // CHVersatz
             // 
@@ -164,13 +168,15 @@
             // 
             // CHArduino
             // 
+            this.CHArduino.DisplayIndex = 4;
             this.CHArduino.Text = "Arduino Debug";
-            this.CHArduino.Width = 91;
+            this.CHArduino.Width = 147;
             // 
             // CHKommentar
             // 
+            this.CHKommentar.DisplayIndex = 3;
             this.CHKommentar.Text = "Kommentar";
-            this.CHKommentar.Width = 396;
+            this.CHKommentar.Width = 250;
             // 
             // toolStrip1
             // 

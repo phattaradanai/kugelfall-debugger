@@ -428,21 +428,11 @@ namespace KugelfallDbg
 
                     foreach (ListViewItem lvi in LVTestEvaluation.Items)
                     {
-                        if(lvi.Checked == true)
-                        {
-                            sw.Write("Ja");
-                        }
-                        else
-                        {
-                            sw.Write("Nein");
-                        }
-
                         //SubItems durchgehen und eintragen
-                        for (int iSubItems = 1; iSubItems < lvi.SubItems.Count; iSubItems++)
+                        for (int iSubItems = 0; iSubItems < lvi.SubItems.Count; iSubItems++)
                         {
-                            sw.Write(";");
-
                             sw.Write(lvi.SubItems[iSubItems].Text);
+                            sw.Write(";");
                         }
                         sw.Write("\n");
                     }
@@ -511,8 +501,8 @@ namespace KugelfallDbg
             int _PictureStart = m_sIndex;
             
             /*DEBUGAUSGABEN*/
-            ShowPicturesDebug s = new ShowPicturesDebug(ref m_bImageBuffer, _PictureStart);
-            if (s.ShowDialog() == System.Windows.Forms.DialogResult.OK) { }
+            //ShowPicturesDebug s = new ShowPicturesDebug(ref m_bImageBuffer, _PictureStart);
+            //if (s.ShowDialog() == System.Windows.Forms.DialogResult.OK) { }
 
             //Berechnung: Der Index auf den der Indexzeiger ist - die zu puffernden Bilder - 1 damit auch an der Stelle Index das Bild kopiert wird
             _PictureStart -= _iBilder;// - 1);
@@ -560,6 +550,7 @@ namespace KugelfallDbg
         //Jeder Versuch wird in einer Map abgespeichert und ist eindeutig identifizierbar über einen String und einer Versuchsklasse
         private System.Collections.Generic.Dictionary<string, Versuchsbild> m_Versuche;
         private int m_iAnzVersuche = 1;
+        private int m_iSubItemTestIndex = 0;
 
         private void LVVersuchsauswertung_DoubleClick(object sender, EventArgs e)
         {
@@ -575,9 +566,7 @@ namespace KugelfallDbg
                 m_Versuche[key] = temp;
 
                 //Itemupdate
-                m_bAutoCheck = false;
-                lvi.Checked = temp.Success;
-                m_bAutoCheck = true;
+                lvi.SubItems[0].Text = temp.Success;
                 lvi.SubItems[2].Text = temp.Deviation.ToString();
                 lvi.SubItems[3].Text = temp.Debugtext;
                 lvi.SubItems[4].Text = temp.Comment;
@@ -711,49 +700,6 @@ namespace KugelfallDbg
             }
         }
 
-
-        #region ListView: Versehentlichen CheckBox-Click vermeiden
-        //Die Events MouseDown, MouseUp, ItemCheck dienen dem Zweck, dass nicht versehentlich der Versuch als OK bzw. nicht OK markiert wird
-        private void LVTestEvaluation_MouseDown(object sender, MouseEventArgs e)
-        {
-            m_bAutoCheck = true;
-        }
-
-        private void LVTestEvaluation_MouseUp(object sender, MouseEventArgs e)
-        {
-            m_bAutoCheck = false;
-        }
-
-        private void LVTestEvaluation_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            if (m_bAutoCheck)
-            {
-                e.NewValue = e.CurrentValue;
-            }
-            else
-            {
-                ListViewItem lvi = LVTestEvaluation.Items[e.Index];
-
-                string key = "Versuch " + lvi.SubItems[1].Text;//(lvi.Index + 1).ToString();
-
-                Versuchsbild temp = m_Versuche[key];
-
-                if(e.NewValue == CheckState.Checked)
-                {
-                    temp.Success = true;
-                }
-                else
-                {
-                    temp.Success = false;
-                }
-
-                m_Versuche[key] = temp;
-            }
-        }
-
-        private bool m_bAutoCheck = false;
-        #endregion
-
         private void Main_Click(object sender, EventArgs e)
         {
             LVTestEvaluation.SelectedItems.Clear();
@@ -803,6 +749,30 @@ namespace KugelfallDbg
             else { m_Audio.Threshold = TBTresholdControl.Value; }
         }
 
-        
+        private void LVTestEvaluation_MouseDown(object sender, MouseEventArgs e)
+        {
+            m_bMousePressedLV = true;
+        }
+
+        private bool m_bMousePressedLV = false;
+
+        private void LVTestEvaluation_MouseUp(object sender, MouseEventArgs e)
+        {
+            if(m_bMousePressedLV == true)
+            m_bMousePressedLV = false;
+        }
+
+        private void LVTestEvaluation_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
+        {
+            if (m_bMousePressedLV == false)
+            {
+                e.Cancel = true;
+                e.NewWidth = LVTestEvaluation.Columns[e.ColumnIndex].Width;
+            }
+            else
+            {
+                LVTestEvaluation.Columns[e.ColumnIndex].Width = e.NewWidth;
+            }
+        }
     }
 }

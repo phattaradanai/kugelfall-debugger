@@ -20,7 +20,7 @@ namespace KugelfallDbg
             try
             {
                 m_RS232Port.DataReceived += m_RS232Port_DataReceived;
-                m_RS232Port.ReadTimeout = 500;
+                m_RS232Port.ReadTimeout = 3000;
 
                 //Port öffnen
                 try
@@ -49,18 +49,29 @@ namespace KugelfallDbg
          */
         static void m_RS232Port_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
+            char sTemp = 'a';
             try
             {
-                string sTemp = m_RS232Port.ReadLine();  //Temporärer String
-
-                sTemp = sTemp.Replace("\r", "");
-                m_sDebugText += sTemp;
-
-                if (m_sDebugText.Length >= 100)
-                {
-                    m_sDebugText.Remove(0, 50);
-                }
+                sTemp = (char) m_RS232Port.ReadChar();  //Temporärer String
             }
+            catch (InvalidOperationException ioe)   //Der Arduino sendete etwas und der Port wurde geschlossen
+            {
+                System.Windows.Forms.MessageBox.Show(ioe.Message);
+            }
+            catch(TimeoutException te)
+            {
+                System.Windows.Forms.MessageBox.Show(te.Message);
+            }
+                //sTemp = sTemp.Replace("\r", "");
+            m_bStringAccess = true;
+            m_sDebugText += sTemp;
+            m_bStringAccess = false;
+
+            if (m_sDebugText.Length >= m_iBufferLength)
+            {
+                m_sDebugText.Remove(0, 50);
+            }
+            /*}
             catch (System.IO.IOException ioe)
             {
                 if (m_RS232Port.IsOpen)
@@ -69,22 +80,15 @@ namespace KugelfallDbg
                     System.Windows.Forms.MessageBox.Show("IOException" + ioe.Message);
                 }
             }
-            catch (InvalidOperationException)   //Der Arduino sendete etwas und der Port wurde geschlossen
-            {
-
-            }
+            
             catch (System.Runtime.InteropServices.COMException com) //Wenn die Anwendung ausgelastet ist, wird diese Exception geworfen
             {
-                //System.Windows.Forms.MessageBox.Show("COMException");
+                System.Windows.Forms.MessageBox.Show("COMException");
             }
             catch (Exception exc)
             {
-                //System.Windows.Forms.MessageBox.Show(exc.Message);
-            }
-            finally
-            {
-                //System.Windows.Forms.MessageBox.Show("Exception");
-            }
+                System.Windows.Forms.MessageBox.Show(exc.Message);
+            }*/
         }
         private static void SafeClose(Object StateInfo)
         {
@@ -129,7 +133,14 @@ namespace KugelfallDbg
          */
         public static string DebugText
         {
-            get { return m_sDebugText; }
+            get
+            {
+                string temp = m_sDebugText;
+                //m_bStringAccess = true;
+                //m_sDebugText = string.Empty;
+                //m_bStringAccess = false;
+                return m_sDebugText;
+            }
             set { m_sDebugText = value; }
         }
 
@@ -163,8 +174,10 @@ namespace KugelfallDbg
             set { m_bArduinoSet = value; }
         }
 
+        private static int m_iBufferLength = 120;
         private static SerialPort m_RS232Port = new SerialPort();   ///Der RS232-Port des Arduino
-        private static string m_sDebugText;         ///Hier werden Ausgaben gespeichert, die vom Arduino kommen
+        private static string m_sDebugText = string.Empty;         ///Hier werden Ausgaben gespeichert, die vom Arduino kommen
         private static bool m_bArduinoSet = false;  ///Wurde der Arduino bereits eingerichtet? (Port)
+        private static bool m_bStringAccess = false;
     }
 }
