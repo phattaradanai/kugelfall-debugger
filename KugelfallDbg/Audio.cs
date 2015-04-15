@@ -42,8 +42,6 @@ namespace KugelfallDbg
                     m_BufferTimer.Stop();
                     OnThresholdExceed(this, (float)m_BufferTimer.ElapsedMilliseconds);
                     break;
-                    m_BufferTimer.Reset();
-                    m_BufferTimer.Start();
                 }
             }
 
@@ -65,9 +63,16 @@ namespace KugelfallDbg
                 m_iWaveInDevice.WaveFormat = new NAudio.Wave.WaveFormat(m_iSampleRate,m_iChannels);
                 m_iWaveInDevice.DataAvailable += waveIn_DataAvailable;
             }
+
+            try
+            {
+                m_iWaveInDevice.StartRecording();
+                m_bIsRecording = true;
+            }
+            catch(InvalidOperationException)    //WaveIn nimmt bereits auf
+            {
             
-            m_iWaveInDevice.StartRecording();
-            if (m_BufferTimer.IsRunning == false) { m_BufferTimer.Start(); }
+            }
         }
 
         /**
@@ -78,8 +83,12 @@ namespace KugelfallDbg
         {
             if (m_iWaveInDevice != null)
             {
-                m_iWaveInDevice.Dispose();
-                m_iWaveInDevice = null;
+                if (m_bIsRecording == true)
+                {
+                    m_iWaveInDevice.Dispose();
+                    m_iWaveInDevice = null;
+                    m_bIsRecording = false;
+                }
             }
         }
 
@@ -107,7 +116,7 @@ namespace KugelfallDbg
         private int m_iDeviceNumber;        ///Nummer des Soundaufnahmegerätes (Dient zur Identifikation)
         private volatile int m_iVolume;     ///Die aktuelle Lautstärke
         private NAudio.Wave.WaveIn m_iWaveInDevice;
-        
+        private bool m_bIsRecording = false;
         
         //Eigene Eventhandler, welche zur Überwachung des Audiosignals dienen
         

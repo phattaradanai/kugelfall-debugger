@@ -41,7 +41,6 @@ namespace KugelfallDbg
          * NewFrame-Event: Schreibt in den Imagebuffer um Bilder (im Falle einer Schwellenüberschreitung der Lautstärke) zur Besichtigung parat zu haben
          */
         private short m_sIndex = 0;         ///Dient also "Zeiger" in der Buffervariable (maximal m_iBufferSize Bilder)
-                                            
         private void MainVideoSourcePlayer_NewFrame(object sender, ref Bitmap image)
         {
             if (m_bBuffer)
@@ -55,9 +54,25 @@ namespace KugelfallDbg
             }
         }
 
+        private int CalculateOptimalPicture()
+        {
+            //Nicht mehr verwendet
+            //Frames: (Bufferdelay + maxsample_delay)/fpsdelay [aufgerundet]
+            //(Der Aufnahmebuffer + Die Zeit bis zum Auslösesample)/Delay zwischen den einzelnen Frames
+
+            if (m_iCurrentFPS == 0) { return 0; }
+            float fpsdelay = (float)(1000 / m_iCurrentFPS);    //Bspw. 10 FPS == 1000ms (1s) / 10 = 100ms pro Frame
+            float Bufferdelay = (float)(m_Audio.BufferMilliseconds);
+
+            double Frames = (Bufferdelay + m_fMaxSampleDelay) / fpsdelay;
+            Frames = Math.Round(Frames, MidpointRounding.AwayFromZero);
+
+            return (int)Frames;
+        }
+
         private void SetBuffering(bool _bBuffer)
         {
-            m_bBuffer = _bBuffer;    
+            m_bBuffer = _bBuffer;
         }
 
         private bool m_bBuffer = true;
@@ -488,17 +503,21 @@ namespace KugelfallDbg
         private void CaptureImage()
         {
             int _iBilder = 6;
-            int _iFramesBack = CalculateOptimalPicture();
+            //int _iFramesBack = CalculateOptimalPicture();
 
             Bitmap[] _Frames = new Bitmap[_iBilder];
 
+            //Auf das letztgemachte Bild setzen
             int _PictureStart = m_sIndex;
-
             
+            /*DEBUGAUSGABEN*/
             ShowPicturesDebug s = new ShowPicturesDebug(ref m_bImageBuffer, _PictureStart);
             if (s.ShowDialog() == System.Windows.Forms.DialogResult.OK) { }
 
-            _PictureStart -= _iBilder;
+            //Berechnung: Der Index auf den der Indexzeiger ist - die zu puffernden Bilder - 1 damit auch an der Stelle Index das Bild kopiert wird
+            _PictureStart -= _iBilder;// - 1);
+
+            //Für den Fall, das Index bei bspw. 0 war und nach Abzug des Obigen ein negativer Startindex vorhanden ist
             if (_PictureStart < 0)
             {
                 _PictureStart = m_iBufferSize - Math.Abs(_PictureStart);
@@ -545,7 +564,7 @@ namespace KugelfallDbg
         private void LVVersuchsauswertung_DoubleClick(object sender, EventArgs e)
         {
             ListViewItem lvi = LVTestEvaluation.SelectedItems[0];
-            string key = "Versuch " + (lvi.Index + 1).ToString();
+            string key = "Versuch " + lvi.SubItems[1].Text;//(lvi.Index + 1).ToString();
 
             Versuchsbild temp = GetSelectedItem();
             FormVersuch fv = new FormVersuch(ref temp);
@@ -711,6 +730,25 @@ namespace KugelfallDbg
             {
                 e.NewValue = e.CurrentValue;
             }
+            else
+            {
+                ListViewItem lvi = LVTestEvaluation.Items[e.Index];
+
+                string key = "Versuch " + lvi.SubItems[1].Text;//(lvi.Index + 1).ToString();
+
+                Versuchsbild temp = m_Versuche[key];
+
+                if(e.NewValue == CheckState.Checked)
+                {
+                    temp.Success = true;
+                }
+                else
+                {
+                    temp.Success = false;
+                }
+
+                m_Versuche[key] = temp;
+            }
         }
 
         private bool m_bAutoCheck = false;
@@ -765,19 +803,6 @@ namespace KugelfallDbg
             else { m_Audio.Threshold = TBTresholdControl.Value; }
         }
 
-        private int CalculateOptimalPicture()
-        {
-            //Frames: (Bufferdelay + maxsample_delay)/fpsdelay [aufgerundet]
-            //(Der Aufnahmebuffer + Die Zeit bis zum Auslösesample)/Delay zwischen den einzelnen Frames
-
-            if (m_iCurrentFPS == 0) { return 0; }
-            float fpsdelay = (float)(1000 / m_iCurrentFPS);    //Bspw. 10 FPS == 1000ms (1s) / 10 = 100ms pro Frame
-            float Bufferdelay = (float)(m_Audio.BufferMilliseconds);
-
-            double Frames = (Bufferdelay + m_fMaxSampleDelay) / fpsdelay;
-            Frames = Math.Round(Frames, MidpointRounding.AwayFromZero);
-
-            return (int)Frames;
-        }
+        
     }
 }

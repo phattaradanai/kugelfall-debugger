@@ -29,7 +29,8 @@ namespace KugelfallDbg
                 }
                 catch (Exception e)
                 {
-                    System.Windows.Forms.MessageBox.Show("Fehler beim Öffnen des Ports");
+                    System.Windows.Forms.MessageBox.Show("Fehler beim Öffnen des Ports, bitte Ports überprüfen");
+                    m_RS232Port.DataReceived -= m_RS232Port_DataReceived;
                 }
             }
             catch (Exception e)
