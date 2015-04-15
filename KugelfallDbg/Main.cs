@@ -412,32 +412,46 @@ namespace KugelfallDbg
 
                 if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    System.IO.StreamWriter sw = new System.IO.StreamWriter(sfd.FileName);
+                    System.IO.StreamWriter sw = null;
+                    bool bOpen = false;
 
-                    //CSV Header erstellen
-                    for (int i = 0; i < LVTestEvaluation.Columns.Count; i++)
+                    try
                     {
-                        sw.Write(LVTestEvaluation.Columns[i].Text);
-
-                        if ((i + 1) != LVTestEvaluation.Columns.Count)  //Prüfen, ob noch ein Separator gesetzt werden muss
-                        {
-                            sw.Write(";");
-                        }
+                        sw = new System.IO.StreamWriter(sfd.FileName, false, Encoding.UTF8);
+                        bOpen = true;
                     }
-                    sw.Write("\n");
-
-                    foreach (ListViewItem lvi in LVTestEvaluation.Items)
+                    catch(System.IO.IOException)
                     {
-                        //SubItems durchgehen und eintragen
-                        for (int iSubItems = 0; iSubItems < lvi.SubItems.Count; iSubItems++)
+                        MessageBox.Show("Datei ist bereits geöffnet");
+                    }
+
+                    if (bOpen == true)
+                    {
+                        //CSV Header erstellen
+                        for (int i = 0; i < LVTestEvaluation.Columns.Count; i++)
                         {
-                            sw.Write(lvi.SubItems[iSubItems].Text);
-                            sw.Write(";");
+                            sw.Write(LVTestEvaluation.Columns[i].Text);
+
+                            if ((i + 1) != LVTestEvaluation.Columns.Count)  //Prüfen, ob noch ein Separator gesetzt werden muss
+                            {
+                                sw.Write(";");
+                            }
                         }
                         sw.Write("\n");
-                    }
 
-                    sw.Close();
+                        foreach (ListViewItem lvi in LVTestEvaluation.Items)
+                        {
+                            //SubItems durchgehen und eintragen
+                            for (int iSubItems = 0; iSubItems < lvi.SubItems.Count; iSubItems++)
+                            {
+                                sw.Write(lvi.SubItems[iSubItems].Text);
+                                sw.Write(";");
+                            }
+                            sw.Write("\n");
+                        }
+
+                        sw.Close();
+                    }
                 }
             }
         }
