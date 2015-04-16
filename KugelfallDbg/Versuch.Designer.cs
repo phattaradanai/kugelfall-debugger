@@ -36,7 +36,6 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.BtnCancel = new System.Windows.Forms.Button();
             this.BtnOK = new System.Windows.Forms.Button();
             this.CBChosenPicture = new System.Windows.Forms.CheckBox();
             this.PBTest = new System.Windows.Forms.PictureBox();
@@ -129,22 +128,11 @@
             this.label4.TabIndex = 6;
             this.label4.Text = "1";
             // 
-            // BtnCancel
-            // 
-            this.BtnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.BtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.BtnCancel.Location = new System.Drawing.Point(75, 465);
-            this.BtnCancel.Name = "BtnCancel";
-            this.BtnCancel.Size = new System.Drawing.Size(79, 23);
-            this.BtnCancel.TabIndex = 13;
-            this.BtnCancel.Text = "Verwerfen";
-            this.BtnCancel.UseVisualStyleBackColor = true;
-            // 
             // BtnOK
             // 
             this.BtnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.BtnOK.Location = new System.Drawing.Point(238, 465);
+            this.BtnOK.Location = new System.Drawing.Point(156, 461);
             this.BtnOK.Name = "BtnOK";
             this.BtnOK.Size = new System.Drawing.Size(79, 23);
             this.BtnOK.TabIndex = 14;
@@ -206,13 +194,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 496);
-            this.ControlBox = false;
             this.Controls.Add(this.CBSuccess);
             this.Controls.Add(this.TBArduino);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.CBChosenPicture);
             this.Controls.Add(this.BtnOK);
-            this.Controls.Add(this.BtnCancel);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.NDeviation);
@@ -247,7 +233,6 @@
         private System.Windows.Forms.TrackBar TBPicture;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button BtnCancel;
         private System.Windows.Forms.Button BtnOK;
         private System.Windows.Forms.CheckBox CBChosenPicture;
         private System.Windows.Forms.Label label3;

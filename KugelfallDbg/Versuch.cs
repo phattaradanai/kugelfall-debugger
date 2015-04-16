@@ -37,9 +37,9 @@ namespace KugelfallDbg
         private void FormVersuch_Load(object sender, EventArgs e)
         {
             //Combobox füllen
-            string sTooEarly = "\u2190  " + "Zu früh";  //Microsoft Sans serif \u21DC
+            string sTooEarly = "\u21E6  " + "Zu früh";  //Microsoft Sans serif \u21DC
             string sSuccess = "\u221A  " + "Durchgefallen";//Microsoft Sans serif \u221A
-            string sTooLate = "\u2192  " + "Zu spät";//Microsoft Sans serif \u21DD
+            string sTooLate = "\u21E8  " + "Zu spät";//Microsoft Sans serif \u21DD
 
             CBSuccess.Items.Add(sTooEarly);
             CBSuccess.Items.Add(sSuccess);

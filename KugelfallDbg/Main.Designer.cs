@@ -149,9 +149,9 @@
             // 
             // CHVersuch
             // 
-            this.CHVersuch.Text = "Versuchsnummer";
+            this.CHVersuch.Text = "Nr.";
             this.CHVersuch.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.CHVersuch.Width = 122;
+            this.CHVersuch.Width = 34;
             // 
             // CHGetroffen
             // 
@@ -174,7 +174,6 @@
             // 
             // toolStrip1
             // 
-            this.toolStrip1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.toolStrip1.AutoSize = false;
             this.toolStrip1.BackColor = System.Drawing.Color.LightGray;
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;

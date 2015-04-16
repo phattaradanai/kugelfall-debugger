@@ -131,7 +131,7 @@ namespace KugelfallDbg
             foreach (ColumnHeader ch in LVTestEvaluation.Columns)
             {
                 m_iListViewColumns++;
-                if (ch.Text == "Versuchsnummer") { m_iTestIndex = ch.Index; }
+                if (ch.Text == "Nr.") { m_iTestIndex = ch.Index; }
                 if (ch.Text == "Treffer") { m_iSuccessIndex = ch.Index; }
                 if (ch.Text == "Versatz") { m_iDeviationIndex = ch.Index; }
                 if (ch.Text == "Kommentar") { m_iCommentIndex = ch.Index; }
@@ -673,9 +673,15 @@ namespace KugelfallDbg
         */
         private void LVTestEvaluation_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //Audio deaktivieren
-            ActivateAudio(false);
-
+            try
+            {
+                //Audio deaktivieren
+                ActivateAudio(false);
+            }
+            catch (NullReferenceException exc)
+            {
+            
+            }
             MainVideoSourcePlayer.Visible = false;
             
             if (LVTestEvaluation.SelectedItems.Count == 0)  //Vermeiden, dass ein Fehlklick oder ein nicht mehr angeklicktes Item zu einer Exception führt (OutOfRange)
