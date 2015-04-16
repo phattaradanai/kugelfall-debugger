@@ -37,11 +37,11 @@
             this.TSLblArduino = new System.Windows.Forms.ToolStripStatusLabel();
             this.MainVideoSourcePlayer = new AForge.Controls.VideoSourcePlayer();
             this.LVTestEvaluation = new System.Windows.Forms.ListView();
-            this.CHGetroffen = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CHVersuch = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.CHGetroffen = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CHVersatz = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.CHArduino = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.CHKommentar = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.CHArduino = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.TSBtnRemoveTest = new System.Windows.Forms.ToolStripButton();
             this.TSBtnDeactivateCam = new System.Windows.Forms.ToolStripButton();
@@ -127,11 +127,11 @@
             // 
             this.LVTestEvaluation.BackColor = System.Drawing.Color.White;
             this.LVTestEvaluation.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.CHGetroffen,
             this.CHVersuch,
+            this.CHGetroffen,
             this.CHVersatz,
-            this.CHArduino,
-            this.CHKommentar});
+            this.CHKommentar,
+            this.CHArduino});
             this.LVTestEvaluation.Font = new System.Drawing.Font("Lucida Sans Unicode", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LVTestEvaluation.FullRowSelect = true;
             this.LVTestEvaluation.GridLines = true;
@@ -149,34 +149,30 @@
             this.LVTestEvaluation.MouseDown += new System.Windows.Forms.MouseEventHandler(this.LVTestEvaluation_MouseDown);
             this.LVTestEvaluation.MouseUp += new System.Windows.Forms.MouseEventHandler(this.LVTestEvaluation_MouseUp);
             // 
-            // CHGetroffen
-            // 
-            this.CHGetroffen.DisplayIndex = 1;
-            this.CHGetroffen.Text = "Treffer";
-            this.CHGetroffen.Width = 56;
-            // 
             // CHVersuch
             // 
-            this.CHVersuch.DisplayIndex = 0;
             this.CHVersuch.Text = "Versuchsnummer";
             this.CHVersuch.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.CHVersuch.Width = 122;
+            // 
+            // CHGetroffen
+            // 
+            this.CHGetroffen.Text = "Treffer";
+            this.CHGetroffen.Width = 106;
             // 
             // CHVersatz
             // 
             this.CHVersatz.Text = "Versatz";
             // 
-            // CHArduino
-            // 
-            this.CHArduino.DisplayIndex = 4;
-            this.CHArduino.Text = "Arduino Debug";
-            this.CHArduino.Width = 147;
-            // 
             // CHKommentar
             // 
-            this.CHKommentar.DisplayIndex = 3;
             this.CHKommentar.Text = "Kommentar";
-            this.CHKommentar.Width = 250;
+            this.CHKommentar.Width = 202;
+            // 
+            // CHArduino
+            // 
+            this.CHArduino.Text = "Arduino Debug";
+            this.CHArduino.Width = 147;
             // 
             // toolStrip1
             // 
