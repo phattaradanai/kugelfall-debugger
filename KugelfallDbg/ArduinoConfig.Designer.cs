@@ -131,9 +131,11 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.BtnCancel);
             this.Controls.Add(this.BtnOK);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "ArduinoConfig";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Arduino Konfiguration";
             this.Load += new System.EventHandler(this.ArduinoConfig_Load);
             this.groupBox1.ResumeLayout(false);

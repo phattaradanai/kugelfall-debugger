@@ -82,8 +82,12 @@
             this.Controls.Add(this.BtnOK);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.CBAudioDevices);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "FormAudioDevice";
-            this.Text = "AudioDevice";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
+            this.Text = "Audiokonfiguration";
             this.Load += new System.EventHandler(this.FormAudioDevice_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

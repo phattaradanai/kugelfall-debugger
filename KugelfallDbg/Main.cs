@@ -40,7 +40,6 @@ namespace KugelfallDbg
         /**
          * NewFrame-Event: Schreibt in den Imagebuffer um Bilder (im Falle einer Schwellenüberschreitung der Lautstärke) zur Besichtigung parat zu haben
          */
-        private short m_sIndex = 0;         ///Dient also "Zeiger" in der Buffervariable (maximal m_iBufferSize Bilder)
         private void MainVideoSourcePlayer_NewFrame(object sender, ref Bitmap image)
         {
             if (m_bBuffer)
@@ -117,13 +116,12 @@ namespace KugelfallDbg
         /// </summary>
         
         //Dadurch muss nicht mittels festen Index zugegriffen werden
-        private int t_iTestIndex = 0;           //Versuchsnummer
-        private int t_iSuccessIndex = 0;        //Treffer
-        private int t_iDeviationIndex = 0;      //Abweichung/Versatz
-        private int t_iCommentIndex = 0;        //Kommentar
-        private int t_iArduinoDebugIndex = 0;   //Arduino Debug
-        private int t_iListViewColumns = 0;     //Anzahl der Spalten im ListView
-
+        private int m_iTestIndex = 0;           //Versuchsnummer
+        private int m_iSuccessIndex = 0;        //Treffer
+        private int m_iDeviationIndex = 0;      //Abweichung/Versatz
+        private int m_iCommentIndex = 0;        //Kommentar
+        private int m_iArduinoDebugIndex = 0;   //Arduino Debug
+        private int m_iListViewColumns = 0;     //Anzahl der Spalten im ListView
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -132,12 +130,12 @@ namespace KugelfallDbg
             //Spaltenindizes ermitteln
             foreach (ColumnHeader ch in LVTestEvaluation.Columns)
             {
-                t_iListViewColumns++;
-                if (ch.Text == "Versuchsnummer") { t_iTestIndex = ch.Index; }
-                if (ch.Text == "Treffer") { t_iSuccessIndex = ch.Index; }
-                if (ch.Text == "Versatz") { t_iDeviationIndex = ch.Index; }
-                if (ch.Text == "Kommentar") { t_iCommentIndex = ch.Index; }
-                if (ch.Text == "Arduino Debug") { t_iArduinoDebugIndex = ch.Index; }
+                m_iListViewColumns++;
+                if (ch.Text == "Versuchsnummer") { m_iTestIndex = ch.Index; }
+                if (ch.Text == "Treffer") { m_iSuccessIndex = ch.Index; }
+                if (ch.Text == "Versatz") { m_iDeviationIndex = ch.Index; }
+                if (ch.Text == "Kommentar") { m_iCommentIndex = ch.Index; }
+                if (ch.Text == "Arduino Debug") { m_iArduinoDebugIndex = ch.Index; }
             }
 
             //Evtl. vorhandene Geräte eintragen
@@ -368,7 +366,10 @@ namespace KugelfallDbg
             return b;
         }
 
-        //Je nach Zustand wird die Kamera ein- oder ausgeschaltet
+        /**
+         * void ActivateCamera(bool _bActivate):
+         * Aktiviert bzw. deaktiviert die Kamera.
+         */
         private void ActivateCamera(bool _bActivate)
         {
             if (m_Camera != null && m_Audio != null)
@@ -442,7 +443,7 @@ namespace KugelfallDbg
 
                     try
                     {
-                        sw = new System.IO.StreamWriter(sfd.FileName, false, Encoding.UTF8);
+                        sw = new System.IO.StreamWriter(sfd.FileName, false, Encoding.UTF8);    //Encoding auf UTF8 für spezielle Symbole
                         bOpen = true;
                     }
                     catch(System.IO.IOException)
@@ -462,6 +463,7 @@ namespace KugelfallDbg
                                 sw.Write(";");
                             }
                         }
+
                         sw.Write("\n");
 
                         foreach (ListViewItem lvi in LVTestEvaluation.Items)
@@ -472,6 +474,7 @@ namespace KugelfallDbg
                                 sw.Write(lvi.SubItems[iSubItems].Text);
                                 sw.Write(";");
                             }
+
                             sw.Write("\n");
                         }
 
@@ -489,7 +492,7 @@ namespace KugelfallDbg
 
         /**
          * void ArduinoSettings():
-         * Arduino Konfiguration
+         * Den Arduino Konfigurationsdialog aufrufen.
          */
         private void ArduinoSettings()
         {
@@ -536,10 +539,10 @@ namespace KugelfallDbg
 
             Bitmap[] _Frames = new Bitmap[_iBilder];
 
-            //Auf das letztgemachte Bild setzen
+            //Auf das zuletzt gemachte Bild setzen
             int _PictureStart = m_sIndex;
             
-            /*DEBUGAUSGABEN*/
+            /* DEBUGAUSGABEN -- Ausgeben des kompletten Bildbuffers -- Nur zu Entwicklungszwecken */
             //ShowPicturesDebug s = new ShowPicturesDebug(ref m_bImageBuffer, _PictureStart);
             //if (s.ShowDialog() == System.Windows.Forms.DialogResult.OK) { }
 
@@ -571,29 +574,29 @@ namespace KugelfallDbg
             m_Versuche.Add(v.Test, v);
 
             ListViewItem lvi = new ListViewItem();
-            for(int i = 0; i < t_iListViewColumns; i++)
+            for(int i = 0; i < m_iListViewColumns; i++)
             {
                 lvi.SubItems.Insert(i, new ListViewItem.ListViewSubItem());
             }
 
             //lvsi.Text = v.Test.Remove(0, 8);
-            lvi.SubItems[t_iTestIndex] = new ListViewItem.ListViewSubItem(lvi, v.Test.Remove(0,8));
+            lvi.SubItems[m_iTestIndex] = new ListViewItem.ListViewSubItem(lvi, v.Test.Remove(0,8));
             
             //lvsi.Text = v.Deviation.ToString();
             //lvi.SubItems.Insert(t_iDeviationIndex, lvsi);
-            lvi.SubItems[t_iDeviationIndex] = new ListViewItem.ListViewSubItem(lvi, v.Deviation.ToString());
+            lvi.SubItems[m_iDeviationIndex] = new ListViewItem.ListViewSubItem(lvi, v.Deviation.ToString());
 
             //lvsi.Text = v.Debugtext;
             //lvi.SubItems.Insert(t_iArduinoDebugIndex, lvsi);
-            lvi.SubItems[t_iArduinoDebugIndex] = new ListViewItem.ListViewSubItem(lvi, v.Debugtext);
+            lvi.SubItems[m_iArduinoDebugIndex] = new ListViewItem.ListViewSubItem(lvi, v.Debugtext);
 
             //lvsi.Text = v.Comment;
             //lvi.SubItems.Insert(t_iCommentIndex, lvsi);
-            lvi.SubItems[t_iCommentIndex] = new ListViewItem.ListViewSubItem(lvi, v.Comment);
+            lvi.SubItems[m_iCommentIndex] = new ListViewItem.ListViewSubItem(lvi, v.Comment);
 
             //lvsi.Text = string.Empty;
             //lvi.SubItems.Insert(t_iSuccessIndex, lvsi);
-            lvi.SubItems[t_iSuccessIndex] = new ListViewItem.ListViewSubItem(lvi, string.Empty);
+            lvi.SubItems[m_iSuccessIndex] = new ListViewItem.ListViewSubItem(lvi, string.Empty);
 
             LVTestEvaluation.Items.Add(lvi);
 
@@ -609,40 +612,47 @@ namespace KugelfallDbg
 
         private int m_iAnzVersuche = 1; //Anzahl der gemachten Versuche
 
+        /**
+         * void LVVersuchsauswertung_DoubleClick(object sender, EventArgs e):
+         * Event, tritt ein wenn ein Element aus der Versuchsliste ausgewählt wurde.
+         */
         private void LVVersuchsauswertung_DoubleClick(object sender, EventArgs e)
         {
-            ListViewItem lvi = LVTestEvaluation.SelectedItems[0];
-            string key = "Versuch " + lvi.SubItems[t_iTestIndex].Text;
+            ListViewItem lvi = LVTestEvaluation.SelectedItems[0];       //Angeklicktes Element wählen
+            string key = "Versuch " + lvi.SubItems[m_iTestIndex].Text;  //Schlüssel für Dictionary generieren
 
             Versuchsbild temp = GetSelectedItem();
             FormVersuch fv = new FormVersuch(ref temp);
             DialogResult dr = fv.ShowDialog();
 
+            //Versuch anzeigen
             if (dr == System.Windows.Forms.DialogResult.OK)
             {
                 m_Versuche[key] = temp;
 
                 //Itemupdate
-                lvi.SubItems[t_iSuccessIndex].Text = temp.Success;
-                lvi.SubItems[t_iDeviationIndex].Text = temp.Deviation.ToString();
-                lvi.SubItems[t_iArduinoDebugIndex].Text = temp.Debugtext;
-                lvi.SubItems[t_iCommentIndex].Text = temp.Comment;
+                lvi.SubItems[m_iSuccessIndex].Text = temp.Success;
+                lvi.SubItems[m_iDeviationIndex].Text = temp.Deviation.ToString();
+                lvi.SubItems[m_iArduinoDebugIndex].Text = temp.Debugtext;
+                lvi.SubItems[m_iCommentIndex].Text = temp.Comment;
             }
         }
 
         /**
-         * Das gewählte ListviewItem (also ein Versuch) wird gesucht und zurückgegeben
+         * Versuchsbild GetSelectedItem():
+         * Das gewählte ListviewItem (also ein Versuch) wird gesucht und zurückgegeben.
          */
         private Versuchsbild GetSelectedItem()
         {
             ListViewItem lvi = LVTestEvaluation.SelectedItems[0];
 
-            string key = "Versuch " + lvi.SubItems[t_iTestIndex].Text;
+            string key = "Versuch " + lvi.SubItems[m_iTestIndex].Text;
 
             return m_Versuche[key];
         }
 
         /**
+         * void LVTestEvaluation_SelectedIndexChanged(object sender, EventArgs e):
          * Ein Item (also ein Versuch) wurde aus der Liste ausgewählt. Um diesen bearbeiten zu können,
          * wird ein Dialog aufgerufen
         */
@@ -691,7 +701,6 @@ namespace KugelfallDbg
          * Nach dem Klick auf den Button Audioeinstellungen wird die 
          * Audioaufnahme gestoppt und ein neues Gerät zugewiesen.
          */
-
         private void TSBtnAudioConfiguration_Click(object sender, EventArgs e)
         {
             FormAudioDevice fad = new FormAudioDevice();
@@ -758,18 +767,26 @@ namespace KugelfallDbg
 
         private void Main_Click(object sender, EventArgs e)
         {
+            //Das Listview-Element soll den Fokus verlieren (keine Auswahl eines Items)
             LVTestEvaluation.SelectedItems.Clear();
         }
 
+        /**
+         * void TSBtnDeactivateCam_Click(object sender, EventArgs e):
+         * Event, falls die Kamera deaktiviert werden soll
+         */
         private void TSBtnDeactivateCam_Click(object sender, EventArgs e)
         {
             if (m_Camera != null && m_Audio != null && m_Camera.GetCamera.IsRunning)
             {
+                //Audio und Video deaktivieren
                 ActivateCamera(false);
                 ActivateAudio(false);
 
+                //Arduino schließen
                 if (Arduino.IsOpen() == true) { Arduino.ClosePort(); }
 
+                //GUI-Anpassungen vornehmen
                 TSBtnCamSettings.Enabled = true;
                 TSBtnArduinoSettings.Enabled = true;
                 TSBtnAudioConfiguration.Enabled = true;
@@ -778,10 +795,27 @@ namespace KugelfallDbg
             }
         }
 
-        private Audio m_Audio;  //Audioaufnahmegerät
+        /**
+         * TBTresholdControle_ValueChanged(...):
+         * Event tritt ein, falls sich der Wert am Schwellenwertregler ändert
+         */
+        private void TBTresholdControl_ValueChanged(object sender, EventArgs e)
+        {
+            if (TBTresholdControl.Value <= m_iMinimalThreshold)   //Verhindern, dass die Schwelle ständig überschritten wird
+            {
+                MessageBox.Show("Wert zu niedrig");
+                m_Audio.Threshold = 15;
+                TBTresholdControl.Value = 15;
+            }
+            else { m_Audio.Threshold = TBTresholdControl.Value; }
+        }
 
-        private int m_iBufferSize = 30; //30 Bilder im Buffer halten
-        private Bitmap[] m_bImageBuffer;
+        private int m_iMinimalThreshold = 5;    ///Minimale Schwelle, um zu verhindern, dass die Schwelle ständig überschritten wird
+        private Audio m_Audio;                  ///Audioaufnahmegerät
+
+        private int m_iBufferSize = 30;         //Festgelegte ImageBuffer Größe
+        private Bitmap[] m_bImageBuffer;        //ImageBuffer für Versuchsbilder
+        private short m_sIndex = 0;             ///Dient also "Zeiger" in der Buffervariable (maximal m_iBufferSize Bilder)
 
         //Textvariablen zur einheitlichen Beschriftung
         private string m_sArduinoChosen = "Arduino wurde ausgewählt";
@@ -794,43 +828,5 @@ namespace KugelfallDbg
         private int m_iCurrentFPS = 0;
         private float m_fMaxSampleDelay = 0.0f;
 
-        
-
-        private void TBTresholdControl_ValueChanged(object sender, EventArgs e)
-        {
-            if (TBTresholdControl.Value <= 5)
-            {
-                MessageBox.Show("Wert zu niedrig");
-                m_Audio.Threshold = 15;
-                TBTresholdControl.Value = 15;
-            }
-            else { m_Audio.Threshold = TBTresholdControl.Value; }
-        }
-
-        private void LVTestEvaluation_MouseDown(object sender, MouseEventArgs e)
-        {
-            m_bMousePressedLV = true;
-        }
-
-        private bool m_bMousePressedLV = false;
-
-        private void LVTestEvaluation_MouseUp(object sender, MouseEventArgs e)
-        {
-            if(m_bMousePressedLV == true)
-            m_bMousePressedLV = false;
-        }
-
-        private void LVTestEvaluation_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
-        {
-            /*if (m_bMousePressedLV == false)
-            {
-                e.Cancel = true;
-                e.NewWidth = LVTestEvaluation.Columns[e.ColumnIndex].Width;
-            }
-            else
-            {
-                LVTestEvaluation.Columns[e.ColumnIndex].Width = e.NewWidth;
-            }*/
-        }
     }
 }

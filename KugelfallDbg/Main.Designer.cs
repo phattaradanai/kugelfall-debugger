@@ -83,6 +83,7 @@
             this.statusStrip1.Location = new System.Drawing.Point(0, 421);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1244, 22);
+            this.statusStrip1.SizingGrip = false;
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -143,11 +144,8 @@
             this.LVTestEvaluation.TabIndex = 16;
             this.LVTestEvaluation.UseCompatibleStateImageBehavior = false;
             this.LVTestEvaluation.View = System.Windows.Forms.View.Details;
-            this.LVTestEvaluation.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.LVTestEvaluation_ColumnWidthChanging);
             this.LVTestEvaluation.SelectedIndexChanged += new System.EventHandler(this.LVTestEvaluation_SelectedIndexChanged);
             this.LVTestEvaluation.DoubleClick += new System.EventHandler(this.LVVersuchsauswertung_DoubleClick);
-            this.LVTestEvaluation.MouseDown += new System.Windows.Forms.MouseEventHandler(this.LVTestEvaluation_MouseDown);
-            this.LVTestEvaluation.MouseUp += new System.Windows.Forms.MouseEventHandler(this.LVTestEvaluation_MouseUp);
             // 
             // CHVersuch
             // 
