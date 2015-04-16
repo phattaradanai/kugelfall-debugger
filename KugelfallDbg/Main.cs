@@ -111,9 +111,34 @@ namespace KugelfallDbg
             }
         }
 
+
+        /// <summary>
+        /// Variablen, für den Zugriff auf die einzelnen ListView Spalten
+        /// </summary>
+        
+        //Dadurch muss nicht mittels festen Index zugegriffen werden
+        private int t_iTestIndex = 0;           //Versuchsnummer
+        private int t_iSuccessIndex = 0;        //Treffer
+        private int t_iDeviationIndex = 0;      //Abweichung/Versatz
+        private int t_iCommentIndex = 0;        //Kommentar
+        private int t_iArduinoDebugIndex = 0;   //Arduino Debug
+        private int t_iListViewColumns = 0;     //Anzahl der Spalten im ListView
+
+
         private void Form1_Load(object sender, EventArgs e)
         {
             TBTresholdControl.Maximum = PBVolumeMeter.Maximum;
+
+            //Spaltenindizes ermitteln
+            foreach (ColumnHeader ch in LVTestEvaluation.Columns)
+            {
+                t_iListViewColumns++;
+                if (ch.Text == "Versuchsnummer") { t_iTestIndex = ch.Index; }
+                if (ch.Text == "Treffer") { t_iSuccessIndex = ch.Index; }
+                if (ch.Text == "Versatz") { t_iDeviationIndex = ch.Index; }
+                if (ch.Text == "Kommentar") { t_iCommentIndex = ch.Index; }
+                if (ch.Text == "Arduino Debug") { t_iArduinoDebugIndex = ch.Index; }
+            }
 
             //Evtl. vorhandene Geräte eintragen
             CheckSettings();
@@ -545,12 +570,30 @@ namespace KugelfallDbg
 
             m_Versuche.Add(v.Test, v);
 
-            //OK,Versuch,Versatz,Geschwindigkeit,Kommentar
             ListViewItem lvi = new ListViewItem();
-            lvi.SubItems.Add(v.Test.Remove(0, 8));
-            lvi.SubItems.Add(v.Deviation.ToString());
-            lvi.SubItems.Add(v.Debugtext);
-            lvi.SubItems.Add(v.Comment);
+            for(int i = 0; i < t_iListViewColumns; i++)
+            {
+                lvi.SubItems.Insert(i, new ListViewItem.ListViewSubItem());
+            }
+
+            //lvsi.Text = v.Test.Remove(0, 8);
+            lvi.SubItems[t_iTestIndex] = new ListViewItem.ListViewSubItem(lvi, v.Test.Remove(0,8));
+            
+            //lvsi.Text = v.Deviation.ToString();
+            //lvi.SubItems.Insert(t_iDeviationIndex, lvsi);
+            lvi.SubItems[t_iDeviationIndex] = new ListViewItem.ListViewSubItem(lvi, v.Deviation.ToString());
+
+            //lvsi.Text = v.Debugtext;
+            //lvi.SubItems.Insert(t_iArduinoDebugIndex, lvsi);
+            lvi.SubItems[t_iArduinoDebugIndex] = new ListViewItem.ListViewSubItem(lvi, v.Debugtext);
+
+            //lvsi.Text = v.Comment;
+            //lvi.SubItems.Insert(t_iCommentIndex, lvsi);
+            lvi.SubItems[t_iCommentIndex] = new ListViewItem.ListViewSubItem(lvi, v.Comment);
+
+            //lvsi.Text = string.Empty;
+            //lvi.SubItems.Insert(t_iSuccessIndex, lvsi);
+            lvi.SubItems[t_iSuccessIndex] = new ListViewItem.ListViewSubItem(lvi, string.Empty);
 
             LVTestEvaluation.Items.Add(lvi);
 
@@ -563,13 +606,13 @@ namespace KugelfallDbg
 
         //Jeder Versuch wird in einer Map abgespeichert und ist eindeutig identifizierbar über einen String und einer Versuchsklasse
         private System.Collections.Generic.Dictionary<string, Versuchsbild> m_Versuche;
-        private int m_iAnzVersuche = 1;
-        private int m_iSubItemTestIndex = 0;
+
+        private int m_iAnzVersuche = 1; //Anzahl der gemachten Versuche
 
         private void LVVersuchsauswertung_DoubleClick(object sender, EventArgs e)
         {
             ListViewItem lvi = LVTestEvaluation.SelectedItems[0];
-            string key = "Versuch " + lvi.SubItems[1].Text;//(lvi.Index + 1).ToString();
+            string key = "Versuch " + lvi.SubItems[t_iTestIndex].Text;
 
             Versuchsbild temp = GetSelectedItem();
             FormVersuch fv = new FormVersuch(ref temp);
@@ -580,10 +623,10 @@ namespace KugelfallDbg
                 m_Versuche[key] = temp;
 
                 //Itemupdate
-                lvi.SubItems[0].Text = temp.Success;
-                lvi.SubItems[2].Text = temp.Deviation.ToString();
-                lvi.SubItems[3].Text = temp.Debugtext;
-                lvi.SubItems[4].Text = temp.Comment;
+                lvi.SubItems[t_iSuccessIndex].Text = temp.Success;
+                lvi.SubItems[t_iDeviationIndex].Text = temp.Deviation.ToString();
+                lvi.SubItems[t_iArduinoDebugIndex].Text = temp.Debugtext;
+                lvi.SubItems[t_iCommentIndex].Text = temp.Comment;
             }
         }
 
@@ -594,7 +637,7 @@ namespace KugelfallDbg
         {
             ListViewItem lvi = LVTestEvaluation.SelectedItems[0];
 
-            string key = "Versuch " + lvi.SubItems[1].Text;
+            string key = "Versuch " + lvi.SubItems[t_iTestIndex].Text;
 
             return m_Versuche[key];
         }
@@ -609,9 +652,8 @@ namespace KugelfallDbg
             ActivateAudio(false);
 
             MainVideoSourcePlayer.Visible = false;
-
-            //Item wurde ausgewählt --> Ausgewähltes Bild auf Livebild übertragen
-            if (LVTestEvaluation.SelectedItems.Count == 0)  //Vermeiden, dass ein Fehlklick zu einer Exception führt (OutOfRange)
+            
+            if (LVTestEvaluation.SelectedItems.Count == 0)  //Vermeiden, dass ein Fehlklick oder ein nicht mehr angeklicktes Item zu einer Exception führt (OutOfRange)
             {
                 for (int i = 0; i < LVTestEvaluation.Items.Count; i++)
                 {
@@ -627,7 +669,7 @@ namespace KugelfallDbg
 
                 return;
             }
-            else //Item ausgewählt
+            else //Item wurde ausgewählt --> Ausgewähltes Bild auf Livebild übertragen
             {
                 TSBtnRemoveTest.Enabled = true;
 
@@ -751,6 +793,8 @@ namespace KugelfallDbg
 
         private int m_iCurrentFPS = 0;
         private float m_fMaxSampleDelay = 0.0f;
+
+        
 
         private void TBTresholdControl_ValueChanged(object sender, EventArgs e)
         {
