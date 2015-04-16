@@ -822,7 +822,7 @@ namespace KugelfallDbg
 
         private void LVTestEvaluation_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
         {
-            if (m_bMousePressedLV == false)
+            /*if (m_bMousePressedLV == false)
             {
                 e.Cancel = true;
                 e.NewWidth = LVTestEvaluation.Columns[e.ColumnIndex].Width;
@@ -830,7 +830,7 @@ namespace KugelfallDbg
             else
             {
                 LVTestEvaluation.Columns[e.ColumnIndex].Width = e.NewWidth;
-            }
+            }*/
         }
     }
 }

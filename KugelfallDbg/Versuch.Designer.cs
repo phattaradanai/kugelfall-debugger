@@ -51,18 +51,18 @@
             // 
             // TBComment
             // 
-            this.TBComment.Location = new System.Drawing.Point(17, 271);
+            this.TBComment.Location = new System.Drawing.Point(17, 277);
             this.TBComment.Multiline = true;
             this.TBComment.Name = "TBComment";
             this.TBComment.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.TBComment.Size = new System.Drawing.Size(199, 59);
+            this.TBComment.Size = new System.Drawing.Size(199, 72);
             this.TBComment.TabIndex = 1;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(14, 255);
+            this.label1.Location = new System.Drawing.Point(14, 261);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(127, 13);
             this.label1.TabIndex = 2;
@@ -70,14 +70,14 @@
             // 
             // NDeviation
             // 
-            this.NDeviation.Location = new System.Drawing.Point(274, 393);
+            this.NDeviation.Location = new System.Drawing.Point(269, 404);
             this.NDeviation.Minimum = new decimal(new int[] {
             100,
             0,
             0,
             -2147483648});
             this.NDeviation.Name = "NDeviation";
-            this.NDeviation.Size = new System.Drawing.Size(97, 20);
+            this.NDeviation.Size = new System.Drawing.Size(94, 20);
             this.NDeviation.TabIndex = 3;
             // 
             // TBPicture
@@ -93,7 +93,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(229, 395);
+            this.label2.Location = new System.Drawing.Point(221, 406);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(42, 13);
             this.label2.TabIndex = 6;
@@ -104,7 +104,7 @@
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.TBPicture);
-            this.groupBox1.Location = new System.Drawing.Point(224, 271);
+            this.groupBox1.Location = new System.Drawing.Point(224, 277);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(132, 61);
             this.groupBox1.TabIndex = 10;
@@ -133,7 +133,7 @@
             // 
             this.BtnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.BtnCancel.Location = new System.Drawing.Point(71, 419);
+            this.BtnCancel.Location = new System.Drawing.Point(75, 465);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(79, 23);
             this.BtnCancel.TabIndex = 13;
@@ -144,7 +144,7 @@
             // 
             this.BtnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.BtnOK.Location = new System.Drawing.Point(234, 419);
+            this.BtnOK.Location = new System.Drawing.Point(238, 465);
             this.BtnOK.Name = "BtnOK";
             this.BtnOK.Size = new System.Drawing.Size(79, 23);
             this.BtnOK.TabIndex = 14;
@@ -156,7 +156,7 @@
             // 
             this.CBChosenPicture.AutoSize = true;
             this.CBChosenPicture.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.CBChosenPicture.Location = new System.Drawing.Point(266, 343);
+            this.CBChosenPicture.Location = new System.Drawing.Point(285, 379);
             this.CBChosenPicture.Name = "CBChosenPicture";
             this.CBChosenPicture.Size = new System.Drawing.Size(78, 17);
             this.CBChosenPicture.TabIndex = 15;
@@ -175,7 +175,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(14, 333);
+            this.label3.Location = new System.Drawing.Point(14, 363);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(122, 13);
             this.label3.TabIndex = 16;
@@ -184,18 +184,18 @@
             // TBArduino
             // 
             this.TBArduino.Enabled = false;
-            this.TBArduino.Location = new System.Drawing.Point(17, 349);
+            this.TBArduino.Location = new System.Drawing.Point(17, 379);
             this.TBArduino.Multiline = true;
             this.TBArduino.Name = "TBArduino";
             this.TBArduino.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.TBArduino.Size = new System.Drawing.Size(199, 59);
+            this.TBArduino.Size = new System.Drawing.Size(199, 72);
             this.TBArduino.TabIndex = 17;
             // 
             // CBSuccess
             // 
             this.CBSuccess.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CBSuccess.FormattingEnabled = true;
-            this.CBSuccess.Location = new System.Drawing.Point(236, 366);
+            this.CBSuccess.Location = new System.Drawing.Point(222, 430);
             this.CBSuccess.Name = "CBSuccess";
             this.CBSuccess.Size = new System.Drawing.Size(139, 21);
             this.CBSuccess.TabIndex = 18;
@@ -204,7 +204,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(392, 450);
+            this.ClientSize = new System.Drawing.Size(388, 500);
             this.ControlBox = false;
             this.Controls.Add(this.CBSuccess);
             this.Controls.Add(this.TBArduino);
@@ -218,11 +218,13 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.TBComment);
             this.Controls.Add(this.PBTest);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormVersuch";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Versuch";
             this.Load += new System.EventHandler(this.FormVersuch_Load);
             ((System.ComponentModel.ISupportInitialize)(this.NDeviation)).EndInit();
