@@ -471,7 +471,16 @@ namespace KugelfallDbg
                             //SubItems durchgehen und eintragen
                             for (int iSubItems = 0; iSubItems < lvi.SubItems.Count; iSubItems++)
                             {
-                                sw.Write(lvi.SubItems[iSubItems].Text);
+                                if (lvi.SubItems[iSubItems].Text.Contains("\n") || lvi.SubItems[iSubItems].Text.Contains("\r\n"))
+                                {
+                                    string s = lvi.SubItems[iSubItems].Text.Replace("\r\n", " ");
+                                    lvi.SubItems[iSubItems].Text = s;
+                                    sw.Write(s);
+                                }
+                                else
+                                {
+                                    sw.Write(lvi.SubItems[iSubItems].Text);
+                                }
                                 sw.Write(";");
                             }
 
@@ -647,8 +656,14 @@ namespace KugelfallDbg
             ListViewItem lvi = LVTestEvaluation.SelectedItems[0];
 
             string key = "Versuch " + lvi.SubItems[m_iTestIndex].Text;
-
-            return m_Versuche[key];
+            try
+            {
+                return m_Versuche[key];
+            }
+            catch (KeyNotFoundException)
+            {
+                return null;
+            }
         }
 
         /**

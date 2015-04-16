@@ -194,17 +194,18 @@
             // CBSuccess
             // 
             this.CBSuccess.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CBSuccess.Font = new System.Drawing.Font("Lucida Sans Unicode", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CBSuccess.FormattingEnabled = true;
             this.CBSuccess.Location = new System.Drawing.Point(222, 430);
             this.CBSuccess.Name = "CBSuccess";
-            this.CBSuccess.Size = new System.Drawing.Size(139, 21);
+            this.CBSuccess.Size = new System.Drawing.Size(139, 23);
             this.CBSuccess.TabIndex = 18;
             // 
             // FormVersuch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(388, 500);
+            this.ClientSize = new System.Drawing.Size(384, 496);
             this.ControlBox = false;
             this.Controls.Add(this.CBSuccess);
             this.Controls.Add(this.TBArduino);

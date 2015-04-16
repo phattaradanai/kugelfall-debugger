@@ -16,6 +16,7 @@ namespace KugelfallDbg
             m_iWaveInDevice.WaveFormat = new NAudio.Wave.WaveFormat(m_iSampleRate, m_iChannels);
             m_iWaveInDevice.DataAvailable += waveIn_DataAvailable;
             m_iWaveInDevice.DeviceNumber = m_iDeviceNumber;
+            m_iWaveInDevice.BufferMilliseconds = 50;
             BufferMilliseconds = m_iWaveInDevice.BufferMilliseconds;
         }
 
