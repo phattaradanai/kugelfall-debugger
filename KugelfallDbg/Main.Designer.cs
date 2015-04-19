@@ -64,6 +64,8 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.TSBtnAbout = new System.Windows.Forms.ToolStripButton();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_Images)).BeginInit();
@@ -177,7 +179,8 @@
             this.toolStrip1.AutoSize = false;
             this.toolStrip1.BackColor = System.Drawing.Color.LightGray;
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this.toolStrip1.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(26, 26);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.TSBtnRemoveTest,
             this.TSBtnDeactivateCam,
@@ -188,11 +191,12 @@
             this.toolStripSeparator1,
             this.TSBtnCamSettings,
             this.TSBtnArduinoSettings,
-            this.TSBtnAudioConfiguration});
+            this.TSBtnAudioConfiguration,
+            this.TSBtnAbout});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0);
-            this.toolStrip1.Size = new System.Drawing.Size(909, 59);
+            this.toolStrip1.Size = new System.Drawing.Size(909, 48);
             this.toolStrip1.TabIndex = 17;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -202,7 +206,7 @@
             this.TSBtnRemoveTest.Image = global::KugelfallDbg.Properties.Resources.Delete;
             this.TSBtnRemoveTest.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.TSBtnRemoveTest.Name = "TSBtnRemoveTest";
-            this.TSBtnRemoveTest.Size = new System.Drawing.Size(97, 56);
+            this.TSBtnRemoveTest.Size = new System.Drawing.Size(95, 45);
             this.TSBtnRemoveTest.Text = "Versuch löschen";
             this.TSBtnRemoveTest.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TSBtnRemoveTest.Click += new System.EventHandler(this.TSBtnDeleteTest_Click);
@@ -213,7 +217,7 @@
             this.TSBtnDeactivateCam.Image = ((System.Drawing.Image)(resources.GetObject("TSBtnDeactivateCam.Image")));
             this.TSBtnDeactivateCam.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.TSBtnDeactivateCam.Name = "TSBtnDeactivateCam";
-            this.TSBtnDeactivateCam.Size = new System.Drawing.Size(116, 56);
+            this.TSBtnDeactivateCam.Size = new System.Drawing.Size(112, 45);
             this.TSBtnDeactivateCam.Text = "Kamera ausschalten";
             this.TSBtnDeactivateCam.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TSBtnDeactivateCam.ToolTipText = "Versuchskamera einschalten";
@@ -224,7 +228,7 @@
             this.TSBtnActivateCam.Image = global::KugelfallDbg.Properties.Resources.Video;
             this.TSBtnActivateCam.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.TSBtnActivateCam.Name = "TSBtnActivateCam";
-            this.TSBtnActivateCam.Size = new System.Drawing.Size(114, 56);
+            this.TSBtnActivateCam.Size = new System.Drawing.Size(110, 45);
             this.TSBtnActivateCam.Text = "Kamera einschalten";
             this.TSBtnActivateCam.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TSBtnActivateCam.ToolTipText = "Versuchskamera einschalten";
@@ -235,7 +239,7 @@
             this.TSBtnDeleteAll.Image = global::KugelfallDbg.Properties.Resources.Delete;
             this.TSBtnDeleteAll.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.TSBtnDeleteAll.Name = "TSBtnDeleteAll";
-            this.TSBtnDeleteAll.Size = new System.Drawing.Size(109, 56);
+            this.TSBtnDeleteAll.Size = new System.Drawing.Size(107, 45);
             this.TSBtnDeleteAll.Text = "Alle Daten löschen";
             this.TSBtnDeleteAll.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TSBtnDeleteAll.ToolTipText = "Alle Bilder löschen";
@@ -244,14 +248,14 @@
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 59);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 48);
             // 
             // TSBtnExportCSV
             // 
             this.TSBtnExportCSV.Image = global::KugelfallDbg.Properties.Resources.CSVExport;
             this.TSBtnExportCSV.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.TSBtnExportCSV.Name = "TSBtnExportCSV";
-            this.TSBtnExportCSV.Size = new System.Drawing.Size(70, 56);
+            this.TSBtnExportCSV.Size = new System.Drawing.Size(68, 45);
             this.TSBtnExportCSV.Text = "CSV-Export";
             this.TSBtnExportCSV.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TSBtnExportCSV.ToolTipText = "Daten als CSV-Datei exportieren";
@@ -260,15 +264,15 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 59);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 48);
             // 
             // TSBtnCamSettings
             // 
             this.TSBtnCamSettings.Image = ((System.Drawing.Image)(resources.GetObject("TSBtnCamSettings.Image")));
             this.TSBtnCamSettings.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.TSBtnCamSettings.Name = "TSBtnCamSettings";
-            this.TSBtnCamSettings.Size = new System.Drawing.Size(122, 56);
-            this.TSBtnCamSettings.Text = "Kameraeinstellungen";
+            this.TSBtnCamSettings.Size = new System.Drawing.Size(81, 45);
+            this.TSBtnCamSettings.Text = "Kamera Setup";
             this.TSBtnCamSettings.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TSBtnCamSettings.Click += new System.EventHandler(this.TSBtnCamSettings_Click);
             // 
@@ -277,8 +281,8 @@
             this.TSBtnArduinoSettings.Image = global::KugelfallDbg.Properties.Resources.RS232;
             this.TSBtnArduinoSettings.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.TSBtnArduinoSettings.Name = "TSBtnArduinoSettings";
-            this.TSBtnArduinoSettings.Size = new System.Drawing.Size(128, 56);
-            this.TSBtnArduinoSettings.Text = "Arduino Einstellungen";
+            this.TSBtnArduinoSettings.Size = new System.Drawing.Size(86, 45);
+            this.TSBtnArduinoSettings.Text = "Arduino Setup";
             this.TSBtnArduinoSettings.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TSBtnArduinoSettings.ToolTipText = "RS232 Einstellungen";
             this.TSBtnArduinoSettings.Click += new System.EventHandler(this.TSBtnArduinoSettings_Click);
@@ -288,8 +292,8 @@
             this.TSBtnAudioConfiguration.Image = global::KugelfallDbg.Properties.Resources.Microphone;
             this.TSBtnAudioConfiguration.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.TSBtnAudioConfiguration.Name = "TSBtnAudioConfiguration";
-            this.TSBtnAudioConfiguration.Size = new System.Drawing.Size(114, 56);
-            this.TSBtnAudioConfiguration.Text = "Audioeinstellungen";
+            this.TSBtnAudioConfiguration.Size = new System.Drawing.Size(75, 45);
+            this.TSBtnAudioConfiguration.Text = "Audio Setup";
             this.TSBtnAudioConfiguration.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TSBtnAudioConfiguration.Click += new System.EventHandler(this.TSBtnAudioConfiguration_Click);
             // 
@@ -324,7 +328,7 @@
             // 
             // toolStripContainer1.ContentPanel
             // 
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(912, 2);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(912, 13);
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Margin = new System.Windows.Forms.Padding(0);
             this.toolStripContainer1.Name = "toolStripContainer1";
@@ -339,14 +343,14 @@
             // PBVolumeMeter
             // 
             this.PBVolumeMeter.BackColor = System.Drawing.Color.LightSlateGray;
-            this.PBVolumeMeter.Location = new System.Drawing.Point(930, 8);
+            this.PBVolumeMeter.Location = new System.Drawing.Point(930, 22);
             this.PBVolumeMeter.Name = "PBVolumeMeter";
             this.PBVolumeMeter.Size = new System.Drawing.Size(302, 23);
             this.PBVolumeMeter.TabIndex = 29;
             // 
             // TBTresholdControl
             // 
-            this.TBTresholdControl.Location = new System.Drawing.Point(920, 23);
+            this.TBTresholdControl.Location = new System.Drawing.Point(920, 37);
             this.TBTresholdControl.Maximum = 100;
             this.TBTresholdControl.Name = "TBTresholdControl";
             this.TBTresholdControl.Size = new System.Drawing.Size(320, 45);
@@ -395,12 +399,31 @@
             this.label3.Text = "label3";
             this.label3.Visible = false;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(927, 6);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(63, 13);
+            this.label4.TabIndex = 36;
+            this.label4.Text = "Input Level:";
+            // 
+            // TSBtnAbout
+            // 
+            this.TSBtnAbout.Image = global::KugelfallDbg.Properties.Resources.Information;
+            this.TSBtnAbout.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.TSBtnAbout.Name = "TSBtnAbout";
+            this.TSBtnAbout.Size = new System.Drawing.Size(36, 45);
+            this.TSBtnAbout.Text = "Über";
+            this.TSBtnAbout.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
             // Main
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.LightGray;
             this.ClientSize = new System.Drawing.Size(1244, 443);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
@@ -475,6 +498,8 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ToolStripButton TSBtnAbout;
     }
 }
 

@@ -176,7 +176,7 @@
             this.TBArduino.Multiline = true;
             this.TBArduino.Name = "TBArduino";
             this.TBArduino.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.TBArduino.Size = new System.Drawing.Size(199, 72);
+            this.TBArduino.Size = new System.Drawing.Size(199, 74);
             this.TBArduino.TabIndex = 17;
             // 
             // CBSuccess
