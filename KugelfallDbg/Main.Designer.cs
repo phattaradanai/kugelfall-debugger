@@ -53,9 +53,9 @@
             this.TSBtnCamSettings = new System.Windows.Forms.ToolStripButton();
             this.TSBtnArduinoSettings = new System.Windows.Forms.ToolStripButton();
             this.TSBtnAudioConfiguration = new System.Windows.Forms.ToolStripButton();
+            this.TSBtnAbout = new System.Windows.Forms.ToolStripButton();
             this.ILVersuchsbilder = new System.Windows.Forms.ImageList(this.components);
             this.label2 = new System.Windows.Forms.Label();
-            this.pb_Images = new System.Windows.Forms.PictureBox();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.PBVolumeMeter = new System.Windows.Forms.ProgressBar();
             this.TBTresholdControl = new System.Windows.Forms.TrackBar();
@@ -65,13 +65,14 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.TSBtnAbout = new System.Windows.Forms.ToolStripButton();
+            this.pb_Images = new System.Windows.Forms.PictureBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_Images)).BeginInit();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TBTresholdControl)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_Images)).BeginInit();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -196,7 +197,7 @@
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0);
-            this.toolStrip1.Size = new System.Drawing.Size(909, 48);
+            this.toolStrip1.Size = new System.Drawing.Size(815, 46);
             this.toolStrip1.TabIndex = 17;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -217,7 +218,7 @@
             this.TSBtnDeactivateCam.Image = ((System.Drawing.Image)(resources.GetObject("TSBtnDeactivateCam.Image")));
             this.TSBtnDeactivateCam.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.TSBtnDeactivateCam.Name = "TSBtnDeactivateCam";
-            this.TSBtnDeactivateCam.Size = new System.Drawing.Size(112, 45);
+            this.TSBtnDeactivateCam.Size = new System.Drawing.Size(112, 43);
             this.TSBtnDeactivateCam.Text = "Kamera ausschalten";
             this.TSBtnDeactivateCam.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TSBtnDeactivateCam.ToolTipText = "Versuchskamera einschalten";
@@ -228,7 +229,7 @@
             this.TSBtnActivateCam.Image = global::KugelfallDbg.Properties.Resources.Video;
             this.TSBtnActivateCam.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.TSBtnActivateCam.Name = "TSBtnActivateCam";
-            this.TSBtnActivateCam.Size = new System.Drawing.Size(110, 45);
+            this.TSBtnActivateCam.Size = new System.Drawing.Size(110, 43);
             this.TSBtnActivateCam.Text = "Kamera einschalten";
             this.TSBtnActivateCam.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TSBtnActivateCam.ToolTipText = "Versuchskamera einschalten";
@@ -239,7 +240,7 @@
             this.TSBtnDeleteAll.Image = global::KugelfallDbg.Properties.Resources.Delete;
             this.TSBtnDeleteAll.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.TSBtnDeleteAll.Name = "TSBtnDeleteAll";
-            this.TSBtnDeleteAll.Size = new System.Drawing.Size(107, 45);
+            this.TSBtnDeleteAll.Size = new System.Drawing.Size(107, 43);
             this.TSBtnDeleteAll.Text = "Alle Daten löschen";
             this.TSBtnDeleteAll.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TSBtnDeleteAll.ToolTipText = "Alle Bilder löschen";
@@ -255,7 +256,7 @@
             this.TSBtnExportCSV.Image = global::KugelfallDbg.Properties.Resources.CSVExport;
             this.TSBtnExportCSV.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.TSBtnExportCSV.Name = "TSBtnExportCSV";
-            this.TSBtnExportCSV.Size = new System.Drawing.Size(68, 45);
+            this.TSBtnExportCSV.Size = new System.Drawing.Size(68, 43);
             this.TSBtnExportCSV.Text = "CSV-Export";
             this.TSBtnExportCSV.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TSBtnExportCSV.ToolTipText = "Daten als CSV-Datei exportieren";
@@ -271,7 +272,7 @@
             this.TSBtnCamSettings.Image = ((System.Drawing.Image)(resources.GetObject("TSBtnCamSettings.Image")));
             this.TSBtnCamSettings.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.TSBtnCamSettings.Name = "TSBtnCamSettings";
-            this.TSBtnCamSettings.Size = new System.Drawing.Size(81, 45);
+            this.TSBtnCamSettings.Size = new System.Drawing.Size(81, 43);
             this.TSBtnCamSettings.Text = "Kamera Setup";
             this.TSBtnCamSettings.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TSBtnCamSettings.Click += new System.EventHandler(this.TSBtnCamSettings_Click);
@@ -281,7 +282,7 @@
             this.TSBtnArduinoSettings.Image = global::KugelfallDbg.Properties.Resources.RS232;
             this.TSBtnArduinoSettings.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.TSBtnArduinoSettings.Name = "TSBtnArduinoSettings";
-            this.TSBtnArduinoSettings.Size = new System.Drawing.Size(86, 45);
+            this.TSBtnArduinoSettings.Size = new System.Drawing.Size(86, 43);
             this.TSBtnArduinoSettings.Text = "Arduino Setup";
             this.TSBtnArduinoSettings.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TSBtnArduinoSettings.ToolTipText = "RS232 Einstellungen";
@@ -292,10 +293,20 @@
             this.TSBtnAudioConfiguration.Image = global::KugelfallDbg.Properties.Resources.Microphone;
             this.TSBtnAudioConfiguration.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.TSBtnAudioConfiguration.Name = "TSBtnAudioConfiguration";
-            this.TSBtnAudioConfiguration.Size = new System.Drawing.Size(75, 45);
+            this.TSBtnAudioConfiguration.Size = new System.Drawing.Size(75, 43);
             this.TSBtnAudioConfiguration.Text = "Audio Setup";
             this.TSBtnAudioConfiguration.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TSBtnAudioConfiguration.Click += new System.EventHandler(this.TSBtnAudioConfiguration_Click);
+            // 
+            // TSBtnAbout
+            // 
+            this.TSBtnAbout.Image = global::KugelfallDbg.Properties.Resources.Information;
+            this.TSBtnAbout.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.TSBtnAbout.Name = "TSBtnAbout";
+            this.TSBtnAbout.Size = new System.Drawing.Size(36, 43);
+            this.TSBtnAbout.Text = "Über";
+            this.TSBtnAbout.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.TSBtnAbout.Click += new System.EventHandler(this.TSBtnAbout_Click);
             // 
             // ILVersuchsbilder
             // 
@@ -312,27 +323,16 @@
             this.label2.TabIndex = 20;
             this.label2.Text = "Livebild der Kamera";
             // 
-            // pb_Images
-            // 
-            this.pb_Images.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.pb_Images.Location = new System.Drawing.Point(12, 84);
-            this.pb_Images.Name = "pb_Images";
-            this.pb_Images.Size = new System.Drawing.Size(560, 304);
-            this.pb_Images.TabIndex = 25;
-            this.pb_Images.TabStop = false;
-            this.pb_Images.Visible = false;
-            this.pb_Images.WaitOnLoad = true;
-            // 
             // toolStripContainer1
             // 
             // 
             // toolStripContainer1.ContentPanel
             // 
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(912, 13);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(818, 15);
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Margin = new System.Windows.Forms.Padding(0);
             this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(912, 61);
+            this.toolStripContainer1.Size = new System.Drawing.Size(818, 61);
             this.toolStripContainer1.TabIndex = 28;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
@@ -343,14 +343,14 @@
             // PBVolumeMeter
             // 
             this.PBVolumeMeter.BackColor = System.Drawing.Color.LightSlateGray;
-            this.PBVolumeMeter.Location = new System.Drawing.Point(930, 22);
+            this.PBVolumeMeter.Location = new System.Drawing.Point(896, 4);
             this.PBVolumeMeter.Name = "PBVolumeMeter";
             this.PBVolumeMeter.Size = new System.Drawing.Size(302, 23);
             this.PBVolumeMeter.TabIndex = 29;
             // 
             // TBTresholdControl
             // 
-            this.TBTresholdControl.Location = new System.Drawing.Point(920, 37);
+            this.TBTresholdControl.Location = new System.Drawing.Point(889, 22);
             this.TBTresholdControl.Maximum = 100;
             this.TBTresholdControl.Name = "TBTresholdControl";
             this.TBTresholdControl.Size = new System.Drawing.Size(320, 45);
@@ -370,16 +370,16 @@
             // 
             // panel1
             // 
-            this.panel1.Location = new System.Drawing.Point(902, 0);
+            this.panel1.Location = new System.Drawing.Point(814, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(18, 67);
+            this.panel1.Size = new System.Drawing.Size(7, 67);
             this.panel1.TabIndex = 32;
             // 
             // panel2
             // 
-            this.panel2.Location = new System.Drawing.Point(2, 58);
+            this.panel2.Location = new System.Drawing.Point(2, 43);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(910, 8);
+            this.panel2.Size = new System.Drawing.Size(818, 10);
             this.panel2.TabIndex = 33;
             // 
             // panel3
@@ -402,20 +402,31 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(927, 6);
+            this.label4.Location = new System.Drawing.Point(827, 9);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(63, 13);
             this.label4.TabIndex = 36;
             this.label4.Text = "Input Level:";
             // 
-            // TSBtnAbout
+            // pb_Images
             // 
-            this.TSBtnAbout.Image = global::KugelfallDbg.Properties.Resources.Information;
-            this.TSBtnAbout.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.TSBtnAbout.Name = "TSBtnAbout";
-            this.TSBtnAbout.Size = new System.Drawing.Size(36, 45);
-            this.TSBtnAbout.Text = "Über";
-            this.TSBtnAbout.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.pb_Images.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.pb_Images.Location = new System.Drawing.Point(12, 84);
+            this.pb_Images.Name = "pb_Images";
+            this.pb_Images.Size = new System.Drawing.Size(560, 304);
+            this.pb_Images.TabIndex = 25;
+            this.pb_Images.TabStop = false;
+            this.pb_Images.Visible = false;
+            this.pb_Images.WaitOnLoad = true;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(821, 34);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(76, 13);
+            this.label5.TabIndex = 37;
+            this.label5.Text = "Schwellenwert";
             // 
             // Main
             // 
@@ -423,6 +434,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.LightGray;
             this.ClientSize = new System.Drawing.Size(1244, 443);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.panel3);
@@ -452,11 +464,11 @@
             this.statusStrip1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pb_Images)).EndInit();
             this.toolStripContainer1.TopToolStripPanel.ResumeLayout(false);
             this.toolStripContainer1.ResumeLayout(false);
             this.toolStripContainer1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TBTresholdControl)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pb_Images)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -500,6 +512,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ToolStripButton TSBtnAbout;
+        private System.Windows.Forms.Label label5;
     }
 }
 

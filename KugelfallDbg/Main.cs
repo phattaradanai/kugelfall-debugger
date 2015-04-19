@@ -849,5 +849,11 @@ namespace KugelfallDbg
         private int m_iCurrentFPS = 0;
         private float m_fMaxSampleDelay = 0.0f;
 
+        private void TSBtnAbout_Click(object sender, EventArgs e)
+        {
+            About ab = new About();
+            ab.ShowDialog();
+        }
+
     }
 }

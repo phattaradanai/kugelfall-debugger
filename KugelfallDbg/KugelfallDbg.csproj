@@ -208,6 +208,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Graphics\ArduinoCommunityLogo_SVG.png" />
+    <None Include="Resources\Information.png" />
     <None Include="Resources\ArduinoCommunityLogo.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
