@@ -78,6 +78,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="About.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="About.Designer.cs">
+      <DependentUpon>About.cs</DependentUpon>
+    </Compile>
     <Compile Include="Arduino.cs" />
     <Compile Include="Audio.cs" />
     <Compile Include="AudioDevice.cs">
@@ -114,6 +120,9 @@
       <DependentUpon>Versuch.cs</DependentUpon>
     </Compile>
     <Compile Include="Versuchsbild.cs" />
+    <EmbeddedResource Include="About.resx">
+      <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AudioDevice.resx">
       <DependentUpon>AudioDevice.cs</DependentUpon>
     </EmbeddedResource>
