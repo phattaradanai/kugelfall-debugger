@@ -126,5 +126,18 @@ namespace KugelfallDbg
                 }
             }
         }
+
+
+        //Falls die Escape-Taste gedrückt wurde, soll das Fenster schließen
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.Escape)
+            {
+                this.Close();
+                return true;
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
     }
 }

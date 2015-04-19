@@ -194,10 +194,11 @@
             this.TSBtnArduinoSettings,
             this.TSBtnAudioConfiguration,
             this.TSBtnAbout});
-            this.toolStrip1.Location = new System.Drawing.Point(3, 0);
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0);
-            this.toolStrip1.Size = new System.Drawing.Size(815, 46);
+            this.toolStrip1.Size = new System.Drawing.Size(818, 46);
+            this.toolStrip1.Stretch = true;
             this.toolStrip1.TabIndex = 17;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -207,7 +208,7 @@
             this.TSBtnRemoveTest.Image = global::KugelfallDbg.Properties.Resources.Delete;
             this.TSBtnRemoveTest.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.TSBtnRemoveTest.Name = "TSBtnRemoveTest";
-            this.TSBtnRemoveTest.Size = new System.Drawing.Size(95, 45);
+            this.TSBtnRemoveTest.Size = new System.Drawing.Size(95, 43);
             this.TSBtnRemoveTest.Text = "Versuch löschen";
             this.TSBtnRemoveTest.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TSBtnRemoveTest.Click += new System.EventHandler(this.TSBtnDeleteTest_Click);
@@ -249,7 +250,7 @@
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 48);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 46);
             // 
             // TSBtnExportCSV
             // 
@@ -265,7 +266,7 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 48);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 46);
             // 
             // TSBtnCamSettings
             // 
