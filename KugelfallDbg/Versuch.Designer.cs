@@ -151,6 +151,8 @@
             this.CBChosenPicture.Text = "Bestes Bild";
             this.CBChosenPicture.UseVisualStyleBackColor = true;
             this.CBChosenPicture.CheckedChanged += new System.EventHandler(this.CBGewBild_CheckedChanged);
+            this.CBChosenPicture.MouseDown += new System.Windows.Forms.MouseEventHandler(this.CBChosenPicture_MouseDown);
+            this.CBChosenPicture.MouseUp += new System.Windows.Forms.MouseEventHandler(this.CBChosenPicture_MouseUp);
             // 
             // PBTest
             // 

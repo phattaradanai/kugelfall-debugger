@@ -59,7 +59,6 @@ namespace KugelfallDbg
             TBComment.Text = m_Versuchsbild.Comment;
             NDeviation.Value = m_Versuchsbild.Deviation;
 
-
             if (m_Versuchsbild.Success == string.Empty)
             {
                 CBSuccess.SelectedIndex = 0;
@@ -74,11 +73,17 @@ namespace KugelfallDbg
             TBArduino.Text = m_Versuchsbild.Debugtext;
         }
 
+        private bool t_bMousePress = false;
+
         private void CBGewBild_CheckedChanged(object sender, EventArgs e)
         {
-            if (CBChosenPicture.Checked == true)
+            if (CBChosenPicture.Checked == true && t_bMousePress == true)
             {
                 m_Versuchsbild.BestPicture = TBPicture.Value;
+            }
+            else if(CBChosenPicture.Checked == false && t_bMousePress == true)
+            {
+                m_Versuchsbild.BestPicture = -1;
             }
         }
 
@@ -138,6 +143,27 @@ namespace KugelfallDbg
             }
 
             return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        //Mausevents: Dienen der Unterscheidung, ob die Checkbox vom User oder von der Trackbar geändert wurde
+        /// <summary>
+        /// MouseDown-Event: Signalisiert dass ein Mausklick erfolgt hat.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CBChosenPicture_MouseDown(object sender, MouseEventArgs e)
+        {
+            t_bMousePress = true;
+        }
+
+        /// <summary>
+        /// MouseUp-Event: Signalisiert, dass der Mausklick gelöst wurde.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CBChosenPicture_MouseUp(object sender, MouseEventArgs e)
+        {
+            t_bMousePress = false;
         }
     }
 }
