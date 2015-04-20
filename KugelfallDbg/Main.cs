@@ -357,8 +357,46 @@ namespace KugelfallDbg
                 int offset = 0;
                 for (int i = 0, y = 0; i < _v.Pictures.Length;i++ )
                 {
-                    if (i == 3) { y++; offset = 0; }    //Nach 3 Bildern erfolgt ein "Zeilenumbruch" (Die zweite Zeile wird mit Bildern gefüllt
+                    if (i == 3) { y++; offset = 0; }    //Nach 3 Bildern erfolgt ein "Zeilenumbruch" (Die zweite Zeile wird mit Bildern gefüllt)
                     g.DrawImage(_v.Pictures[i], new System.Drawing.Rectangle(offset, y * _v.Pictures[i].Height, _v.Pictures[i].Width, _v.Pictures[i].Height));
+
+                    offset += _v.Pictures[i].Width;
+                }
+            }
+
+            //Bestes Bild umranden
+            if (_v.BestPicture != -1)
+            {
+                int offset = 0;
+                float fYCorrection = 0.0f;
+                Rectangle Rect = new Rectangle();
+
+                float PenWidth = 7.0f;
+                Pen p = new Pen(Color.Red, PenWidth);
+
+                for (int i = 0, y = 0; i < _v.Pictures.Length; i++)
+                {
+                    if (i == 3) { y++; offset = 0; }    //Nach 3 Bildern erfolgt ein "Zeilenumbruch" (Die zweite Zeile wird mit Bildern gefüllt)
+                    if (i == _v.BestPicture)
+                    {
+                        //Korrekturfaktoren, damit der Rand sauber gezeichnet wird
+                        if (y == 0)
+                        {
+                            if (i == 0) { Rect.X = (int)PenWidth / 2 - 1; Rect.Y = (int)PenWidth / 2 - 1; Rect.Width = _v.Pictures[i].Width; Rect.Height = _v.Pictures[i].Height; }
+                            else if (i == 1) { Rect.X = offset; Rect.Y = (int)PenWidth / 2 - 1; Rect.Width = _v.Pictures[i].Width; Rect.Height = _v.Pictures[i].Height; }
+                            else if (i == 2) { Rect.X = offset; Rect.Y = (int)PenWidth / 2 - 1; Rect.Width = _v.Pictures[i].Width - (int)PenWidth / 2 - 1; Rect.Height = _v.Pictures[i].Height; }
+                        }
+                        else if(y == 1)
+                        {
+                            if (i == 3) { Rect.X = (int)PenWidth/2 - 1; Rect.Y = y * _v.Pictures[i].Height; Rect.Width = _v.Pictures[i].Width; Rect.Height = _v.Pictures[i].Height - (int)(PenWidth/2) - 1; }
+                            else if (i == 4) { Rect.X = offset; Rect.Y = y * _v.Pictures[i].Height; Rect.Width = _v.Pictures[i].Width; Rect.Height = _v.Pictures[i].Height - (int)PenWidth / 2 - 1; }
+                            else if (i == 5) { Rect.X = offset; Rect.Y = y * _v.Pictures[i].Height; Rect.Width = _v.Pictures[i].Width - (int)PenWidth / 2 - 1; Rect.Height = _v.Pictures[i].Height - (int)PenWidth / 2 - 1; }
+                        }
+
+                        g.DrawRectangle(p,Rect);
+                        break;
+                    }
+
                     offset += _v.Pictures[i].Width;
                 }
             }

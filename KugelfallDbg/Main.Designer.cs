@@ -63,10 +63,10 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.pb_Images = new System.Windows.Forms.PictureBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -120,7 +120,7 @@
             // MainVideoSourcePlayer
             // 
             this.MainVideoSourcePlayer.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.MainVideoSourcePlayer.Location = new System.Drawing.Point(12, 84);
+            this.MainVideoSourcePlayer.Location = new System.Drawing.Point(12, 92);
             this.MainVideoSourcePlayer.Name = "MainVideoSourcePlayer";
             this.MainVideoSourcePlayer.Size = new System.Drawing.Size(560, 304);
             this.MainVideoSourcePlayer.TabIndex = 1;
@@ -140,7 +140,7 @@
             this.LVTestEvaluation.FullRowSelect = true;
             this.LVTestEvaluation.GridLines = true;
             this.LVTestEvaluation.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.LVTestEvaluation.Location = new System.Drawing.Point(593, 84);
+            this.LVTestEvaluation.Location = new System.Drawing.Point(593, 92);
             this.LVTestEvaluation.MultiSelect = false;
             this.LVTestEvaluation.Name = "LVTestEvaluation";
             this.LVTestEvaluation.Size = new System.Drawing.Size(639, 304);
@@ -193,11 +193,12 @@
             this.TSBtnCamSettings,
             this.TSBtnArduinoSettings,
             this.TSBtnAudioConfiguration,
+            this.toolStripSeparator3,
             this.TSBtnAbout});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0);
-            this.toolStrip1.Size = new System.Drawing.Size(818, 46);
+            this.toolStrip1.Size = new System.Drawing.Size(815, 56);
             this.toolStrip1.Stretch = true;
             this.toolStrip1.TabIndex = 17;
             this.toolStrip1.Text = "toolStrip1";
@@ -219,7 +220,7 @@
             this.TSBtnDeactivateCam.Image = ((System.Drawing.Image)(resources.GetObject("TSBtnDeactivateCam.Image")));
             this.TSBtnDeactivateCam.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.TSBtnDeactivateCam.Name = "TSBtnDeactivateCam";
-            this.TSBtnDeactivateCam.Size = new System.Drawing.Size(112, 43);
+            this.TSBtnDeactivateCam.Size = new System.Drawing.Size(112, 53);
             this.TSBtnDeactivateCam.Text = "Kamera ausschalten";
             this.TSBtnDeactivateCam.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TSBtnDeactivateCam.ToolTipText = "Versuchskamera einschalten";
@@ -318,7 +319,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(230, 68);
+            this.label2.Location = new System.Drawing.Point(230, 76);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(100, 13);
             this.label2.TabIndex = 20;
@@ -329,11 +330,11 @@
             // 
             // toolStripContainer1.ContentPanel
             // 
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(818, 15);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(818, 12);
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Margin = new System.Windows.Forms.Padding(0);
             this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(818, 61);
+            this.toolStripContainer1.Size = new System.Drawing.Size(818, 68);
             this.toolStripContainer1.TabIndex = 28;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
@@ -344,14 +345,14 @@
             // PBVolumeMeter
             // 
             this.PBVolumeMeter.BackColor = System.Drawing.Color.LightSlateGray;
-            this.PBVolumeMeter.Location = new System.Drawing.Point(896, 4);
+            this.PBVolumeMeter.Location = new System.Drawing.Point(915, 4);
             this.PBVolumeMeter.Name = "PBVolumeMeter";
             this.PBVolumeMeter.Size = new System.Drawing.Size(302, 23);
             this.PBVolumeMeter.TabIndex = 29;
             // 
             // TBTresholdControl
             // 
-            this.TBTresholdControl.Location = new System.Drawing.Point(889, 22);
+            this.TBTresholdControl.Location = new System.Drawing.Point(907, 22);
             this.TBTresholdControl.Maximum = 100;
             this.TBTresholdControl.Name = "TBTresholdControl";
             this.TBTresholdControl.Size = new System.Drawing.Size(320, 45);
@@ -363,7 +364,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(862, 68);
+            this.label1.Location = new System.Drawing.Point(862, 76);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(118, 13);
             this.label1.TabIndex = 31;
@@ -378,9 +379,9 @@
             // 
             // panel2
             // 
-            this.panel2.Location = new System.Drawing.Point(2, 43);
+            this.panel2.Location = new System.Drawing.Point(10, 54);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(818, 10);
+            this.panel2.Size = new System.Drawing.Size(804, 10);
             this.panel2.TabIndex = 33;
             // 
             // panel3
@@ -389,16 +390,6 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(10, 65);
             this.panel3.TabIndex = 34;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(570, 408);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(35, 13);
-            this.label3.TabIndex = 35;
-            this.label3.Text = "label3";
-            this.label3.Visible = false;
             // 
             // label4
             // 
@@ -412,7 +403,7 @@
             // pb_Images
             // 
             this.pb_Images.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.pb_Images.Location = new System.Drawing.Point(12, 84);
+            this.pb_Images.Location = new System.Drawing.Point(12, 92);
             this.pb_Images.Name = "pb_Images";
             this.pb_Images.Size = new System.Drawing.Size(560, 304);
             this.pb_Images.TabIndex = 25;
@@ -429,17 +420,21 @@
             this.label5.TabIndex = 37;
             this.label5.Text = "Schwellenwert";
             // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 56);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.LightGray;
             this.ClientSize = new System.Drawing.Size(1244, 443);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.panel3);
-            this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.PBVolumeMeter);
@@ -510,10 +505,10 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ToolStripButton TSBtnAbout;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
     }
 }
 
