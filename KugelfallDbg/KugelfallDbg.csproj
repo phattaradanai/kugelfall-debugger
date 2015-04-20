@@ -70,7 +70,6 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
@@ -208,6 +207,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Graphics\ArduinoCommunityLogo_SVG.png" />
+    <None Include="Resources\Information2.png" />
     <None Include="Resources\Information.png" />
     <None Include="Resources\ArduinoCommunityLogo.bmp" />
   </ItemGroup>

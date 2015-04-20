@@ -53,6 +53,7 @@
             this.TSBtnCamSettings = new System.Windows.Forms.ToolStripButton();
             this.TSBtnArduinoSettings = new System.Windows.Forms.ToolStripButton();
             this.TSBtnAudioConfiguration = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.TSBtnAbout = new System.Windows.Forms.ToolStripButton();
             this.ILVersuchsbilder = new System.Windows.Forms.ImageList(this.components);
             this.label2 = new System.Windows.Forms.Label();
@@ -66,7 +67,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.pb_Images = new System.Windows.Forms.PictureBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -195,10 +195,10 @@
             this.TSBtnAudioConfiguration,
             this.toolStripSeparator3,
             this.TSBtnAbout});
-            this.toolStrip1.Location = new System.Drawing.Point(3, 0);
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(0);
-            this.toolStrip1.Size = new System.Drawing.Size(815, 56);
+            this.toolStrip1.Size = new System.Drawing.Size(818, 46);
             this.toolStrip1.Stretch = true;
             this.toolStrip1.TabIndex = 17;
             this.toolStrip1.Text = "toolStrip1";
@@ -220,7 +220,7 @@
             this.TSBtnDeactivateCam.Image = ((System.Drawing.Image)(resources.GetObject("TSBtnDeactivateCam.Image")));
             this.TSBtnDeactivateCam.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.TSBtnDeactivateCam.Name = "TSBtnDeactivateCam";
-            this.TSBtnDeactivateCam.Size = new System.Drawing.Size(112, 53);
+            this.TSBtnDeactivateCam.Size = new System.Drawing.Size(112, 43);
             this.TSBtnDeactivateCam.Text = "Kamera ausschalten";
             this.TSBtnDeactivateCam.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TSBtnDeactivateCam.ToolTipText = "Versuchskamera einschalten";
@@ -300,9 +300,14 @@
             this.TSBtnAudioConfiguration.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.TSBtnAudioConfiguration.Click += new System.EventHandler(this.TSBtnAudioConfiguration_Click);
             // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 46);
+            // 
             // TSBtnAbout
             // 
-            this.TSBtnAbout.Image = global::KugelfallDbg.Properties.Resources.Information;
+            this.TSBtnAbout.Image = global::KugelfallDbg.Properties.Resources.Information2;
             this.TSBtnAbout.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.TSBtnAbout.Name = "TSBtnAbout";
             this.TSBtnAbout.Size = new System.Drawing.Size(36, 43);
@@ -330,7 +335,7 @@
             // 
             // toolStripContainer1.ContentPanel
             // 
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(818, 12);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(818, 22);
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Margin = new System.Windows.Forms.Padding(0);
             this.toolStripContainer1.Name = "toolStripContainer1";
@@ -419,11 +424,6 @@
             this.label5.Size = new System.Drawing.Size(76, 13);
             this.label5.TabIndex = 37;
             this.label5.Text = "Schwellenwert";
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 56);
             // 
             // Main
             // 
