@@ -44,7 +44,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(26, 71);
+            this.label1.Location = new System.Drawing.Point(26, 66);
             this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 3, 0);
             this.label1.MaximumSize = new System.Drawing.Size(0, 27);
             this.label1.Name = "label1";
@@ -57,9 +57,9 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Location = new System.Drawing.Point(3, 27);
+            this.label2.Location = new System.Drawing.Point(3, 30);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(232, 27);
+            this.label2.Size = new System.Drawing.Size(232, 30);
             this.label2.TabIndex = 32;
             this.label2.Text = "Lizenztyp: MIT-Lizenz";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -68,9 +68,9 @@
             // 
             this.LblCompany.AutoSize = true;
             this.LblCompany.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.LblCompany.Location = new System.Drawing.Point(3, 54);
+            this.LblCompany.Location = new System.Drawing.Point(3, 60);
             this.LblCompany.Name = "LblCompany";
-            this.LblCompany.Size = new System.Drawing.Size(232, 27);
+            this.LblCompany.Size = new System.Drawing.Size(232, 30);
             this.LblCompany.TabIndex = 33;
             this.LblCompany.Text = "LblCompany";
             this.LblCompany.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -81,7 +81,7 @@
             this.LblProduct.Dock = System.Windows.Forms.DockStyle.Fill;
             this.LblProduct.Location = new System.Drawing.Point(3, 0);
             this.LblProduct.Name = "LblProduct";
-            this.LblProduct.Size = new System.Drawing.Size(232, 27);
+            this.LblProduct.Size = new System.Drawing.Size(232, 30);
             this.LblProduct.TabIndex = 34;
             this.LblProduct.Text = "LblProduct";
             this.LblProduct.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -89,7 +89,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(26, 19);
+            this.label4.Location = new System.Drawing.Point(26, 20);
             this.label4.Margin = new System.Windows.Forms.Padding(6, 0, 3, 0);
             this.label4.MaximumSize = new System.Drawing.Size(0, 17);
             this.label4.Name = "label4";
@@ -104,17 +104,18 @@
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.groupBox1.Location = new System.Drawing.Point(3, 84);
+            this.groupBox1.Location = new System.Drawing.Point(3, 93);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(232, 112);
+            this.groupBox1.Size = new System.Drawing.Size(232, 101);
             this.groupBox1.TabIndex = 38;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Teile dieser Software sind:";
+            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(26, 43);
+            this.label3.Location = new System.Drawing.Point(26, 44);
             this.label3.Margin = new System.Windows.Forms.Padding(6, 0, 3, 0);
             this.label3.MaximumSize = new System.Drawing.Size(0, 27);
             this.label3.Name = "label3";
@@ -134,17 +135,17 @@
             this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 12);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 4;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 13.60544F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 13.60544F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 13.60544F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 59.18368F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(238, 199);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15.37963F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15.37964F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15.37964F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 53.8611F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(238, 197);
             this.tableLayoutPanel1.TabIndex = 39;
             // 
             // BtnOK
             // 
             this.BtnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.BtnOK.Location = new System.Drawing.Point(96, 249);
+            this.BtnOK.Location = new System.Drawing.Point(96, 233);
             this.BtnOK.Name = "BtnOK";
             this.BtnOK.Size = new System.Drawing.Size(66, 22);
             this.BtnOK.TabIndex = 40;
@@ -154,7 +155,7 @@
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(15, 224);
+            this.linkLabel1.Location = new System.Drawing.Point(15, 212);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(55, 13);
             this.linkLabel1.TabIndex = 41;
@@ -165,7 +166,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(259, 279);
+            this.ClientSize = new System.Drawing.Size(259, 263);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.BtnOK);
             this.Controls.Add(this.tableLayoutPanel1);

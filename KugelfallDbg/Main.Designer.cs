@@ -61,7 +61,6 @@
             this.PBVolumeMeter = new System.Windows.Forms.ProgressBar();
             this.TBTresholdControl = new System.Windows.Forms.TrackBar();
             this.label1 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
@@ -375,13 +374,6 @@
             this.label1.TabIndex = 31;
             this.label1.Text = "Versuchsauswertungen";
             // 
-            // panel1
-            // 
-            this.panel1.Location = new System.Drawing.Point(814, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(7, 67);
-            this.panel1.TabIndex = 32;
-            // 
             // panel2
             // 
             this.panel2.Location = new System.Drawing.Point(10, 54);
@@ -419,7 +411,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(821, 34);
+            this.label5.Location = new System.Drawing.Point(823, 34);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(76, 13);
             this.label5.TabIndex = 37;
@@ -435,7 +427,6 @@
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.panel3);
-            this.Controls.Add(this.panel1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.PBVolumeMeter);
             this.Controls.Add(this.TBTresholdControl);
@@ -502,7 +493,6 @@
         private System.Windows.Forms.ProgressBar PBVolumeMeter;
         private System.Windows.Forms.TrackBar TBTresholdControl;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label label4;
