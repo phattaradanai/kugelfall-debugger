@@ -626,32 +626,17 @@ namespace KugelfallDbg
                 lvi.SubItems.Insert(i, new ListViewItem.ListViewSubItem());
             }
 
-            //lvsi.Text = v.Test.Remove(0, 8);
             lvi.SubItems[m_iTestIndex] = new ListViewItem.ListViewSubItem(lvi, v.Test.Remove(0,8));
-            
-            //lvsi.Text = v.Deviation.ToString();
-            //lvi.SubItems.Insert(t_iDeviationIndex, lvsi);
             lvi.SubItems[m_iDeviationIndex] = new ListViewItem.ListViewSubItem(lvi, v.Deviation.ToString());
-
-            //lvsi.Text = v.Debugtext;
-            //lvi.SubItems.Insert(t_iArduinoDebugIndex, lvsi);
             lvi.SubItems[m_iArduinoDebugIndex] = new ListViewItem.ListViewSubItem(lvi, v.Debugtext);
-
-            //lvsi.Text = v.Comment;
-            //lvi.SubItems.Insert(t_iCommentIndex, lvsi);
             lvi.SubItems[m_iCommentIndex] = new ListViewItem.ListViewSubItem(lvi, v.Comment);
-
-            //lvsi.Text = string.Empty;
-            //lvi.SubItems.Insert(t_iSuccessIndex, lvsi);
             lvi.SubItems[m_iSuccessIndex] = new ListViewItem.ListViewSubItem(lvi, string.Empty);
-
             LVTestEvaluation.Items.Add(lvi);
 
             m_iAnzVersuche++;
 
             //Ressourcen freigeben
             //foreach (Bitmap b in _Frames) { b.Dispose(); }
-                
         }
 
         //Jeder Versuch wird in einer Map abgespeichert und ist eindeutig identifizierbar über einen String und einer Versuchsklasse
