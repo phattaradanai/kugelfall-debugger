@@ -17,6 +17,7 @@ namespace KugelfallDbg
 
             m_Versuche = new Dictionary<string, Versuchsbild>();
             m_bImageBuffer = new Bitmap[m_iBufferSize];
+            t_ImageTime = new int[m_iBufferSize];
             this.LVTestEvaluation.LostFocus += LVTestEvaluation_LostFocus;
         }
 
@@ -47,27 +48,14 @@ namespace KugelfallDbg
                 if (m_bImageBuffer[m_sIndex] != null) { m_bImageBuffer[m_sIndex].Dispose(); }
 
                 m_bImageBuffer[m_sIndex] = (Bitmap)image.Clone();
-
-                if (m_sIndex == m_iBufferSize - 1) { m_sIndex = 0; }
-                else { m_sIndex++; }
+                t_ImageTime[m_sIndex] = DateTime.Now.Millisecond;   //Zeitstempel des Bildes machen
+                m_sIndex = (m_sIndex + 1) % m_iBufferSize;
             }
         }
 
-        private int CalculateOptimalPicture()
-        {
-            //Nicht mehr verwendet
-            //Frames: (Bufferdelay + maxsample_delay)/fpsdelay [aufgerundet]
-            //(Der Aufnahmebuffer + Die Zeit bis zum Auslösesample)/Delay zwischen den einzelnen Frames
+        private int[] t_ImageTime;
 
-            if (m_iCurrentFPS == 0) { return 0; }
-            float fpsdelay = (float)(1000 / m_iCurrentFPS);    //Bspw. 10 FPS == 1000ms (1s) / 10 = 100ms pro Frame
-            float Bufferdelay = (float)(m_Audio.BufferMilliseconds);
-
-            double Frames = (Bufferdelay + m_fMaxSampleDelay) / fpsdelay;
-            Frames = Math.Round(Frames, MidpointRounding.AwayFromZero);
-
-            return (int)Frames;
-        }
+        
 
         private void SetBuffering(bool _bBuffer)
         {
@@ -218,7 +206,7 @@ namespace KugelfallDbg
 
                 if (bBufferReady)
                 {
-                    CaptureImage();
+                    CaptureImage(fSample);
                 }
                 else { MessageBox.Show("Der Buffer ist noch nicht bereit"); }
 
@@ -368,7 +356,6 @@ namespace KugelfallDbg
             if (_v.BestPicture != -1)
             {
                 int offset = 0;
-                float fYCorrection = 0.0f;
                 Rectangle Rect = new Rectangle();
 
                 float PenWidth = 7.0f;
@@ -571,6 +558,54 @@ namespace KugelfallDbg
             CamSettings();
         }
 
+        private float CalculateOptimalPictureTime(float _fRaisedSample)
+        {
+            float fBufferTime = (float)m_Audio.BufferMilliseconds;  //Der Buffer wird oft benötigt, deshalb gleich als float-Wert ablegen
+            float fSampleRate = m_Audio.SampleRate;
+            float fIdealSampleTime = 0.0f;                          //Die Zeit, die das ideale Frame darstellt (Trefferframe)
+            float fSampleTime = 0.0f;                               //Die Zeit, die für ein Sample benötigt wird
+			
+            float fSamplesPerBuffer = fSampleRate * (fBufferTime / 1000); //Anzahl der bearbeiteten Samples pro Bufferdurchlauf
+            fSampleTime = fBufferTime / fSamplesPerBuffer;
+
+            fIdealSampleTime = fSampleTime * _fRaisedSample;        //Zeit pro Sample mal dem Auslösersample
+            fIdealSampleTime = fBufferTime - fIdealSampleTime;      //Abstand der Bufferzeit - Trefferzeit
+
+            return (float)m_Audio.DateTimeMilli - fIdealSampleTime;
+        }
+
+        /// <summary>
+        /// Sucht nach dem passenden Frame in Abhängigkeit von der Zeit
+        /// </summary>
+        /// <param name="_fFrameTime"></param>
+        /// <returns></returns>
+        private int LookupFrame(float _fFrameTime)
+        {
+            int iFrameTime = 0;
+            int iBestIndex = -1;
+            int iMinimalDifference = -1;
+
+            iFrameTime = (int)_fFrameTime;  //Kommaanteil wegschneiden, da DateTime nur als long gespeichert
+            for (int i = m_sIndex - 1;i != m_sIndex ; i--)
+            {
+                if (Math.Abs(t_ImageTime[i] - iFrameTime) <= iMinimalDifference || iMinimalDifference == -1)
+                {
+                    iBestIndex = i;
+                    iMinimalDifference = Math.Abs(t_ImageTime[i] - iFrameTime);
+                }
+
+                //Testweise-------------------------------------------------
+                if (Math.Abs(t_ImageTime[i] - iFrameTime) >= 150)
+                {
+                    break;
+                }
+
+                if (i == 0) { i = m_iBufferSize; }
+            }
+
+            return iBestIndex;
+        }
+
         /**
          * void CaptureImage():
          * CaptureImage deaktiviert kurzzeitig das Audiosignal, um nicht während
@@ -579,19 +614,25 @@ namespace KugelfallDbg
          * Todo: Die letzten Frames werden aus dem Bildspeicher geholt und die optimalen Bilder approximiert,
          * um somit der Aufnahmelatenz entgegenzuwirken und dem User die passenden Versuchsbilder zu liefern.
         */
-        private void CaptureImage()
+        private void CaptureImage(float _fRaisedSample)
         {
             int _iBilder = 6;
-            //int _iFramesBack = CalculateOptimalPicture();
+            float _fRaiseTime = m_Audio.DateTimeMilli;  //Zeit, in der das Event ausgelöst wurde
+
+            float FrameTime = CalculateOptimalPictureTime(_fRaisedSample);  //Berechnet die Zeit, an der das passende Frame ungefähr aufgetaucht sein muss
 
             Bitmap[] _Frames = new Bitmap[_iBilder];
 
-            //Auf das zuletzt gemachte Bild setzen
-            int _PictureStart = m_sIndex;
+            /*
+            //Auf das zuletzt gemachte Bild setzen 
+            int _PictureStart = m_sIndex;*/
             
+            //Auf den Index des idealen Frames setzen; -2 Frames um etwas vor dem Aufschlag noch Bilder zu bieten
+            int _PictureStart = LookupFrame(FrameTime) - 2;
+
             /* DEBUGAUSGABEN -- Ausgeben des kompletten Bildbuffers -- Nur zu Entwicklungszwecken */
-            //ShowPicturesDebug s = new ShowPicturesDebug(ref m_bImageBuffer, _PictureStart);
-            //if (s.ShowDialog() == System.Windows.Forms.DialogResult.OK) { }
+            ShowPicturesDebug s = new ShowPicturesDebug(ref m_bImageBuffer, _PictureStart, ref t_ImageTime, ref _fRaiseTime, _fRaisedSample);
+            if (s.ShowDialog() == System.Windows.Forms.DialogResult.OK) { }
 
             //Berechnung: Der Index auf den der Indexzeiger ist - die zu puffernden Bilder - 1 damit auch an der Stelle Index das Bild kopiert wird
             _PictureStart -= _iBilder;// - 1);
@@ -701,7 +742,7 @@ namespace KugelfallDbg
                 //Audio deaktivieren
                 ActivateAudio(false);
             }
-            catch (NullReferenceException exc)
+            catch (NullReferenceException)
             {
             
             }
@@ -859,7 +900,7 @@ namespace KugelfallDbg
 
         private int m_iBufferSize = 30;         //Festgelegte ImageBuffer Größe
         private Bitmap[] m_bImageBuffer;        //ImageBuffer für Versuchsbilder
-        private short m_sIndex = 0;             ///Dient also "Zeiger" in der Buffervariable (maximal m_iBufferSize Bilder)
+        private int m_sIndex = 0;             ///Dient also "Zeiger" in der Buffervariable (maximal m_iBufferSize Bilder)
 
         //Textvariablen zur einheitlichen Beschriftung
         private string m_sArduinoChosen = "Arduino wurde ausgewählt";

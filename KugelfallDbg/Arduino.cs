@@ -27,7 +27,7 @@ namespace KugelfallDbg
                 {
                     m_RS232Port.Open();
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     System.Windows.Forms.MessageBox.Show("Fehler beim Öffnen des Ports, bitte Ports überprüfen");
                     m_RS232Port.DataReceived -= m_RS232Port_DataReceived;
@@ -92,8 +92,15 @@ namespace KugelfallDbg
         }
         private static void SafeClose(Object StateInfo)
         {
-            m_RS232Port.Close();
-            m_RS232Port.DataReceived -= m_RS232Port_DataReceived;
+            try
+            {
+                m_RS232Port.Close();
+                m_RS232Port.DataReceived -= m_RS232Port_DataReceived;
+            }
+            catch (Exception)
+            {
+            
+            }
         }
 
         /**

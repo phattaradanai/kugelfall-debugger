@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
  
-
 namespace KugelfallDbg
 {
     //Das Gerät, von dem der Ton aufgezeichnet wird
@@ -13,10 +12,10 @@ namespace KugelfallDbg
         {
             m_iDeviceNumber = _iDeviceNumber;
             m_iWaveInDevice = new NAudio.Wave.WaveIn();
-            m_iWaveInDevice.WaveFormat = new NAudio.Wave.WaveFormat(m_iSampleRate, m_iChannels);
+            m_iWaveInDevice.WaveFormat = new NAudio.Wave.WaveFormat(SampleRate, m_iChannels);
             m_iWaveInDevice.DataAvailable += waveIn_DataAvailable;
             m_iWaveInDevice.DeviceNumber = m_iDeviceNumber;
-            m_iWaveInDevice.BufferMilliseconds = 50;
+            m_iWaveInDevice.BufferMilliseconds = 100;
             BufferMilliseconds = m_iWaveInDevice.BufferMilliseconds;
         }
 
@@ -28,7 +27,9 @@ namespace KugelfallDbg
         void waveIn_DataAvailable(object sender, NAudio.Wave.WaveInEventArgs e)
         {
             float _maxsample = 0.0f;
-            
+            float _fSampleCount = 0.0f;
+            float _fSampleCounter = 0.0f;
+
             for (int index = 0; index < e.BytesRecorded; index += 2)
             {
                 short sample = (short)((e.Buffer[index + 1] << 8) | e.Buffer[index + 0]);
@@ -37,20 +38,27 @@ namespace KugelfallDbg
                 float sample32 = sample / 32768f;
 
                 _maxsample = Math.Max(sample32, _maxsample);
-                
-                if (_maxsample >= m_fThreshold)
+                _fSampleCounter++;
+
+                if (_fSampleCount == 0 && _maxsample >= m_fThreshold)
                 {
-                    m_BufferTimer.Stop();
-                    OnThresholdExceed(this, (float)m_BufferTimer.ElapsedMilliseconds);
-                    break;
+                    _fSampleCount = _fSampleCounter;
                 }
             }
 
             OnNewMaxSample(this, _maxsample * 100);
 
-            //Schwelle überschritten, Event herausgeben
+            if (_fSampleCount != 0)
+            {
+                DateTimeMilli = (float)DateTime.Now.Millisecond;
+                OnThresholdExceed(this, _fSampleCount);
+            }
+
             
         }
+
+        public float DateTimeMilli
+        { get; private set; }
 
         private System.Diagnostics.Stopwatch m_BufferTimer = new System.Diagnostics.Stopwatch();
 
@@ -97,12 +105,17 @@ namespace KugelfallDbg
         {
             get { return m_iWaveInDevice; }
         }
-        
 
         public int Volume
         {
             get { return m_iVolume; }
             set { m_iVolume = value; }
+        }
+
+        public int SampleRate
+        {
+            get { return m_iSampleRate; }
+            private set { m_iSampleRate = 16000; }
         }
 
         public float Threshold
@@ -112,7 +125,8 @@ namespace KugelfallDbg
         }
 
         private volatile float m_fThreshold = 0.75f;  ///Schwellenwert
-        private int m_iSampleRate = 8000;   //Wieviele Samples pro Sekunde
+        private int m_iSampleRate = 16000;   //Wieviele Samples pro Sekunde
+        private int m_iBufferTime = 100;     //Bufferzeit in ms
         private int m_iChannels = 1;        ///Wieviele Kanäle sollen zur Aufnahme benutzt werden (Default: 1 -> Mono)
         private int m_iDeviceNumber;        ///Nummer des Soundaufnahmegerätes (Dient zur Identifikation)
         private volatile int m_iVolume;     ///Die aktuelle Lautstärke

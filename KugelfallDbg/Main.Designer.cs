@@ -66,12 +66,14 @@
             this.label4 = new System.Windows.Forms.Label();
             this.pb_Images = new System.Windows.Forms.PictureBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TBTresholdControl)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_Images)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -84,7 +86,7 @@
             this.TSLblArduino});
             this.statusStrip1.Location = new System.Drawing.Point(0, 421);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1244, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1256, 22);
             this.statusStrip1.SizingGrip = false;
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
@@ -92,7 +94,7 @@
             // TSLblCameraActive
             // 
             this.TSLblCameraActive.Name = "TSLblCameraActive";
-            this.TSLblCameraActive.Size = new System.Drawing.Size(928, 17);
+            this.TSLblCameraActive.Size = new System.Drawing.Size(940, 17);
             this.TSLblCameraActive.Spring = true;
             this.TSLblCameraActive.Text = "Keine Kamera ausgewählt";
             this.TSLblCameraActive.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -119,7 +121,7 @@
             // MainVideoSourcePlayer
             // 
             this.MainVideoSourcePlayer.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.MainVideoSourcePlayer.Location = new System.Drawing.Point(12, 92);
+            this.MainVideoSourcePlayer.Location = new System.Drawing.Point(12, 109);
             this.MainVideoSourcePlayer.Name = "MainVideoSourcePlayer";
             this.MainVideoSourcePlayer.Size = new System.Drawing.Size(560, 304);
             this.MainVideoSourcePlayer.TabIndex = 1;
@@ -139,7 +141,7 @@
             this.LVTestEvaluation.FullRowSelect = true;
             this.LVTestEvaluation.GridLines = true;
             this.LVTestEvaluation.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.LVTestEvaluation.Location = new System.Drawing.Point(593, 92);
+            this.LVTestEvaluation.Location = new System.Drawing.Point(605, 109);
             this.LVTestEvaluation.MultiSelect = false;
             this.LVTestEvaluation.Name = "LVTestEvaluation";
             this.LVTestEvaluation.Size = new System.Drawing.Size(639, 304);
@@ -167,12 +169,12 @@
             // CHKommentar
             // 
             this.CHKommentar.Text = "Kommentar";
-            this.CHKommentar.Width = 202;
+            this.CHKommentar.Width = 254;
             // 
             // CHArduino
             // 
             this.CHArduino.Text = "Arduino Debug";
-            this.CHArduino.Width = 147;
+            this.CHArduino.Width = 181;
             // 
             // toolStrip1
             // 
@@ -323,7 +325,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(230, 76);
+            this.label2.Location = new System.Drawing.Point(230, 93);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(100, 13);
             this.label2.TabIndex = 20;
@@ -349,14 +351,14 @@
             // PBVolumeMeter
             // 
             this.PBVolumeMeter.BackColor = System.Drawing.Color.LightSlateGray;
-            this.PBVolumeMeter.Location = new System.Drawing.Point(915, 4);
+            this.PBVolumeMeter.Location = new System.Drawing.Point(89, 18);
             this.PBVolumeMeter.Name = "PBVolumeMeter";
             this.PBVolumeMeter.Size = new System.Drawing.Size(302, 23);
             this.PBVolumeMeter.TabIndex = 29;
             // 
             // TBTresholdControl
             // 
-            this.TBTresholdControl.Location = new System.Drawing.Point(907, 22);
+            this.TBTresholdControl.Location = new System.Drawing.Point(82, 32);
             this.TBTresholdControl.Maximum = 100;
             this.TBTresholdControl.Name = "TBTresholdControl";
             this.TBTresholdControl.Size = new System.Drawing.Size(320, 45);
@@ -368,7 +370,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(862, 76);
+            this.label1.Location = new System.Drawing.Point(874, 93);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(118, 13);
             this.label1.TabIndex = 31;
@@ -391,7 +393,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(827, 9);
+            this.label4.Location = new System.Drawing.Point(19, 23);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(63, 13);
             this.label4.TabIndex = 36;
@@ -400,7 +402,7 @@
             // pb_Images
             // 
             this.pb_Images.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.pb_Images.Location = new System.Drawing.Point(12, 92);
+            this.pb_Images.Location = new System.Drawing.Point(12, 109);
             this.pb_Images.Name = "pb_Images";
             this.pb_Images.Size = new System.Drawing.Size(560, 304);
             this.pb_Images.TabIndex = 25;
@@ -411,25 +413,35 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(823, 34);
+            this.label5.Location = new System.Drawing.Point(6, 45);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(76, 13);
             this.label5.TabIndex = 37;
             this.label5.Text = "Schwellenwert";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.PBVolumeMeter);
+            this.groupBox1.Controls.Add(this.TBTresholdControl);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Location = new System.Drawing.Point(837, 3);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(406, 83);
+            this.groupBox1.TabIndex = 38;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Lautstärkeregelung";
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.LightGray;
-            this.ClientSize = new System.Drawing.Size(1244, 443);
-            this.Controls.Add(this.panel2);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.panel3);
+            this.ClientSize = new System.Drawing.Size(1256, 443);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.PBVolumeMeter);
-            this.Controls.Add(this.TBTresholdControl);
+            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.panel3);
             this.Controls.Add(this.toolStripContainer1);
             this.Controls.Add(this.pb_Images);
             this.Controls.Add(this.label2);
@@ -456,6 +468,8 @@
             this.toolStripContainer1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TBTresholdControl)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pb_Images)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -499,6 +513,7 @@
         private System.Windows.Forms.ToolStripButton TSBtnAbout;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }
 

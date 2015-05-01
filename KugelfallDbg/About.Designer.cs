@@ -155,12 +155,12 @@
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(15, 212);
+            this.linkLabel1.Location = new System.Drawing.Point(17, 212);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(55, 13);
+            this.linkLabel1.Size = new System.Drawing.Size(224, 13);
             this.linkLabel1.TabIndex = 41;
             this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "linkLabel1";
+            this.linkLabel1.Text = "https://github.com/tuiSSE/kugelfall-debugger";
             // 
             // About
             // 
