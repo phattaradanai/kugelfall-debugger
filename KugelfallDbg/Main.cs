@@ -441,6 +441,7 @@ namespace KugelfallDbg
             {
                 LVTestEvaluation.Items.Clear();
                 m_Versuche.Clear();
+                m_iAnzVersuche = 1;
             }
         }
 
@@ -586,13 +587,9 @@ namespace KugelfallDbg
             int iMinimalDifference = -1;
 
             iFrameTime = (int)_fFrameTime;  //Kommaanteil wegschneiden, da DateTime nur als long gespeichert
-
             for (int i = m_sIndex - 1;i != m_sIndex ; i--)
             {
-                if (i < 0)  //Sollte der Index bei 0 stehen, so wird i == -1; hiermit wird dies verhindert
-                {
-                    i = m_iBufferSize - 1;
-                }
+                if (i < 0) { i = m_iBufferSize - 1; }
                 if (Math.Abs(t_ImageTime[i] - iFrameTime) <= iMinimalDifference || iMinimalDifference == -1)
                 {
                     iBestIndex = i;
@@ -627,17 +624,13 @@ namespace KugelfallDbg
             float FrameTime = CalculateOptimalPictureTime(_fRaisedSample);  //Berechnet die Zeit, an der das passende Frame ungefähr aufgetaucht sein muss
 
             Bitmap[] _Frames = new Bitmap[_iBilder];
-
-            /*
-            //Auf das zuletzt gemachte Bild setzen 
-            int _PictureStart = m_sIndex;*/
             
-            //Auf den Index des idealen Frames setzen; -2 Frames um etwas vor dem Aufschlag noch Bilder zu bieten
-            int _PictureStart = LookupFrame(FrameTime) - 2;
+            //Auf den Index des idealen Frames setzen; +2 Frames um etwas nach dem Aufschlag noch Bilder zu bieten
+            int _PictureStart = LookupFrame(FrameTime) + 2;
 
             /* DEBUGAUSGABEN -- Ausgeben des kompletten Bildbuffers -- Nur zu Entwicklungszwecken */
-            //ShowPicturesDebug s = new ShowPicturesDebug(ref m_bImageBuffer, _PictureStart, ref t_ImageTime, ref _fRaiseTime, _fRaisedSample);
-            //if (s.ShowDialog() == System.Windows.Forms.DialogResult.OK) { }
+            ShowPicturesDebug s = new ShowPicturesDebug(ref m_bImageBuffer, _PictureStart, ref t_ImageTime, ref _fRaiseTime, _fRaisedSample);
+            if (s.ShowDialog() == System.Windows.Forms.DialogResult.OK) { }
 
             //Berechnung: Der Index auf den der Indexzeiger ist - die zu puffernden Bilder - 1 damit auch an der Stelle Index das Bild kopiert wird
             _PictureStart -= _iBilder;// - 1);
