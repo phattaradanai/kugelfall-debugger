@@ -50,7 +50,7 @@ namespace KugelfallDbg
 
             if (_fSampleCount != 0)
             {
-                DateTimeMilli = (float)DateTime.Now.Millisecond;
+                DateTimeMilli = (float)DateTime.UtcNow.Millisecond;
                 OnThresholdExceed(this, _fSampleCount);
             }
 
