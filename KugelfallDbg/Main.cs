@@ -628,9 +628,7 @@ namespace KugelfallDbg
             //Auf den Index des idealen Frames setzen; +2 Frames um etwas nach dem Aufschlag noch Bilder zu bieten
             int _PictureStart = LookupFrame(FrameTime) + 2;
 
-            /* DEBUGAUSGABEN -- Ausgeben des kompletten Bildbuffers -- Nur zu Entwicklungszwecken */
-            ShowPicturesDebug s = new ShowPicturesDebug(ref m_bImageBuffer, _PictureStart, ref t_ImageTime, ref _fRaiseTime, _fRaisedSample);
-            if (s.ShowDialog() == System.Windows.Forms.DialogResult.OK) { }
+
 
             //Berechnung: Der Index auf den der Indexzeiger ist - die zu puffernden Bilder - 1 damit auch an der Stelle Index das Bild kopiert wird
             _PictureStart -= _iBilder;// - 1);
