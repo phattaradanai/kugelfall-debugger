@@ -647,7 +647,13 @@ namespace KugelfallDbg
             
             //Auf den Index des idealen Frames setzen und Verschiebung des Offsets beachten
             int _PictureStart = LookupFrame(FrameTime) + m_iIndexOffset;
-            
+
+            if (m_bShowDebugWindow == true)
+            {
+                ShowPicturesDebug spd = new ShowPicturesDebug(ref m_bImageBuffer, _PictureStart, ref m_ImageTime, ref _fRaiseTime, _fRaisedSample);
+                spd.ShowDialog();
+            }
+
             if(_PictureStart >= m_iBufferSize)
             {
                 _PictureStart -= m_iBufferSize;
@@ -939,10 +945,33 @@ namespace KugelfallDbg
         private int m_iCurrentFPS = 0;
         private float m_fMaxSampleDelay = 0.0f;
 
+        private bool m_bKeyHeld = false;
+        private bool m_bShowDebugWindow = false;
+
         private void TSBtnAbout_Click(object sender, EventArgs e)
         {
             About ab = new About();
             ab.ShowDialog();
+        }
+
+        private void Main_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (!m_bKeyHeld)
+            {
+                if (e.Control && e.KeyCode == Keys.D)
+                {
+                    m_bKeyHeld = true;
+                    m_bShowDebugWindow = !m_bShowDebugWindow;
+                    /*while (e.Control && e.KeyCode == Keys.D)
+                    {
+                       */
+                }
+            }
+        }
+
+        private void Main_KeyUp(object sender, KeyEventArgs e)
+        {
+            m_bKeyHeld = false;
         }
 
     }

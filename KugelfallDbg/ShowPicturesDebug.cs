@@ -11,7 +11,7 @@ namespace KugelfallDbg
 {
     public partial class ShowPicturesDebug : Form
     {
-        public ShowPicturesDebug(ref Bitmap[] bitmaps, int FramesBack, ref int[] _ImageTime, ref float _EventRaised, float _fRaisedSample)
+        public ShowPicturesDebug(ref Bitmap[] bitmaps, int FramesBack, ref long[] _ImageTime, ref float _EventRaised, float _fRaisedSample)
         {
             InitializeComponent();
             m_Bitmaps = bitmaps;
@@ -42,7 +42,7 @@ namespace KugelfallDbg
 
         private System.Drawing.Bitmap[] m_Bitmaps;
         private int m_Back = 0;
-        private int[] t_iImageTime;
+        private long[] t_iImageTime;
         private float t_fRaisedSample = 0.0f;
         private float t_fEventRaised = 0.0f;
 
