@@ -126,7 +126,7 @@ namespace KugelfallDbg
                 if (ch.Text == "Arduino Debug") { m_iArduinoDebugIndex = ch.Index; }
             }
 
-            //Evtl. vorhandene Geräte eintragen
+            //Evtl. vorhandene Geräte eintragen und Offsetdatei auslesen
             CheckSettings();
         }
 
@@ -179,8 +179,33 @@ namespace KugelfallDbg
                     Properties.Settings.Default.Save();
                 }
             }
+
+            //Auf Existenz der Datei für die Verschiebung des Bilderindex prüfen:
+            //Die Datei legt den Offset bei der Versuchsauswertung fest, das heisst: Zusätzlich,
+            //nach der Auswahl des besten Bildes, erfolgt eine Verschiebung der Auswahl um den in
+            //der Datei stehenden Faktor
+
+            if (System.IO.File.Exists(m_sOffsetfile) == true)
+            {
+                using (System.IO.StreamReader sr = new System.IO.StreamReader(m_sOffsetfile))
+                {
+                    try
+                    {
+                        m_iIndexOffset = Int32.Parse(sr.ReadLine());
+                    }
+                    catch (Exception)
+                    {
+                        MessageBox.Show("Fehler beim Auslesen der Offsetdatei! Bitte die Datei " + m_sOffsetfile + " auf Zahlenwert prüfen");
+                    }
+                }
+            }
+            else
+            {
+                System.IO.File.WriteAllText(m_sOffsetfile,"0");
+            }
         }
 
+        
         private bool m_bInProgress = false;
 
         void m_Audio_ThresholdExceeded(object sender, float fSample)
@@ -625,13 +650,16 @@ namespace KugelfallDbg
 
             Bitmap[] _Frames = new Bitmap[_iBilder];
             
-            //Auf den Index des idealen Frames setzen; +2 Frames um etwas nach dem Aufschlag noch Bilder zu bieten
-            int _PictureStart = LookupFrame(FrameTime) + 2;
-
-
+            //Auf den Index des idealen Frames setzen und Verschiebung des Offsets beachten
+            int _PictureStart = LookupFrame(FrameTime) + m_iIndexOffset;
+            
+            if(_PictureStart >= m_iBufferSize)
+            {
+                _PictureStart -= m_iBufferSize;
+            }
 
             //Berechnung: Der Index auf den der Indexzeiger ist - die zu puffernden Bilder - 1 damit auch an der Stelle Index das Bild kopiert wird
-            _PictureStart -= _iBilder;// - 1);
+            _PictureStart -= _iBilder;
 
             //Für den Fall, das Index bei bspw. 0 war und nach Abzug des Obigen ein negativer Startindex vorhanden ist
             if (_PictureStart < 0)
@@ -897,6 +925,8 @@ namespace KugelfallDbg
         private int m_iBufferSize = 30;         //Festgelegte ImageBuffer Größe
         private Bitmap[] m_bImageBuffer;        //ImageBuffer für Versuchsbilder
         private int m_sIndex = 0;             ///Dient also "Zeiger" in der Buffervariable (maximal m_iBufferSize Bilder)
+        private int m_iIndexOffset = 0;
+        private string m_sOffsetfile = "IndexOffset.kd";
 
         //Textvariablen zur einheitlichen Beschriftung
         private string m_sArduinoChosen = "Arduino wurde ausgewählt";

@@ -26,6 +26,8 @@ namespace KugelfallDbg
          */
         void waveIn_DataAvailable(object sender, NAudio.Wave.WaveInEventArgs e)
         {
+            DateTimeMilli = (float)DateTime.UtcNow.Millisecond;
+
             float _maxsample = 0.0f;
             float _fSampleCount = 0.0f;
             float _fSampleCounter = 0.0f;
@@ -43,6 +45,7 @@ namespace KugelfallDbg
                 if (_fSampleCount == 0 && _maxsample >= m_fThreshold)
                 {
                     _fSampleCount = _fSampleCounter;
+                    break;
                 }
             }
 
@@ -50,7 +53,6 @@ namespace KugelfallDbg
 
             if (_fSampleCount != 0)
             {
-                DateTimeMilli = (float)DateTime.UtcNow.Millisecond;
                 OnThresholdExceed(this, _fSampleCount);
             }
 
