@@ -67,6 +67,7 @@
             this.pb_Images = new System.Windows.Forms.PictureBox();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -378,7 +379,7 @@
             // 
             // panel2
             // 
-            this.panel2.Location = new System.Drawing.Point(10, 54);
+            this.panel2.Location = new System.Drawing.Point(10, 45);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(804, 10);
             this.panel2.TabIndex = 33;
@@ -432,12 +433,20 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Lautstärkeregelung";
             // 
+            // panel1
+            // 
+            this.panel1.Location = new System.Drawing.Point(815, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(10, 65);
+            this.panel1.TabIndex = 35;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.LightGray;
             this.ClientSize = new System.Drawing.Size(1256, 513);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.panel2);
@@ -514,6 +523,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Panel panel1;
     }
 }
 
