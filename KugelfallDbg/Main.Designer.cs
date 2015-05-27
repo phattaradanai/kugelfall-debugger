@@ -84,7 +84,7 @@
             this.TSLblAudioActive,
             this.TSLblThreshold,
             this.TSLblArduino});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 421);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 491);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1256, 22);
             this.statusStrip1.SizingGrip = false;
@@ -121,9 +121,9 @@
             // MainVideoSourcePlayer
             // 
             this.MainVideoSourcePlayer.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.MainVideoSourcePlayer.Location = new System.Drawing.Point(12, 109);
+            this.MainVideoSourcePlayer.Location = new System.Drawing.Point(10, 109);
             this.MainVideoSourcePlayer.Name = "MainVideoSourcePlayer";
-            this.MainVideoSourcePlayer.Size = new System.Drawing.Size(560, 304);
+            this.MainVideoSourcePlayer.Size = new System.Drawing.Size(540, 380);
             this.MainVideoSourcePlayer.TabIndex = 1;
             this.MainVideoSourcePlayer.VideoSource = null;
             this.MainVideoSourcePlayer.NewFrame += new AForge.Controls.VideoSourcePlayer.NewFrameHandler(this.MainVideoSourcePlayer_NewFrame);
@@ -141,10 +141,10 @@
             this.LVTestEvaluation.FullRowSelect = true;
             this.LVTestEvaluation.GridLines = true;
             this.LVTestEvaluation.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.LVTestEvaluation.Location = new System.Drawing.Point(605, 109);
+            this.LVTestEvaluation.Location = new System.Drawing.Point(604, 109);
             this.LVTestEvaluation.MultiSelect = false;
             this.LVTestEvaluation.Name = "LVTestEvaluation";
-            this.LVTestEvaluation.Size = new System.Drawing.Size(639, 304);
+            this.LVTestEvaluation.Size = new System.Drawing.Size(639, 379);
             this.LVTestEvaluation.TabIndex = 16;
             this.LVTestEvaluation.UseCompatibleStateImageBehavior = false;
             this.LVTestEvaluation.View = System.Windows.Forms.View.Details;
@@ -370,7 +370,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(874, 93);
+            this.label1.Location = new System.Drawing.Point(864, 93);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(118, 13);
             this.label1.TabIndex = 31;
@@ -402,9 +402,9 @@
             // pb_Images
             // 
             this.pb_Images.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.pb_Images.Location = new System.Drawing.Point(12, 109);
+            this.pb_Images.Location = new System.Drawing.Point(10, 109);
             this.pb_Images.Name = "pb_Images";
-            this.pb_Images.Size = new System.Drawing.Size(560, 304);
+            this.pb_Images.Size = new System.Drawing.Size(540, 380);
             this.pb_Images.TabIndex = 25;
             this.pb_Images.TabStop = false;
             this.pb_Images.Visible = false;
@@ -437,7 +437,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.LightGray;
-            this.ClientSize = new System.Drawing.Size(1256, 443);
+            this.ClientSize = new System.Drawing.Size(1256, 513);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.panel2);
