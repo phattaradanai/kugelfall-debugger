@@ -112,6 +112,7 @@
     <Compile Include="ShowPicturesDebug.Designer.cs">
       <DependentUpon>ShowPicturesDebug.cs</DependentUpon>
     </Compile>
+    <Compile Include="Stoptimer.cs" />
     <Compile Include="Versuch.cs">
       <SubType>Form</SubType>
     </Compile>

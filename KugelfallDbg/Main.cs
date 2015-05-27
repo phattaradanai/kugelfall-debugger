@@ -17,7 +17,7 @@ namespace KugelfallDbg
 
             m_Versuche = new Dictionary<string, Versuchsbild>();
             m_bImageBuffer = new Bitmap[m_iBufferSize];
-            t_ImageTime = new int[m_iBufferSize];
+            m_ImageTime = new long[m_iBufferSize];
             this.LVTestEvaluation.LostFocus += LVTestEvaluation_LostFocus;
         }
 
@@ -45,17 +45,19 @@ namespace KugelfallDbg
         {
             if (m_bBuffer)
             {
-                if (m_bImageBuffer[m_sIndex] != null) { m_bImageBuffer[m_sIndex].Dispose(); }
+                m_ImageTime[m_sIndex] = Stoptimer.Time;//DateTime.Now.Millisecond;   //Zeitstempel des Bildes machen
+
+                //Dispose nötig, da sonst der GarbageCollector die alten Frames zu spät entfernen könnte,
+                //was zu einem Überlauf des Arbeitsspeichers führen könnte
+                if (m_bImageBuffer[m_sIndex] != null) { m_bImageBuffer[m_sIndex].Dispose(); }  
 
                 m_bImageBuffer[m_sIndex] = (Bitmap)image.Clone();
-                t_ImageTime[m_sIndex] = DateTime.Now.Millisecond;   //Zeitstempel des Bildes machen
+                
                 m_sIndex = (m_sIndex + 1) % m_iBufferSize;
             }
         }
 
-        private int[] t_ImageTime;
-
-        
+        private long[] m_ImageTime;
 
         private void SetBuffering(bool _bBuffer)
         {
@@ -185,6 +187,8 @@ namespace KugelfallDbg
             //nach der Auswahl des besten Bildes, erfolgt eine Verschiebung der Auswahl um den in
             //der Datei stehenden Faktor
 
+            m_iIndexOffset = 0;
+
             if (System.IO.File.Exists(m_sOffsetfile) == true)
             {
                 using (System.IO.StreamReader sr = new System.IO.StreamReader(m_sOffsetfile))
@@ -263,6 +267,7 @@ namespace KugelfallDbg
             {
                 if (m_Camera.GetCamera.IsRunning == false)
                 {
+                    Stoptimer.Start();
                     ActivateCamera(true);
                     ActivateAudio(true);
 
@@ -287,7 +292,6 @@ namespace KugelfallDbg
 
         /**
          * void ActivateAudio(bool _bActivate):
-         * 
          */
         private void ActivateAudio(bool _bActivate)
         {
@@ -607,24 +611,18 @@ namespace KugelfallDbg
         /// <returns></returns>
         private int LookupFrame(float _fFrameTime)
         {
-            int iFrameTime = 0;
+            long iFrameTime = 0;
             int iBestIndex = -1;
-            int iMinimalDifference = -1;
+            long iMinimalDifference = -1;
 
             iFrameTime = (int)_fFrameTime;  //Kommaanteil wegschneiden, da DateTime nur als long gespeichert
             for (int i = m_sIndex - 1;i != m_sIndex ; i--)
             {
                 if (i < 0) { i = m_iBufferSize - 1; }
-                if (Math.Abs(t_ImageTime[i] - iFrameTime) <= iMinimalDifference || iMinimalDifference == -1)
+                if (Math.Abs(m_ImageTime[i] - iFrameTime) <= iMinimalDifference || iMinimalDifference == -1)
                 {
                     iBestIndex = i;
-                    iMinimalDifference = Math.Abs(t_ImageTime[i] - iFrameTime);
-                }
-
-                //Testweise-------------------------------------------------
-                if (Math.Abs(t_ImageTime[i] - iFrameTime) >= 150)
-                {
-                    break;
+                    iMinimalDifference = Math.Abs(m_ImageTime[i] - iFrameTime);
                 }
 
                 if (i == 0) { i = m_iBufferSize; }
@@ -637,9 +635,6 @@ namespace KugelfallDbg
          * void CaptureImage():
          * CaptureImage deaktiviert kurzzeitig das Audiosignal, um nicht während
          * des Bildaufnahmeprozesses auf weitere Schwellüberschreitungen zu reagieren.
-         * 
-         * Todo: Die letzten Frames werden aus dem Bildspeicher geholt und die optimalen Bilder approximiert,
-         * um somit der Aufnahmelatenz entgegenzuwirken und dem User die passenden Versuchsbilder zu liefern.
         */
         private void CaptureImage(float _fRaisedSample)
         {
@@ -888,12 +883,17 @@ namespace KugelfallDbg
         {
             if (m_Camera != null && m_Audio != null && m_Camera.GetCamera.IsRunning)
             {
+
                 //Audio und Video deaktivieren
                 ActivateCamera(false);
                 ActivateAudio(false);
 
                 //Arduino schließen
                 if (Arduino.IsOpen() == true) { Arduino.ClosePort(); }
+
+                //Stoptimer anhalten
+                Stoptimer.Stop();
+                Stoptimer.Reset();
 
                 //GUI-Anpassungen vornehmen
                 TSBtnCamSettings.Enabled = true;

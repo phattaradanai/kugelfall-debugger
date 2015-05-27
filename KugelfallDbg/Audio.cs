@@ -26,7 +26,7 @@ namespace KugelfallDbg
          */
         void waveIn_DataAvailable(object sender, NAudio.Wave.WaveInEventArgs e)
         {
-            DateTimeMilli = (float)DateTime.UtcNow.Millisecond;
+            DateTimeMilli = Stoptimer.Time;// DateTime.UtcNow.Millisecond;
 
             float _maxsample = 0.0f;
             float _fSampleCount = 0.0f;
@@ -55,11 +55,9 @@ namespace KugelfallDbg
             {
                 OnThresholdExceed(this, _fSampleCount);
             }
-
-            
         }
 
-        public float DateTimeMilli
+        public long DateTimeMilli
         { get; private set; }
 
         private System.Diagnostics.Stopwatch m_BufferTimer = new System.Diagnostics.Stopwatch();
