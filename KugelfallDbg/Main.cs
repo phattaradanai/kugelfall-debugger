@@ -928,7 +928,7 @@ namespace KugelfallDbg
         private int m_iMinimalThreshold = 5;    ///Minimale Schwelle, um zu verhindern, dass die Schwelle ständig überschritten wird
         private Audio m_Audio;                  ///Audioaufnahmegerät
 
-        private int m_iBufferSize = 30;         //Festgelegte ImageBuffer Größe
+        private int m_iBufferSize = 60;         //Festgelegte ImageBuffer Größe
         private Bitmap[] m_bImageBuffer;        //ImageBuffer für Versuchsbilder
         private int m_sIndex = 0;             ///Dient also "Zeiger" in der Buffervariable (maximal m_iBufferSize Bilder)
         private int m_iIndexOffset = 0;

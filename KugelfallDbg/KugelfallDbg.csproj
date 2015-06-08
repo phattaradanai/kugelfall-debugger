@@ -160,9 +160,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="PrakVis.config" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\NoVideo.png" />
   </ItemGroup>
   <ItemGroup>
