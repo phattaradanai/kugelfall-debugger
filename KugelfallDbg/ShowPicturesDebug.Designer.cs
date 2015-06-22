@@ -32,14 +32,19 @@
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblBestPicAtIndex = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.lblImageTimes = new System.Windows.Forms.Label();
-            this.lblRaisedTime = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.lblOffsetTime = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.lblRaisedSample = new System.Windows.Forms.Label();
+            this.lblImageTime = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.lblEndTime = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.lblImpactTime = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.lblDuration = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
@@ -63,9 +68,9 @@
             // button1
             // 
             this.button1.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.button1.Location = new System.Drawing.Point(658, 63);
+            this.button1.Location = new System.Drawing.Point(986, 12);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(142, 45);
             this.button1.TabIndex = 2;
             this.button1.Text = "OK";
             this.button1.UseVisualStyleBackColor = true;
@@ -73,25 +78,26 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(739, 68);
+            this.label1.Location = new System.Drawing.Point(665, 84);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 13);
+            this.label1.Size = new System.Drawing.Size(108, 13);
             this.label1.TabIndex = 3;
-            this.label1.Text = "BildIndex:";
+            this.label1.Text = "Bestes Bild bei Index:";
             // 
-            // label2
+            // lblBestPicAtIndex
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(798, 68);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "label2";
+            this.lblBestPicAtIndex.AutoSize = true;
+            this.lblBestPicAtIndex.ForeColor = System.Drawing.Color.Red;
+            this.lblBestPicAtIndex.Location = new System.Drawing.Point(806, 84);
+            this.lblBestPicAtIndex.Name = "lblBestPicAtIndex";
+            this.lblBestPicAtIndex.Size = new System.Drawing.Size(89, 13);
+            this.lblBestPicAtIndex.TabIndex = 4;
+            this.lblBestPicAtIndex.Text = "lblBestPicAtIndex";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(890, 81);
+            this.label3.Location = new System.Drawing.Point(816, 44);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(35, 13);
             this.label3.TabIndex = 6;
@@ -100,73 +106,126 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(739, 81);
+            this.label4.Location = new System.Drawing.Point(665, 44);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(145, 13);
             this.label4.TabIndex = 5;
             this.label4.Text = "Momentaner TrackBar Index:";
             // 
-            // lblImageTimes
+            // label8
             // 
-            this.lblImageTimes.AutoSize = true;
-            this.lblImageTimes.Location = new System.Drawing.Point(665, 163);
-            this.lblImageTimes.Name = "lblImageTimes";
-            this.lblImageTimes.Size = new System.Drawing.Size(70, 13);
-            this.lblImageTimes.TabIndex = 7;
-            this.lblImageTimes.Text = "_ImageTimes";
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(665, 146);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(111, 13);
+            this.label8.TabIndex = 7;
+            this.label8.Text = "Zeitstempel der Bilder:";
             // 
-            // lblRaisedTime
+            // lblOffsetTime
             // 
-            this.lblRaisedTime.AutoSize = true;
-            this.lblRaisedTime.ForeColor = System.Drawing.Color.Red;
-            this.lblRaisedTime.Location = new System.Drawing.Point(757, 146);
-            this.lblRaisedTime.Name = "lblRaisedTime";
-            this.lblRaisedTime.Size = new System.Drawing.Size(70, 13);
-            this.lblRaisedTime.TabIndex = 8;
-            this.lblRaisedTime.Text = "_ImageTimes";
-            this.lblRaisedTime.Click += new System.EventHandler(this.label5_Click);
+            this.lblOffsetTime.AutoSize = true;
+            this.lblOffsetTime.ForeColor = System.Drawing.Color.Red;
+            this.lblOffsetTime.Location = new System.Drawing.Point(898, 159);
+            this.lblOffsetTime.Name = "lblOffsetTime";
+            this.lblOffsetTime.Size = new System.Drawing.Size(68, 13);
+            this.lblOffsetTime.TabIndex = 8;
+            this.lblOffsetTime.Text = "lblOffsetTime";
+            this.lblOffsetTime.Click += new System.EventHandler(this.label5_Click);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(665, 146);
+            this.label5.Location = new System.Drawing.Point(665, 97);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(86, 13);
+            this.label5.Size = new System.Drawing.Size(124, 13);
             this.label5.TabIndex = 9;
-            this.label5.Text = "Event ausgelöst:";
+            this.label5.Text = "Zeit des Samplepaketes:";
             // 
-            // lblRaisedSample
+            // lblImageTime
             // 
-            this.lblRaisedSample.AutoSize = true;
-            this.lblRaisedSample.ForeColor = System.Drawing.Color.Red;
-            this.lblRaisedSample.Location = new System.Drawing.Point(927, 146);
-            this.lblRaisedSample.Name = "lblRaisedSample";
-            this.lblRaisedSample.Size = new System.Drawing.Size(70, 13);
-            this.lblRaisedSample.TabIndex = 10;
-            this.lblRaisedSample.Text = "_ImageTimes";
+            this.lblImageTime.AutoSize = true;
+            this.lblImageTime.ForeColor = System.Drawing.Color.Red;
+            this.lblImageTime.Location = new System.Drawing.Point(665, 159);
+            this.lblImageTime.Name = "lblImageTime";
+            this.lblImageTime.Size = new System.Drawing.Size(69, 13);
+            this.lblImageTime.TabIndex = 10;
+            this.lblImageTime.Text = "lblImageTime";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(839, 146);
+            this.label7.Location = new System.Drawing.Point(897, 146);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(78, 13);
+            this.label7.Size = new System.Drawing.Size(135, 13);
             this.label7.TabIndex = 11;
-            this.label7.Text = "RaisedSample:";
+            this.label7.Text = "Abstand zum Treffersample";
+            // 
+            // lblEndTime
+            // 
+            this.lblEndTime.AutoSize = true;
+            this.lblEndTime.ForeColor = System.Drawing.Color.Red;
+            this.lblEndTime.Location = new System.Drawing.Point(806, 97);
+            this.lblEndTime.Name = "lblEndTime";
+            this.lblEndTime.Size = new System.Drawing.Size(59, 13);
+            this.lblEndTime.TabIndex = 12;
+            this.lblEndTime.Text = "lblEndTime";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(665, 110);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(115, 13);
+            this.label2.TabIndex = 13;
+            this.label2.Text = "Berechnete Trefferzeit:";
+            // 
+            // lblImpactTime
+            // 
+            this.lblImpactTime.AutoSize = true;
+            this.lblImpactTime.ForeColor = System.Drawing.Color.Red;
+            this.lblImpactTime.Location = new System.Drawing.Point(806, 110);
+            this.lblImpactTime.Name = "lblImpactTime";
+            this.lblImpactTime.Size = new System.Drawing.Size(72, 13);
+            this.lblImpactTime.TabIndex = 14;
+            this.lblImpactTime.Text = "lblImpactTime";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(665, 123);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(135, 13);
+            this.label6.TabIndex = 15;
+            this.label6.Text = "Dauer des Samplepaketes:";
+            // 
+            // lblDuration
+            // 
+            this.lblDuration.AutoSize = true;
+            this.lblDuration.ForeColor = System.Drawing.Color.Red;
+            this.lblDuration.Location = new System.Drawing.Point(806, 123);
+            this.lblDuration.Name = "lblDuration";
+            this.lblDuration.Size = new System.Drawing.Size(57, 13);
+            this.lblDuration.TabIndex = 16;
+            this.lblDuration.Text = "lblDuration";
             // 
             // ShowPicturesDebug
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1140, 503);
+            this.Controls.Add(this.lblDuration);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.lblImpactTime);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.lblEndTime);
             this.Controls.Add(this.label7);
-            this.Controls.Add(this.lblRaisedSample);
+            this.Controls.Add(this.lblImageTime);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.lblRaisedTime);
-            this.Controls.Add(this.lblImageTimes);
+            this.Controls.Add(this.lblOffsetTime);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.lblBestPicAtIndex);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.trackBar1);
@@ -187,13 +246,18 @@
         private System.Windows.Forms.TrackBar trackBar1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblBestPicAtIndex;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label lblImageTimes;
-        private System.Windows.Forms.Label lblRaisedTime;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label lblOffsetTime;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label lblRaisedSample;
+        private System.Windows.Forms.Label lblImageTime;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label lblEndTime;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblImpactTime;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lblDuration;
     }
 }

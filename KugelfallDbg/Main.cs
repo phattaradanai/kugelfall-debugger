@@ -38,27 +38,6 @@ namespace KugelfallDbg
             CamSettings();
         }
 
-        /**
-         * NewFrame-Event: Schreibt in den Imagebuffer um Bilder (im Falle einer Schwellenüberschreitung der Lautstärke) zur Besichtigung parat zu haben
-         */
-        private void MainVideoSourcePlayer_NewFrame(object sender, ref Bitmap image)
-        {
-            if (m_bBuffer)
-            {
-                m_ImageTime[m_sIndex] = Stoptimer.Time;//DateTime.Now.Millisecond;   //Zeitstempel des Bildes machen
-
-                //Dispose nötig, da sonst der GarbageCollector die alten Frames zu spät entfernen könnte,
-                //was zu einem Überlauf des Arbeitsspeichers führen könnte
-                if (m_bImageBuffer[m_sIndex] != null) { m_bImageBuffer[m_sIndex].Dispose(); }  
-
-                m_bImageBuffer[m_sIndex] = (Bitmap)image.Clone();
-                
-                m_sIndex = (m_sIndex + 1) % m_iBufferSize;
-            }
-        }
-
-        private long[] m_ImageTime;
-
         private void SetBuffering(bool _bBuffer)
         {
             m_bBuffer = _bBuffer;
@@ -99,7 +78,6 @@ namespace KugelfallDbg
                 CloseVideoSource();
             }
         }
-
 
         /// <summary>
         /// Variablen, für den Zugriff auf die einzelnen ListView Spalten
@@ -144,7 +122,11 @@ namespace KugelfallDbg
                 if (m_Camera == null)
                 {
                     m_Camera = new Camera(new AForge.Video.DirectShow.VideoCaptureDevice(Properties.Settings.Default.VideoDevice));
-                    MainVideoSourcePlayer.VideoSource = m_Camera.GetCamera;
+            
+                    m_AsyncVideo = new AForge.Video.AsyncVideoSource(m_Camera.GetCamera,true);
+                    m_AsyncVideo.NewFrame += m_asyncvideo_NewFrame;
+                    MainVideoSourcePlayer.VideoSource = m_AsyncVideo;
+
                     TSLblCameraActive.Text = m_sCameraChosen;
                 }
             }
@@ -182,12 +164,15 @@ namespace KugelfallDbg
                 }
             }
 
+            m_iIndexOffset = Properties.Settings.Default.Offset;
+
+            /*---NICHT MEHR VERWENDET---*/
             //Auf Existenz der Datei für die Verschiebung des Bilderindex prüfen:
             //Die Datei legt den Offset bei der Versuchsauswertung fest, das heisst: Zusätzlich,
             //nach der Auswahl des besten Bildes, erfolgt eine Verschiebung der Auswahl um den in
             //der Datei stehenden Faktor
 
-            m_iIndexOffset = 0;
+            /*m_iIndexOffset = 0;
 
             if (System.IO.File.Exists(m_sOffsetfile) == true)
             {
@@ -207,45 +192,14 @@ namespace KugelfallDbg
             {
                 System.IO.File.WriteAllText(m_sOffsetfile,"0");
             }
+            ----------------------------------*/
+            
         }
 
         
         private bool m_bInProgress = false;
 
-        void m_Audio_ThresholdExceeded(object sender, float fSample)
-        {
-            if (m_bInProgress == false)
-            {
-                m_bInProgress = true;
-                SetBuffering(false);
-
-                //ActivateCamera(false);
-                ActivateAudio(false);
-
-                bool bBufferReady = true;
-
-                //Prüfung, ob der Buffer bereits gefüllt ist
-                foreach (Bitmap b in m_bImageBuffer)
-                {
-                    if (b == null)
-                    {
-                        bBufferReady = false;
-                    }
-                }
-
-                if (bBufferReady)
-                {
-                    CaptureImage(fSample);
-                }
-                else { MessageBox.Show("Der Buffer ist noch nicht bereit"); }
-
-                //Aufnahme wieder erlauben
-                ActivateAudio(true);
-                SetBuffering(true);
-                ActivateCamera(true);
-                m_bInProgress = false;
-            }
-        }
+        
 
         void m_Audio_NewMaxSample(object sender, float MaxSample)
         {
@@ -255,6 +209,7 @@ namespace KugelfallDbg
         //Dient zum Öffnen der Videoquelle
         private void OpenVideoSource()
         {
+            //System.IO.File.AppendAllText("videotimes.txt", "Start: " + Stoptimer.Time.ToString());
             MainVideoSourcePlayer.Start();
             TSLblCameraActive.Text = m_sCameraOn;
         }
@@ -263,21 +218,20 @@ namespace KugelfallDbg
 
         private void TSBtnActivateCam_Click(object sender, EventArgs e)
         {
-            if (m_Camera != null && m_Audio != null)// && Arduino.IsSet == true)
+            if (m_Camera != null && m_Audio != null)
             {
                 if (m_Camera.GetCamera.IsRunning == false)
                 {
                     Stoptimer.Start();
                     ActivateCamera(true);
                     ActivateAudio(true);
+                    TimerFps.Start();
 
                     TBTresholdControl.Value = (int)Math.Round((float)(PBVolumeMeter.Maximum * 3f / 4f), MidpointRounding.ToEven);
-
-                    TSBtnCamSettings.Enabled = false;
-                    TSBtnArduinoSettings.Enabled = false;
-                    TSBtnAudioConfiguration.Enabled = false;
                     TSBtnActivateCam.Enabled = false;
                     TSBtnDeactivateCam.Enabled = true;
+                    TSBtnHardwareSettings.Enabled = false;
+                    TBTresholdControl.Enabled = true;
                 }
                 if (Arduino.IsSet == true && Arduino.IsOpen() == false)
                 {
@@ -338,8 +292,27 @@ namespace KugelfallDbg
                 Properties.Settings.Default.VideoDevice = vcdf.VideoDeviceMoniker;  //Gerätebezeichner abspeichern
                 Properties.Settings.Default.Save();
 
-                MainVideoSourcePlayer.VideoSource = vcdf.VideoDevice;
+                m_AsyncVideo = new AForge.Video.AsyncVideoSource(vcdf.VideoDevice, true);
+                m_AsyncVideo.NewFrame += m_asyncvideo_NewFrame;
+                MainVideoSourcePlayer.VideoSource = m_AsyncVideo;//vcdf.VideoDevice;
                 TSLblCameraActive.Text = m_sCameraChosen;
+            }
+        }
+
+        void m_asyncvideo_NewFrame(object sender, AForge.Video.NewFrameEventArgs eventArgs)
+        {
+            if (m_bBuffer)
+            {
+                m_ImageTime[m_sIndex] = Stoptimer.Time;//DateTime.Now.Millisecond;   //Zeitstempel des Bildes machen
+
+                //System.IO.File.AppendAllText("videotimes.txt", m_ImageTime[m_sIndex].ToString());
+                //Dispose nötig, da sonst der GarbageCollector die alten Frames zu spät entfernen könnte,
+                //was zu einem Überlauf des Arbeitsspeichers führen könnte
+                //if (m_bImageBuffer[m_sIndex] != null) { m_bImageBuffer[m_sIndex].Dispose(); }
+                if (m_bImageBuffer[m_sIndex] != null) { m_bImageBuffer[m_sIndex] = null; }
+
+                m_bImageBuffer[m_sIndex] = (Bitmap)eventArgs.Frame.Clone();//image.Clone();
+                m_sIndex = (m_sIndex + 1) % m_iBufferSize;
             }
         }
 
@@ -376,6 +349,40 @@ namespace KugelfallDbg
                 {
                     if (i == 3) { y++; offset = 0; }    //Nach 3 Bildern erfolgt ein "Zeilenumbruch" (Die zweite Zeile wird mit Bildern gefüllt)
                     g.DrawImage(_v.Pictures[i], new System.Drawing.Rectangle(offset, y * _v.Pictures[i].Height, _v.Pictures[i].Width, _v.Pictures[i].Height));
+
+                    offset += _v.Pictures[i].Width;
+                }
+            }
+
+            //Bilder mit Rahmen umranden
+
+            if (true)
+            {
+                int offset = 0;
+                Rectangle Rect = new Rectangle();
+
+                float PenWidth = 4.0f;
+                Pen p = new Pen(Color.Black, PenWidth);
+
+                for (int i = 0, y = 0; i < _v.Pictures.Length; i++)
+                {
+                    if (i == 3) { y++; offset = 0; }    //Nach 3 Bildern erfolgt ein "Zeilenumbruch" (Die zweite Zeile wird mit Bildern gefüllt)
+
+                    //Korrekturfaktoren, damit der Rand sauber gezeichnet wird
+                    if (y == 0)
+                    {
+                        if (i == 0) { Rect.X = (int)PenWidth / 2 - 1; Rect.Y = (int)PenWidth / 2 - 1; Rect.Width = _v.Pictures[i].Width; Rect.Height = _v.Pictures[i].Height; }
+                        else if (i == 1) { Rect.X = offset; Rect.Y = (int)PenWidth / 2 - 1; Rect.Width = _v.Pictures[i].Width; Rect.Height = _v.Pictures[i].Height; }
+                        else if (i == 2) { Rect.X = offset; Rect.Y = (int)PenWidth / 2 - 1; Rect.Width = _v.Pictures[i].Width - (int)PenWidth / 2 - 1; Rect.Height = _v.Pictures[i].Height; }
+                    }
+                    else if (y == 1)
+                    {
+                        if (i == 3) { Rect.X = (int)PenWidth / 2 - 1; Rect.Y = y * _v.Pictures[i].Height; Rect.Width = _v.Pictures[i].Width; Rect.Height = _v.Pictures[i].Height - (int)(PenWidth / 2) - 1; }
+                        else if (i == 4) { Rect.X = offset; Rect.Y = y * _v.Pictures[i].Height; Rect.Width = _v.Pictures[i].Width; Rect.Height = _v.Pictures[i].Height - (int)PenWidth / 2 - 1; }
+                        else if (i == 5) { Rect.X = offset; Rect.Y = y * _v.Pictures[i].Height; Rect.Width = _v.Pictures[i].Width - (int)PenWidth / 2 - 1; Rect.Height = _v.Pictures[i].Height - (int)PenWidth / 2 - 1; }
+                    }
+
+                    g.DrawRectangle(p, Rect);
 
                     offset += _v.Pictures[i].Width;
                 }
@@ -549,160 +556,9 @@ namespace KugelfallDbg
         }
         #endregion
 
-        private void MenuDateiRS232_Click(object sender, EventArgs e)
-        {
-            ArduinoSettings();
-        }
-
-        /**
-         * void ArduinoSettings():
-         * Den Arduino Konfigurationsdialog aufrufen.
-         */
-        private void ArduinoSettings()
-        {
-            ArduinoConfig rs232 = new ArduinoConfig();
-
-            if (Arduino.IsOpen() == true) {Arduino.ClosePort(); }
-            if (rs232.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                if (Arduino.OpenPort() == true)
-                {
-                    Arduino.ClosePort();
-
-                    Arduino.IsSet = true;
-                    TSLblArduino.Text = m_sArduinoChosen;
-
-                    //Arduinoeinstellungen speichern
-                    Properties.Settings.Default.ArduinoPort = string.Empty;
-
-                    Properties.Settings.Default.ArduinoPort = Arduino.RS232Port.PortName;
-                    Properties.Settings.Default.ArduinoBaudRate = Arduino.RS232Port.BaudRate;
-
-                    Properties.Settings.Default.Save();
-                }
-            }
-        }
-
         private void TSBtnCamSettings_Click(object sender, EventArgs e)
         {
             CamSettings();
-        }
-
-        private float CalculateOptimalPictureTime(float _fRaisedSample)
-        {
-            float fBufferTime = (float)m_Audio.BufferMilliseconds;  //Der Buffer wird oft benötigt, deshalb gleich als float-Wert ablegen
-            float fSampleRate = m_Audio.SampleRate;
-            float fIdealSampleTime = 0.0f;                          //Die Zeit, die das ideale Frame darstellt (Trefferframe)
-            float fSampleTime = 0.0f;                               //Die Zeit, die für ein Sample benötigt wird
-			
-            float fSamplesPerBuffer = fSampleRate * (fBufferTime / 1000); //Anzahl der bearbeiteten Samples pro Bufferdurchlauf
-            fSampleTime = fBufferTime / fSamplesPerBuffer;
-
-            fIdealSampleTime = fSampleTime * _fRaisedSample;        //Zeit pro Sample mal dem Auslösersample
-            fIdealSampleTime = fBufferTime - fIdealSampleTime;      //Abstand der Bufferzeit - Trefferzeit
-
-            return (float)m_Audio.DateTimeMilli - fIdealSampleTime;
-        }
-
-        /// <summary>
-        /// Sucht nach dem passenden Frame in Abhängigkeit von der Zeit
-        /// </summary>
-        /// <param name="_fFrameTime"></param>
-        /// <returns></returns>
-        private int LookupFrame(float _fFrameTime)
-        {
-            long iFrameTime = 0;
-            int iBestIndex = -1;
-            long iMinimalDifference = -1;
-
-            iFrameTime = (int)_fFrameTime;  //Kommaanteil wegschneiden, da DateTime nur als long gespeichert
-            for (int i = m_sIndex - 1;i != m_sIndex ; i--)
-            {
-                if (i < 0) { i = m_iBufferSize - 1; }
-                if (Math.Abs(m_ImageTime[i] - iFrameTime) <= iMinimalDifference || iMinimalDifference == -1)
-                {
-                    iBestIndex = i;
-                    iMinimalDifference = Math.Abs(m_ImageTime[i] - iFrameTime);
-                }
-
-                if (i == 0) { i = m_iBufferSize; }
-            }
-
-            return iBestIndex;
-        }
-
-        /**
-         * void CaptureImage():
-         * CaptureImage deaktiviert kurzzeitig das Audiosignal, um nicht während
-         * des Bildaufnahmeprozesses auf weitere Schwellüberschreitungen zu reagieren.
-        */
-        private void CaptureImage(float _fRaisedSample)
-        {
-            int _iBilder = 6;
-            float _fRaiseTime = m_Audio.DateTimeMilli;  //Zeit, in der das Event ausgelöst wurde
-
-            float FrameTime = CalculateOptimalPictureTime(_fRaisedSample);  //Berechnet die Zeit, an der das passende Frame ungefähr aufgetaucht sein muss
-
-            Bitmap[] _Frames = new Bitmap[_iBilder];
-            
-            //Auf den Index des idealen Frames setzen und Verschiebung des Offsets beachten
-            int _PictureStart = LookupFrame(FrameTime) + m_iIndexOffset;
-
-            if (m_bShowDebugWindow == true)
-            {
-                ShowPicturesDebug spd = new ShowPicturesDebug(ref m_bImageBuffer, _PictureStart, ref m_ImageTime, ref _fRaiseTime, _fRaisedSample);
-                spd.ShowDialog();
-            }
-
-            if(_PictureStart >= m_iBufferSize)
-            {
-                _PictureStart -= m_iBufferSize;
-            }
-
-            //Berechnung: Der Index auf den der Indexzeiger ist - die zu puffernden Bilder - 1 damit auch an der Stelle Index das Bild kopiert wird
-            _PictureStart -= _iBilder;
-
-            //Für den Fall, das Index bei bspw. 0 war und nach Abzug des Obigen ein negativer Startindex vorhanden ist
-            if (_PictureStart < 0)
-            {
-                _PictureStart = m_iBufferSize - Math.Abs(_PictureStart);
-            }
-
-            for (int i = 0; i < _iBilder; i++, _PictureStart++)
-            {
-                if (_PictureStart == m_iBufferSize) { _PictureStart = 0; }
-                _Frames[i] = (Bitmap)m_bImageBuffer[_PictureStart].Clone();
-            }
-
-            Versuchsbild v = new Versuchsbild(_iBilder);
-
-            v.Test = "Versuch " + m_iAnzVersuche;   //Versuchsbeschreibung dient zur Identifizierung im Dictionary (m_Versuche)
-            v.Pictures = (Bitmap[])_Frames.Clone();
-
-            if (Arduino.IsOpen() == true)
-            {
-                v.Debugtext = Arduino.DebugText;
-            }
-
-            m_Versuche.Add(v.Test, v);
-
-            ListViewItem lvi = new ListViewItem();
-            for(int i = 0; i < m_iListViewColumns; i++)
-            {
-                lvi.SubItems.Insert(i, new ListViewItem.ListViewSubItem());
-            }
-
-            lvi.SubItems[m_iTestIndex] = new ListViewItem.ListViewSubItem(lvi, v.Test.Remove(0,8));
-            lvi.SubItems[m_iDeviationIndex] = new ListViewItem.ListViewSubItem(lvi, v.Deviation.ToString());
-            lvi.SubItems[m_iArduinoDebugIndex] = new ListViewItem.ListViewSubItem(lvi, v.Debugtext);
-            lvi.SubItems[m_iCommentIndex] = new ListViewItem.ListViewSubItem(lvi, v.Comment);
-            lvi.SubItems[m_iSuccessIndex] = new ListViewItem.ListViewSubItem(lvi, string.Empty);
-            LVTestEvaluation.Items.Add(lvi);
-
-            m_iAnzVersuche++;
-
-            //Ressourcen freigeben
-            //foreach (Bitmap b in _Frames) { b.Dispose(); }
         }
 
         //Jeder Versuch wird in einer Map abgespeichert und ist eindeutig identifizierbar über einen String und einer Versuchsklasse
@@ -769,10 +625,11 @@ namespace KugelfallDbg
             }
             catch (NullReferenceException)
             {
-            
+
             }
+
             MainVideoSourcePlayer.Visible = false;
-            
+
             if (LVTestEvaluation.SelectedItems.Count == 0)  //Vermeiden, dass ein Fehlklick oder ein nicht mehr angeklicktes Item zu einer Exception führt (OutOfRange)
             {
                 for (int i = 0; i < LVTestEvaluation.Items.Count; i++)
@@ -799,11 +656,6 @@ namespace KugelfallDbg
                 pb_Images.Visible = true;
                 pb_Images.Image = new Bitmap(CombineImages(temp), new Size(pb_Images.Width, pb_Images.Height));
             }
-        }
-
-        private void TSBtnArduinoSettings_Click(object sender, EventArgs e)
-        {
-            ArduinoSettings();
         }
 
         /**
@@ -889,7 +741,8 @@ namespace KugelfallDbg
         {
             if (m_Camera != null && m_Audio != null && m_Camera.GetCamera.IsRunning)
             {
-
+                TimerFps.Stop();
+                
                 //Audio und Video deaktivieren
                 ActivateCamera(false);
                 ActivateAudio(false);
@@ -902,11 +755,10 @@ namespace KugelfallDbg
                 Stoptimer.Reset();
 
                 //GUI-Anpassungen vornehmen
-                TSBtnCamSettings.Enabled = true;
-                TSBtnArduinoSettings.Enabled = true;
-                TSBtnAudioConfiguration.Enabled = true;
                 TSBtnActivateCam.Enabled = true;
                 TSBtnDeactivateCam.Enabled = false;
+                TSBtnHardwareSettings.Enabled = true;
+                TBTresholdControl.Enabled = false;
             }
         }
 
@@ -930,9 +782,11 @@ namespace KugelfallDbg
 
         private int m_iBufferSize = 60;         //Festgelegte ImageBuffer Größe
         private Bitmap[] m_bImageBuffer;        //ImageBuffer für Versuchsbilder
-        private int m_sIndex = 0;             ///Dient also "Zeiger" in der Buffervariable (maximal m_iBufferSize Bilder)
+        private long[] m_ImageTime;             //Beinhaltet sämtliche Bilderzeiten
+        private int m_sIndex = 0;               //Dient als "Zeiger" in der Buffervariable (maximal m_iBufferSize Bilder)
         private int m_iIndexOffset = 0;
         private string m_sOffsetfile = "IndexOffset.kd";
+        
 
         //Textvariablen zur einheitlichen Beschriftung
         private string m_sArduinoChosen = "Arduino wurde ausgewählt";
@@ -941,10 +795,7 @@ namespace KugelfallDbg
         private string m_sCameraChosen = "Kamera wurde ausgewählt";
         private string m_sCameraOn = "Kamera eingeschaltet";
         private string m_sCameraOff = "Kamera ausgeschaltet";
-
-        private int m_iCurrentFPS = 0;
-        private float m_fMaxSampleDelay = 0.0f;
-
+        private AForge.Video.AsyncVideoSource m_AsyncVideo = null;
         private bool m_bKeyHeld = false;
         private bool m_bShowDebugWindow = false;
 
@@ -962,9 +813,6 @@ namespace KugelfallDbg
                 {
                     m_bKeyHeld = true;
                     m_bShowDebugWindow = !m_bShowDebugWindow;
-                    /*while (e.Control && e.KeyCode == Keys.D)
-                    {
-                       */
                 }
             }
         }
@@ -974,5 +822,58 @@ namespace KugelfallDbg
             m_bKeyHeld = false;
         }
 
+        private void TimerFps_Tick(object sender, EventArgs e)
+        {
+            float iFPS = MainVideoSourcePlayer.VideoSource.FramesReceived;
+            TS_FPS.Text = iFPS.ToString();
+            TS_Framelength.Text = (Math.Round(1000.0f*(1.0f/iFPS),0)).ToString() + " ms";
+        }
+
+        private void TSBtnHardwareSettings_Click(object sender, EventArgs e)
+        {
+            HardwareSettings hs = new HardwareSettings();
+            if (hs.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                //ActivateAudio(false);
+                //AForge.Video.DirectShow.VideoCaptureDeviceForm vcdf = new AForge.Video.DirectShow.VideoCaptureDeviceForm();
+
+                if (m_Camera != null)
+                {
+                    m_Camera = null;
+                }
+
+                m_Camera = new Camera(hs.VideoCaptureDevice);
+
+                Properties.Settings.Default.VideoDevice = hs.VideoDeviceMoniker;  //Gerätebezeichner abspeichern
+                Properties.Settings.Default.Save();
+
+                m_AsyncVideo = new AForge.Video.AsyncVideoSource(hs.VideoCaptureDevice, true);
+                m_AsyncVideo.NewFrame += m_asyncvideo_NewFrame;
+                MainVideoSourcePlayer.VideoSource = m_AsyncVideo;
+
+                TSLblCameraActive.Text = m_sCameraChosen;
+
+                //Audioeinstellungen übernehmen
+                if (m_Audio != null)    //Falls eine Audioinstanz vorhanden sein sollte
+                {
+                    ActivateAudio(false);   //Zur Sicherheit beenden
+
+                    m_Audio = null;
+                }
+
+                m_Audio = new Audio(hs.AudioDevice);
+                m_Audio.NewMaxSample += m_Audio_NewMaxSample;
+                m_Audio.ThresholdExceeded += m_Audio_ThresholdExceeded;
+
+                TSLblAudioActive.Text = m_sAudioChosen;
+                
+                //Einstellungen speichern
+                Properties.Settings.Default.AudioDevice = hs.AudioDevice;
+                Properties.Settings.Default.Save();
+                
+                //Offset eintragen
+                m_iIndexOffset = hs.Offset;
+            }
+        }
     }
 }

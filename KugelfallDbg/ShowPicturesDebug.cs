@@ -11,41 +11,75 @@ namespace KugelfallDbg
 {
     public partial class ShowPicturesDebug : Form
     {
-        public ShowPicturesDebug(ref Bitmap[] bitmaps, int FramesBack, ref long[] _ImageTime, ref float _EventRaised, float _fRaisedSample)
+        public ShowPicturesDebug(ref Bitmap[] bitmaps, ref long[] _ImageTime, int _iBestPicAtIndex, long _lEndTime, long _lImpactTime, long _lDuration)
         {
             InitializeComponent();
+
+            m_iImageTime = _ImageTime;
             m_Bitmaps = bitmaps;
-            m_Back = FramesBack;
-            t_iImageTime = _ImageTime;
-            t_fRaisedSample = _fRaisedSample;
-            t_fEventRaised = _EventRaised;
+            lblBestPicAtIndex.Text = _iBestPicAtIndex.ToString();
+            m_iBestPicture = _iBestPicAtIndex;
+            lblEndTime.Text = _lEndTime.ToString();
+            lblImpactTime.Text = _lImpactTime.ToString();
+            lblDuration.Text = _lDuration.ToString();
         }
+        
+        private int m_iBestPicture = 0;
 
         private void ShowPicturesDebug_Load(object sender, EventArgs e)
         {
             trackBar1.Maximum = m_Bitmaps.Length-1;
             trackBar1.Value = 0;
-            pictureBox1.Image = m_Bitmaps[0];
-            label2.Text = m_Back.ToString();
-            lblImageTimes.Text = string.Empty;
 
-            for (int i = 0; i < t_iImageTime.Length; i++)
+            pictureBox1.Image = m_Bitmaps[0];
+
+            //Zeistempel der Bilder eintragen
+            lblImageTime.Text = string.Empty;
+            for (int i = 0; i < m_iImageTime.Length; i++)
             {
-                lblImageTimes.Text += i + ": " + t_iImageTime[i] + "ms  |  ";
+                lblImageTime.Text += i + ": " + m_iImageTime[i] + "ms  |  ";
                 i++;
-                lblImageTimes.Text += i + ": " + t_iImageTime[i] + "ms\n";
+                if(i > m_iImageTime.Length) { break; }
+                lblImageTime.Text += i + ": " + m_iImageTime[i] + "ms | ";
+                i++;
+                if(i > m_iImageTime.Length) { break; }
+                lblImageTime.Text += i + ": " + m_iImageTime[i] + "ms\n";
             }
 
-            lblRaisedTime.Text = t_fEventRaised.ToString() + "ms";
-            lblRaisedSample.Text = t_fRaisedSample.ToString();
+            //Distanz zum Trefferbild aufzeigen
+            lblOffsetTime.Text = string.Empty;
+            for (int i = m_iBestPicture + 1; i != m_iBestPicture;)
+            {
+                for (int y = 0; y != 3; y++)
+                {
+                    if (i >= m_iImageTime.Length) { i = 0; }
+                    if (m_iImageTime[i] > m_iImageTime[m_iBestPicture])
+                    {
+                        lblOffsetTime.Text += i.ToString() + ": +" + (m_iImageTime[i] - m_iImageTime[m_iBestPicture]).ToString();
+                    }
+                    else
+                    {
+                        lblOffsetTime.Text += i.ToString() + ": -" + (m_iImageTime[m_iBestPicture] - m_iImageTime[i]).ToString();
+                    }
+                    i++;
+
+                    if (i == m_iBestPicture) { break;}
+                    if (y != 2)
+                    {
+                        lblOffsetTime.Text += " | ";
+                    }
+                    else { lblOffsetTime.Text += "\n"; }
+                }
+                if (i == m_iBestPicture) { lblOffsetTime.Text += i.ToString() + ": " + m_iImageTime[i];}
+            }
+
+            
         }
 
         private System.Drawing.Bitmap[] m_Bitmaps;
         private int m_Back = 0;
-        private long[] t_iImageTime;
-        private float t_fRaisedSample = 0.0f;
-        private float t_fEventRaised = 0.0f;
-
+        private long[] m_iImageTime;
+        
         private void trackBar1_ValueChanged(object sender, EventArgs e)
         {
             pictureBox1.Image = m_Bitmaps[trackBar1.Value];

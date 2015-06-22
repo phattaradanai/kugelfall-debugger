@@ -143,9 +143,7 @@ namespace KugelfallDbg
             get
             {
                 string temp = m_sDebugText;
-                //m_bStringAccess = true;
-                //m_sDebugText = string.Empty;
-                //m_bStringAccess = false;
+
                 return m_sDebugText;
             }
             set { m_sDebugText = value; }

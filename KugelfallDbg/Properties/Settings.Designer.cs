@@ -82,5 +82,29 @@ namespace KugelfallDbg.Properties {
                 this["Setting"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string VideoResolution {
+            get {
+                return ((string)(this["VideoResolution"]));
+            }
+            set {
+                this["VideoResolution"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Offset {
+            get {
+                return ((int)(this["Offset"]));
+            }
+            set {
+                this["Offset"] = value;
+            }
+        }
     }
 }

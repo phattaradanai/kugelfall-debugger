@@ -24,6 +24,8 @@ namespace KugelfallDbg
             {
                 MessageBox.Show(e.StackTrace.ToString());
             }
+            catch (NAudio.MmException)
+            { }
         }
     }
 }

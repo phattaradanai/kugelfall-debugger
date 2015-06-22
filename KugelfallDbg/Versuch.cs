@@ -23,6 +23,11 @@ namespace KugelfallDbg
 
         private void BtnOK_Click(object sender, EventArgs e)
         {
+            TakeChanges();
+        }
+
+        private void TakeChanges()
+        {
             m_Versuchsbild.Comment = TBComment.Text;
             m_Versuchsbild.Deviation = int.Parse(NDeviation.Value.ToString());
             m_Versuchsbild.Success = CBSuccess.SelectedItem.ToString();
@@ -37,9 +42,9 @@ namespace KugelfallDbg
         private void FormVersuch_Load(object sender, EventArgs e)
         {
             //Combobox füllen
-            string sTooEarly = "\u21E6  " + "Zu früh";  //Microsoft Sans serif \u21DC
-            string sSuccess = "\u221A  " + "Durchgefallen";//Microsoft Sans serif \u221A
-            string sTooLate = "\u21E8  " + "Zu spät";//Microsoft Sans serif \u21DD
+            string sTooEarly = "\u21E6  " + "Zu früh";
+            string sSuccess = "\u221A  " + "Durchgefallen";
+            string sTooLate = "\u21E8  " + "Zu spät";
 
             CBSuccess.Items.Add(sTooEarly);
             CBSuccess.Items.Add(sSuccess);
@@ -80,10 +85,12 @@ namespace KugelfallDbg
             if (CBChosenPicture.Checked == true && t_bMousePress == true)
             {
                 m_Versuchsbild.BestPicture = TBPicture.Value;
+                CBSuccess.Enabled = true; NDeviation.Enabled = true; lblAbstand.Enabled = true;
             }
             else if(CBChosenPicture.Checked == false && t_bMousePress == true)
             {
                 m_Versuchsbild.BestPicture = -1;
+                CBSuccess.Enabled = false; NDeviation.Enabled = false; lblAbstand.Enabled = false;
             }
         }
 
@@ -96,7 +103,7 @@ namespace KugelfallDbg
                 { CBChosenPicture.Checked = true; }
                 else { CBChosenPicture.Checked = false; }
             }
-            catch (ArgumentOutOfRangeException)
+            catch (ArgumentOutOfRangeException) //Da es möglich ist, die Progressbar mit der Maus weiter rauszuschieben als eigentlich erlaubt
             {
                 if (TBPicture.Value >= TBPicture.Maximum)
                 {
@@ -107,6 +114,9 @@ namespace KugelfallDbg
                     TBPicture.Value = TBPicture.Minimum;
                 }
             }
+
+            if (CBChosenPicture.Checked == true) { CBSuccess.Enabled = true; NDeviation.Enabled = true; lblAbstand.Enabled = true; }
+            else { CBSuccess.Enabled = false; NDeviation.Enabled = false; lblAbstand.Enabled = false; }
         }
 
         private void TBPicture_MouseDown(object sender, MouseEventArgs e)
@@ -132,13 +142,18 @@ namespace KugelfallDbg
             }
         }
 
-
         //Falls die Escape-Taste gedrückt wurde, soll das Fenster schließen
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (keyData == Keys.Escape)
             {
                 this.Close();
+                return true;
+            }
+            else if(keyData == Keys.Return)
+            {
+                TakeChanges();
+                this.DialogResult = System.Windows.Forms.DialogResult.OK;
                 return true;
             }
 

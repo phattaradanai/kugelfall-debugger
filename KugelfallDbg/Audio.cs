@@ -24,36 +24,50 @@ namespace KugelfallDbg
          * Sobald Daten am Audioeingang vorliegen, wird dieses Event
          * aufgerufen und verarbeitet
          */
+
+        long Duration = 100;
+        bool m_bLock = false;
         void waveIn_DataAvailable(object sender, NAudio.Wave.WaveInEventArgs e)
         {
-            DateTimeMilli = Stoptimer.Time;// DateTime.UtcNow.Millisecond;
-
-            float _maxsample = 0.0f;
-            float _fSampleCount = 0.0f;
-            float _fSampleCounter = 0.0f;
-
-            for (int index = 0; index < e.BytesRecorded; index += 2)
+            if (m_bLock == false)
             {
-                short sample = (short)((e.Buffer[index + 1] << 8) | e.Buffer[index + 0]);
+                m_bLock = true;
+                long SampleTime = Stoptimer.Time;  //Zeitstempel des aktuellen Samplepakets
+                //System.IO.File.AppendAllText("audiopackets.txt", SampleTime.ToString() + " | ");
 
-                //Sample in 32-bit (4 Byte) umwandeln
-                float sample32 = sample / 32768f;
+                float _maxsample = 0.0f;
+                long SampleCount = 0;
+                long SampleCounter = 0;
 
-                _maxsample = Math.Max(sample32, _maxsample);
-                _fSampleCounter++;
-
-                if (_fSampleCount == 0 && _maxsample >= m_fThreshold)
+                //Samples auf Schwellenüberschreitung prüfen
+                for (int index = 0; index < e.BytesRecorded; index += 2)
                 {
-                    _fSampleCount = _fSampleCounter;
-                    break;
+                    short sample = (short)((e.Buffer[index + 1] << 8) | e.Buffer[index + 0]);
+
+                    //Sample in 32-bit (4 Byte) umwandeln
+                    float sample32 = sample / 32768f;
+
+                    _maxsample = Math.Max(sample32, _maxsample);
+                    SampleCounter++;
+
+                    if (SampleCount == 0 && _maxsample >= m_fThreshold)   //Schwelle überschritten?
+                    {
+                        Duration = SampleTime - DateTimeMilli;
+                        SampleCount = SampleCounter;
+                        break;
+                    }
                 }
-            }
 
-            OnNewMaxSample(this, _maxsample * 100);
+                OnNewMaxSample(this, _maxsample * 100);
+                if (SampleCount != 0)
+                {
+                    OnThresholdExceed(this, Duration, SampleTime, SampleCount, (int)(e.BytesRecorded / 2));
+                }
 
-            if (_fSampleCount != 0)
-            {
-                OnThresholdExceed(this, _fSampleCount);
+                DateTimeMilli = SampleTime;
+                m_bLock = false;
+
+                
             }
         }
 
@@ -126,7 +140,7 @@ namespace KugelfallDbg
 
         private volatile float m_fThreshold = 0.75f;  ///Schwellenwert
         private int m_iSampleRate = 16000;   //Wieviele Samples pro Sekunde
-        private int m_iBufferTime = 100;     //Bufferzeit in ms
+        private int m_iBufferTime = 200;     //Bufferzeit in ms
         private int m_iChannels = 1;        ///Wieviele Kanäle sollen zur Aufnahme benutzt werden (Default: 1 -> Mono)
         private int m_iDeviceNumber;        ///Nummer des Soundaufnahmegerätes (Dient zur Identifikation)
         private volatile int m_iVolume;     ///Die aktuelle Lautstärke
@@ -148,14 +162,15 @@ namespace KugelfallDbg
 
         public int BufferMilliseconds { get; private set; }
 
-        //Handler bei Überschreitung des Schwellenwerts
-        public delegate void ThresholdExceedHandler(object sender, float fSample);
+        //ThresholdExceedHandler: Eventhandler bei Überschreitung des Schwellenwertes
+        public delegate void ThresholdExceedHandler(object sender, long _Duration, long _EndTime, long _RaisedSample, int _Samples);
+
         public event ThresholdExceedHandler ThresholdExceeded;
-        protected void OnThresholdExceed(object sender, float fSample)
+        protected void OnThresholdExceed(object sender, long _Duration, long _EndTime, long _RaisedSample, int _Samples)
         {
             if (ThresholdExceeded != null)
             {
-                ThresholdExceeded(this, fSample);
+                ThresholdExceeded(this, _Duration, _EndTime, _RaisedSample, _Samples);
             }
         }
     }
