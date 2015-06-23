@@ -347,7 +347,7 @@
             this.TBTresholdControl.Size = new System.Drawing.Size(320, 45);
             this.TBTresholdControl.TabIndex = 30;
             this.TBTresholdControl.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
-            this.TBTresholdControl.Value = 75;
+            this.TBTresholdControl.Value = 112;
             this.TBTresholdControl.ValueChanged += new System.EventHandler(this.TBTresholdControl_ValueChanged);
             // 
             // label1

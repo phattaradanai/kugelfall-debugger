@@ -92,9 +92,13 @@ namespace KugelfallDbg
                 m_iWaveInDevice.StartRecording();
                 m_bIsRecording = true;
             }
-            catch(InvalidOperationException)    //WaveIn nimmt bereits auf
+            catch (InvalidOperationException)    //WaveIn nimmt bereits auf
             {
-            
+
+            }
+            catch (NAudio.MmException e)
+            {
+                System.Windows.Forms.MessageBox.Show(e.Message);
             }
         }
 
@@ -108,8 +112,17 @@ namespace KugelfallDbg
             {
                 if (m_bIsRecording == true)
                 {
-                    m_iWaveInDevice.Dispose();
-                    m_iWaveInDevice = null;
+                    try
+                    {
+                        m_iWaveInDevice.StopRecording();
+                        m_iWaveInDevice.Dispose();
+                        m_iWaveInDevice = null;
+                    }
+                    catch (NAudio.MmException)
+                    {
+                    
+                    }
+
                     m_bIsRecording = false;
                 }
             }
@@ -139,7 +152,7 @@ namespace KugelfallDbg
         }
 
         private volatile float m_fThreshold = 0.75f;  ///Schwellenwert
-        private int m_iSampleRate = 16000;   //Wieviele Samples pro Sekunde
+        private int m_iSampleRate = 16000;              //Wieviele Samples pro Sekunde
         private int m_iChannels = 1;        ///Wieviele Kanäle sollen zur Aufnahme benutzt werden (Default: 1 -> Mono)
         private int m_iDeviceNumber;        ///Nummer des Soundaufnahmegerätes (Dient zur Identifikation)
         private volatile int m_iVolume;     ///Die aktuelle Lautstärke

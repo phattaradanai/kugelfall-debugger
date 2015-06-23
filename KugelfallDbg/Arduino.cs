@@ -20,7 +20,7 @@ namespace KugelfallDbg
             if(!m_RS232Port.IsOpen)
             {
                 m_RS232Port.DataReceived += m_RS232Port_DataReceived;
-                m_RS232Port.ReadTimeout = 3000;
+                m_RS232Port.ReadTimeout = 7000;
 
                 //Port öffnen
                 try
@@ -64,7 +64,7 @@ namespace KugelfallDbg
             }
             catch (InvalidOperationException ioe)   //Der Arduino sendete etwas und der Port wurde geschlossen
             {
-                System.Windows.Forms.MessageBox.Show(ioe.Message);
+                System.Windows.Forms.MessageBox.Show("Invalid Operation: " + ioe.Message);
             }
             catch (TimeoutException te)
             {
@@ -72,8 +72,9 @@ namespace KugelfallDbg
                 ClosePort();
                 IsSet = false;
             }
-            catch (System.IO.IOException)
+            catch (System.IO.IOException ioe)
             {
+                System.Windows.Forms.MessageBox.Show("IOException: " + ioe.Message);
                 if (m_RS232Port.IsOpen)
                 {
                     ClosePort();
@@ -102,7 +103,18 @@ namespace KugelfallDbg
             //Port schließen
             if(m_RS232Port.IsOpen == true)
             {
-                m_RS232Port.Close();
+                if (IsSet == true)
+                {
+                    try
+                    {
+                        m_RS232Port.Close();
+                    }
+                    catch (System.IO.IOException)
+                    {
+                        //Fehler beim Schließen (bspw. Kabel abgezogen)
+                        return false;
+                    }
+                }
             }
 
             return true;

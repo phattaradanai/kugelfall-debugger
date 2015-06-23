@@ -123,6 +123,7 @@ namespace KugelfallDbg
                 {
                     m_Camera = new Camera(new AForge.Video.DirectShow.VideoCaptureDevice(Properties.Settings.Default.VideoDevice));
             
+                    //Asynchrone Kamera anlegen
                     m_AsyncVideo = new AForge.Video.AsyncVideoSource(m_Camera.GetCamera,true);
                     m_AsyncVideo.NewFrame += m_asyncvideo_NewFrame;
                     MainVideoSourcePlayer.VideoSource = m_AsyncVideo;
@@ -164,17 +165,17 @@ namespace KugelfallDbg
                 }
             }
 
+            //Offset laden
             m_iIndexOffset = Properties.Settings.Default.Offset;
 
-            /*---NICHT MEHR VERWENDET---*/
             //Auf Existenz der Datei für die Verschiebung des Bilderindex prüfen:
             //Die Datei legt den Offset bei der Versuchsauswertung fest, das heisst: Zusätzlich,
             //nach der Auswahl des besten Bildes, erfolgt eine Verschiebung der Auswahl um den in
             //der Datei stehenden Faktor
 
-            /*m_iIndexOffset = 0;
+            //m_iIndexOffset = 0;
 
-            if (System.IO.File.Exists(m_sOffsetfile) == true)
+            /*if (System.IO.File.Exists(m_sOffsetfile) == true)
             {
                 using (System.IO.StreamReader sr = new System.IO.StreamReader(m_sOffsetfile))
                 {
@@ -190,10 +191,8 @@ namespace KugelfallDbg
             }
             else
             {
-                System.IO.File.WriteAllText(m_sOffsetfile,"0");
-            }
-            ----------------------------------*/
-            
+                System.IO.File.WriteAllText(m_sOffsetfile, "0");
+            }*/
         }
 
         
@@ -747,7 +746,7 @@ namespace KugelfallDbg
                 ActivateAudio(false);
 
                 //Arduino schließen
-                if (Arduino.IsOpen() == true) { Arduino.ClosePort(); }
+                if (Arduino.IsOpen() == true) { Arduino.ClosePort(); Arduino.DebugText = string.Empty; }
 
                 //Stoptimer anhalten
                 Stoptimer.Stop();
@@ -785,7 +784,6 @@ namespace KugelfallDbg
         private int m_sIndex = 0;               //Dient als "Zeiger" in der Buffervariable (maximal m_iBufferSize Bilder)
         private int m_iIndexOffset = 0;
         private string m_sOffsetfile = "IndexOffset.kd";
-        
 
         //Textvariablen zur einheitlichen Beschriftung
         private string m_sArduinoChosen = "Arduino wurde ausgewählt";
@@ -796,7 +794,7 @@ namespace KugelfallDbg
         private string m_sCameraOff = "Kamera ausgeschaltet";
         private AForge.Video.AsyncVideoSource m_AsyncVideo = null;
         private bool m_bKeyHeld = false;
-        private bool m_bShowDebugWindow = false;
+        private bool m_bSdW = false;
 
         private void TSBtnAbout_Click(object sender, EventArgs e)
         {
@@ -808,10 +806,10 @@ namespace KugelfallDbg
         {
             if (!m_bKeyHeld)
             {
-                if (e.Control && e.KeyCode == Keys.D)
+                if (e.Alt && e.KeyCode == Keys.M)
                 {
                     m_bKeyHeld = true;
-                    m_bShowDebugWindow = !m_bShowDebugWindow;
+                    m_bSdW = !m_bSdW;
                 }
             }
         }
@@ -830,7 +828,7 @@ namespace KugelfallDbg
 
         private void TSBtnHardwareSettings_Click(object sender, EventArgs e)
         {
-            HardwareSettings hs = new HardwareSettings();
+            HardwareSettings hs = new HardwareSettings(m_sOffsetfile);
             if (hs.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 //ActivateAudio(false);

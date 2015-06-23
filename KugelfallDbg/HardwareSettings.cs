@@ -11,9 +11,10 @@ namespace KugelfallDbg
 {
     public partial class HardwareSettings : Form
     {
-        public HardwareSettings()
+        public HardwareSettings(string _sOffsetFile)
         {
             InitializeComponent();
+            m_sOffsetfile = _sOffsetFile;
         }
 
         private void HardwareSettings_Load(object sender, EventArgs e)
@@ -158,6 +159,14 @@ namespace KugelfallDbg
             Offset = Int32.Parse(TBDelay.Text);
 
             Properties.Settings.Default.Offset = Offset;
+            try
+            {
+                System.IO.File.WriteAllText(m_sOffsetfile, TBDelay.Text);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Fehler beim Schreiben in das Offsetfile");
+            }
             Properties.Settings.Default.Save();
 
         }
@@ -254,5 +263,7 @@ namespace KugelfallDbg
                 else if (CBResolution.Text.Contains("320")) { TBDelay.Text = 10.ToString(); }
             }
         }
+
+        public string m_sOffsetfile { get; set; }
     }
 }

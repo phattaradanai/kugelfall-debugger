@@ -26,6 +26,7 @@ namespace KugelfallDbg
             TakeChanges();
         }
 
+        //Änderungen übernehmen
         private void TakeChanges()
         {
             m_Versuchsbild.Comment = TBComment.Text;

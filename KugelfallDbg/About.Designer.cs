@@ -96,7 +96,7 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(202, 13);
             this.label4.TabIndex = 37;
-            this.label4.Text = "::AForge 2.2.5 - LGPL v3, Copyright 2012";
+            this.label4.Text = "::AForge 2.2.4 - LGPL v3, Copyright 2012";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // groupBox1
@@ -187,7 +187,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "About";
-            this.Padding = new System.Windows.Forms.Padding(9, 9, 9, 9);
+            this.Padding = new System.Windows.Forms.Padding(9);
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

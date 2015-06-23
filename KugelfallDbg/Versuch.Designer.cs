@@ -141,10 +141,10 @@
             // 
             // TBArduino
             // 
-            this.TBArduino.Enabled = false;
             this.TBArduino.Location = new System.Drawing.Point(25, 450);
             this.TBArduino.Multiline = true;
             this.TBArduino.Name = "TBArduino";
+            this.TBArduino.ReadOnly = true;
             this.TBArduino.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.TBArduino.Size = new System.Drawing.Size(320, 74);
             this.TBArduino.TabIndex = 17;

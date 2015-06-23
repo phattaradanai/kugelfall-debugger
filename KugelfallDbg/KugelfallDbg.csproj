@@ -12,6 +12,8 @@
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -26,8 +28,6 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -109,11 +109,11 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ShowPicturesDebug.cs">
+    <Compile Include="SpD.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ShowPicturesDebug.Designer.cs">
-      <DependentUpon>ShowPicturesDebug.cs</DependentUpon>
+    <Compile Include="SpD.Designer.cs">
+      <DependentUpon>SpD.cs</DependentUpon>
     </Compile>
     <Compile Include="Stoptimer.cs" />
     <Compile Include="Versuch.cs">
@@ -145,8 +145,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="ShowPicturesDebug.resx">
-      <DependentUpon>ShowPicturesDebug.cs</DependentUpon>
+    <EmbeddedResource Include="SpD.resx">
+      <DependentUpon>SpD.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Versuch.resx">
       <DependentUpon>Versuch.cs</DependentUpon>

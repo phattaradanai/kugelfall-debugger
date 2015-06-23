@@ -64,9 +64,9 @@ namespace KugelfallDbg
                     lImageTime += m_iIndexOffset;
                     int PictureIndex = LookupFrame(lImageTime);
 
-                    if (m_bShowDebugWindow == true)
+                    if (m_bSdW == true)
                     {
-                        ShowPicturesDebug spd = new ShowPicturesDebug(ref m_bImageBuffer, ref m_ImageTime, PictureIndex, _EndTime, lImageTime, _Duration); 
+                        SpD spd = new SpD(ref m_bImageBuffer, ref m_ImageTime, PictureIndex, _EndTime, lImageTime, _Duration); 
                         spd.ShowDialog();
                     }
 
@@ -147,7 +147,7 @@ namespace KugelfallDbg
             v.Test = "Versuch " + m_iAnzVersuche;   //Versuchsbeschreibung dient zur Identifizierung im Dictionary (m_Versuche)
             v.Pictures = (Bitmap[])_Frames.Clone();
 
-            if (Arduino.IsOpen() == true)
+            if (Arduino.IsOpen() == true && Arduino.IsSet)
             {
                 v.Debugtext = Arduino.DebugText;
                 Arduino.DebugText = string.Empty;
