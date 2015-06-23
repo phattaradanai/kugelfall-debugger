@@ -91,6 +91,9 @@
             this.TBDelay.Size = new System.Drawing.Size(100, 20);
             this.TBDelay.TabIndex = 23;
             this.TBDelay.Text = "0";
+            this.TTDelay.SetToolTip(this.TBDelay, "Der Versatz beschreibt die Verzögerung zwischen dem Audio- und Videosignal in Mil" +
+        "lisekunden.\r\nPositive Werte gleichen verspätete, negative Werte gleichen zu früh" +
+        "e Frames aus.\r\n");
             this.TBDelay.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TBDelay_KeyPress);
             // 
             // label7
@@ -254,7 +257,7 @@
             // TTDelay
             // 
             this.TTDelay.ShowAlways = true;
-            this.TTDelay.ToolTipTitle = "test";
+            this.TTDelay.ToolTipTitle = "Versatz in ms:";
             // 
             // HardwareSettings
             // 

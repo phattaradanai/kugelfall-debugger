@@ -600,7 +600,7 @@ namespace KugelfallDbg
         {
             ListViewItem lvi = LVTestEvaluation.SelectedItems[0];
 
-            string key = "Versuch " + lvi.SubItems[m_iTestIndex].Text;
+            string key = "Versuch " + lvi.SubItems[0].Text;
             try
             {
                 return m_Versuche[key];
@@ -699,8 +699,7 @@ namespace KugelfallDbg
             }
 
             ListViewItem lvi = LVTestEvaluation.SelectedItems[0];
-
-            string key = "Versuch " + (lvi.Index + 1).ToString();
+            string key = "Versuch " + (lvi.SubItems[0].Text).ToString();
 
             if (MessageBox.Show("Möchten Sie diesen Versuch wirklich löschen?", "Versuch löschen", MessageBoxButtons.OKCancel) == System.Windows.Forms.DialogResult.OK)
             {
@@ -874,6 +873,11 @@ namespace KugelfallDbg
                 //Offset eintragen
                 m_iIndexOffset = hs.Offset;
             }
+        }
+
+        private void Main_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (Arduino.IsOpen() == true) { Arduino.ClosePort(); }
         }
     }
 }

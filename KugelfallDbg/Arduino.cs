@@ -10,14 +10,14 @@ namespace KugelfallDbg
     //Es darf nur ein RS232-Port als Ausgabe genutzt werden, deshalb static
     static class Arduino
     {
-        /**
+        /*
          *  static bool OpenPort():
          *  Öffnet eine RS232-Verbindung, die die Verbindung zum
          *  Arduino darstellt.
          */
         public static bool OpenPort()
         {
-            try
+            if(!m_RS232Port.IsOpen)
             {
                 m_RS232Port.DataReceived += m_RS232Port_DataReceived;
                 m_RS232Port.ReadTimeout = 3000;
@@ -27,17 +27,15 @@ namespace KugelfallDbg
                 {
                     m_RS232Port.Open();
                 }
-                catch (Exception)
+                catch (System.IO.IOException)    //Nicht gefunden
                 {
-                    System.Windows.Forms.MessageBox.Show("Fehler beim Öffnen des Ports, bitte Ports überprüfen");
-                    m_RS232Port.DataReceived -= m_RS232Port_DataReceived;
                     return false;
                 }
-            }
-            catch (Exception e)
-            {
-                System.Windows.Forms.MessageBox.Show("Port konnte nicht geöffnet werden! " + e.Message, "Portfehler");
-                return false;
+                catch (InvalidOperationException e)
+                {
+                    m_RS232Port.Close();
+                    return false;
+                }
             }
 
             return true;
@@ -50,45 +48,37 @@ namespace KugelfallDbg
         static void m_RS232Port_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             char sTemp = 'a';
+            
             try
             {
-                sTemp = (char) m_RS232Port.ReadChar();  //Temporärer String
+                sTemp = (char)m_RS232Port.ReadChar();  //Temporärer String
+
+                m_bStringAccess = true;
+                m_sDebugText += sTemp;
+                m_bStringAccess = false;
+
+                if (m_sDebugText.Length >= m_iBufferLength)
+                {
+                    m_sDebugText.Remove(0, 50);
+                }
             }
             catch (InvalidOperationException ioe)   //Der Arduino sendete etwas und der Port wurde geschlossen
             {
                 System.Windows.Forms.MessageBox.Show(ioe.Message);
             }
-            catch(TimeoutException te)
+            catch (TimeoutException te)
             {
                 System.Windows.Forms.MessageBox.Show(te.Message);
+                ClosePort();
+                IsSet = false;
             }
-                //sTemp = sTemp.Replace("\r", "");
-            m_bStringAccess = true;
-            m_sDebugText += sTemp;
-            m_bStringAccess = false;
-
-            if (m_sDebugText.Length >= m_iBufferLength)
-            {
-                m_sDebugText.Remove(0, 50);
-            }
-            /*}
-            catch (System.IO.IOException ioe)
+            catch (System.IO.IOException)
             {
                 if (m_RS232Port.IsOpen)
                 {
                     ClosePort();
-                    System.Windows.Forms.MessageBox.Show("IOException" + ioe.Message);
                 }
             }
-            
-            catch (System.Runtime.InteropServices.COMException com) //Wenn die Anwendung ausgelastet ist, wird diese Exception geworfen
-            {
-                System.Windows.Forms.MessageBox.Show("COMException");
-            }
-            catch (Exception exc)
-            {
-                System.Windows.Forms.MessageBox.Show(exc.Message);
-            }*/
         }
         private static void SafeClose(Object StateInfo)
         {
@@ -99,7 +89,7 @@ namespace KugelfallDbg
             }
             catch (Exception)
             {
-            
+                
             }
         }
 
@@ -110,8 +100,11 @@ namespace KugelfallDbg
         public static bool ClosePort()
         {
             //Port schließen
-            ThreadPool.QueueUserWorkItem(new WaitCallback(SafeClose));
-            
+            if(m_RS232Port.IsOpen == true)
+            {
+                m_RS232Port.Close();
+            }
+
             return true;
         }
 
@@ -155,8 +148,15 @@ namespace KugelfallDbg
          */
         public static void SetParameters(int _Bps, string _sPortName)
         {
-            m_RS232Port.BaudRate = _Bps;
-            m_RS232Port.PortName = _sPortName;
+            try
+            {
+                m_RS232Port.BaudRate = _Bps;
+                m_RS232Port.PortName = _sPortName;
+            }
+            catch (Exception)
+            {
+                
+            }
         }
 
         /**

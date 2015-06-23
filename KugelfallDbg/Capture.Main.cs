@@ -29,20 +29,10 @@ namespace KugelfallDbg
             if (m_bInProgress == false)
             {
                 int Index = m_sIndex;
-                //System.IO.File.AppendAllText("Samples.txt", _Samples.ToString());
+
                 m_bInProgress = true;
 
-                int WaitFrames = 2;
-
-                /*while (WaitFrames != 0)
-                {
-                    //MessageBox.Show("Index: " + Index.ToString() + " m_sIndex: " + m_sIndex);
-                    if (Index != m_sIndex)
-                    {
-                        WaitFrames--;
-                        Index = m_sIndex;
-                    }
-                }*/
+                System.Threading.Thread.Sleep(50);  //Thread kurz pausieren, damit andere Threads (Video, Arduino) noch ihre Arbeit erledigen können
                 SetBuffering(false);
                 //MessageBox.Show("Exceed");
 
@@ -160,6 +150,7 @@ namespace KugelfallDbg
             if (Arduino.IsOpen() == true)
             {
                 v.Debugtext = Arduino.DebugText;
+                Arduino.DebugText = string.Empty;
             }
 
             m_Versuche.Add(v.Test, v);
@@ -172,7 +163,9 @@ namespace KugelfallDbg
 
             lvi.SubItems[m_iTestIndex] = new ListViewItem.ListViewSubItem(lvi, v.Test.Remove(0, 8));
             lvi.SubItems[m_iDeviationIndex] = new ListViewItem.ListViewSubItem(lvi, v.Deviation.ToString());
-            lvi.SubItems[m_iArduinoDebugIndex] = new ListViewItem.ListViewSubItem(lvi, v.Debugtext);
+
+            string LVDebugtext = v.Debugtext.Replace("\r\n",";");
+            lvi.SubItems[m_iArduinoDebugIndex] = new ListViewItem.ListViewSubItem(lvi, LVDebugtext);
             lvi.SubItems[m_iCommentIndex] = new ListViewItem.ListViewSubItem(lvi, v.Comment);
             lvi.SubItems[m_iSuccessIndex] = new ListViewItem.ListViewSubItem(lvi, string.Empty);
             LVTestEvaluation.Items.Add(lvi);

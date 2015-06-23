@@ -18,7 +18,6 @@ namespace KugelfallDbg
 
         private void HardwareSettings_Load(object sender, EventArgs e)
         {
-            
             ArduinoSettings();
             CameraSettings();
             AudioSettings();

@@ -16,6 +16,7 @@ namespace KugelfallDbg
             m_iWaveInDevice.DataAvailable += waveIn_DataAvailable;
             m_iWaveInDevice.DeviceNumber = m_iDeviceNumber;
             m_iWaveInDevice.BufferMilliseconds = 100;
+            DateTimeMilli = 0;
             BufferMilliseconds = m_iWaveInDevice.BufferMilliseconds;
         }
 
@@ -25,7 +26,7 @@ namespace KugelfallDbg
          * aufgerufen und verarbeitet
          */
 
-        long Duration = 100;
+        long Duration = 0;
         bool m_bLock = false;
         void waveIn_DataAvailable(object sender, NAudio.Wave.WaveInEventArgs e)
         {
@@ -33,6 +34,7 @@ namespace KugelfallDbg
             {
                 m_bLock = true;
                 long SampleTime = Stoptimer.Time;  //Zeitstempel des aktuellen Samplepakets
+
                 //System.IO.File.AppendAllText("audiopackets.txt", SampleTime.ToString() + " | ");
 
                 float _maxsample = 0.0f;
@@ -66,8 +68,6 @@ namespace KugelfallDbg
 
                 DateTimeMilli = SampleTime;
                 m_bLock = false;
-
-                
             }
         }
 
@@ -140,7 +140,6 @@ namespace KugelfallDbg
 
         private volatile float m_fThreshold = 0.75f;  ///Schwellenwert
         private int m_iSampleRate = 16000;   //Wieviele Samples pro Sekunde
-        private int m_iBufferTime = 200;     //Bufferzeit in ms
         private int m_iChannels = 1;        ///Wieviele Kanäle sollen zur Aufnahme benutzt werden (Default: 1 -> Mono)
         private int m_iDeviceNumber;        ///Nummer des Soundaufnahmegerätes (Dient zur Identifikation)
         private volatile int m_iVolume;     ///Die aktuelle Lautstärke
