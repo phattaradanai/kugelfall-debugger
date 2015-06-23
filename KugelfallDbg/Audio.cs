@@ -98,7 +98,7 @@ namespace KugelfallDbg
             }
             catch (NAudio.MmException e)
             {
-                System.Windows.Forms.MessageBox.Show(e.Message);
+                //System.Windows.Forms.MessageBox.Show(e.Message);
             }
         }
 
@@ -148,14 +148,14 @@ namespace KugelfallDbg
         public float Threshold
         {
             get { return m_fThreshold;  }
-            set { m_fThreshold = value/100; }
+            set { m_fThreshold = (float)((float)value/100.0f); }
         }
 
         private volatile float m_fThreshold = 0.75f;  ///Schwellenwert
         private int m_iSampleRate = 16000;              //Wieviele Samples pro Sekunde
-        private int m_iChannels = 1;        ///Wieviele Kanäle sollen zur Aufnahme benutzt werden (Default: 1 -> Mono)
-        private int m_iDeviceNumber;        ///Nummer des Soundaufnahmegerätes (Dient zur Identifikation)
-        private volatile int m_iVolume;     ///Die aktuelle Lautstärke
+        private int m_iChannels = 1;                    ///Wieviele Kanäle sollen zur Aufnahme benutzt werden (Default: 1 -> Mono)
+        private int m_iDeviceNumber;                    ///Nummer des Soundaufnahmegerätes (Dient zur Identifikation)
+        private volatile int m_iVolume;                 ///Die aktuelle Lautstärke
         private NAudio.Wave.WaveIn m_iWaveInDevice;
         private bool m_bIsRecording = false;
         

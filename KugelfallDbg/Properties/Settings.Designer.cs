@@ -106,5 +106,17 @@ namespace KugelfallDbg.Properties {
                 this["Offset"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int VideoRate {
+            get {
+                return ((int)(this["VideoRate"]));
+            }
+            set {
+                this["VideoRate"] = value;
+            }
+        }
     }
 }

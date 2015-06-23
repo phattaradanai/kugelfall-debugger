@@ -20,7 +20,7 @@ namespace KugelfallDbg
             if(!m_RS232Port.IsOpen)
             {
                 m_RS232Port.DataReceived += m_RS232Port_DataReceived;
-                m_RS232Port.ReadTimeout = 7000;
+                m_RS232Port.ReadTimeout = 5000;
 
                 //Port öffnen
                 try
@@ -74,7 +74,7 @@ namespace KugelfallDbg
             }
             catch (System.IO.IOException ioe)
             {
-                System.Windows.Forms.MessageBox.Show("IOException: " + ioe.Message);
+                //System.Windows.Forms.MessageBox.Show("IOException: " + ioe.Message);
                 if (m_RS232Port.IsOpen)
                 {
                     ClosePort();
@@ -107,6 +107,7 @@ namespace KugelfallDbg
                 {
                     try
                     {
+                        m_RS232Port.DiscardInBuffer();
                         m_RS232Port.Close();
                     }
                     catch (System.IO.IOException)

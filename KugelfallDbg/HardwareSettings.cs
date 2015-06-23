@@ -11,10 +11,10 @@ namespace KugelfallDbg
 {
     public partial class HardwareSettings : Form
     {
-        public HardwareSettings(string _sOffsetFile)
+        public HardwareSettings()
         {
             InitializeComponent();
-            m_sOffsetfile = _sOffsetFile;
+            //m_sOffsetfile = _sOffsetFile;
         }
 
         private void HardwareSettings_Load(object sender, EventArgs e)
@@ -147,7 +147,11 @@ namespace KugelfallDbg
             if (m_VideoCapabilitiesDictionary.Count != 0)
             {
                 AForge.Video.DirectShow.VideoCapabilities caps = m_VideoCapabilitiesDictionary[(string)CBResolution.SelectedItem];
-                
+
+                Properties.Settings.Default.VideoResolution = caps.FrameSize.ToString();
+                Properties.Settings.Default.VideoRate = caps.FrameRate;
+                Properties.Settings.Default.Save();
+
                 m_VideoCaptureDevice.DesiredFrameSize = caps.FrameSize;
                 m_VideoCaptureDevice.DesiredFrameRate = caps.FrameRate;
             }
@@ -159,16 +163,7 @@ namespace KugelfallDbg
             Offset = Int32.Parse(TBDelay.Text);
 
             Properties.Settings.Default.Offset = Offset;
-            try
-            {
-                System.IO.File.WriteAllText(m_sOffsetfile, TBDelay.Text);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Fehler beim Schreiben in das Offsetfile");
-            }
             Properties.Settings.Default.Save();
-
         }
 
         private void BtnCancel_Click(object sender, EventArgs e)
@@ -178,6 +173,7 @@ namespace KugelfallDbg
 
         private void CBCamera_SelectedIndexChanged(object sender, EventArgs e)
         {
+            int index = -1;
             if (m_FilterVideoDevices.Count != 0)
             {
                 CBResolution.Items.Clear();
@@ -193,6 +189,10 @@ namespace KugelfallDbg
                     if(!CBResolution.Items.Contains(item))
                     {
                         CBResolution.Items.Add(item);
+                        if (CBCamera.Text.Contains("PS3Eye"))
+                        {
+                            if (item.Contains("320")) { index = CBResolution.FindString(item); }
+                        }
                     }
 
                     //Existiert das Item bereits im Dictionary
@@ -209,10 +209,12 @@ namespace KugelfallDbg
                     }
                 }
 
+                if (index != -1) { TBDelay.Text = 10.ToString(); CBResolution.SelectedIndex = index; }
+                else
+                {CBResolution.SelectedIndex = 0;}
                 if (vc.Length == 0) { CBResolution.Items.Add("Nicht unterstützt"); }
 
                 VideoDeviceMoniker = m_VideoCaptureDevice.Source;
-                CBResolution.SelectedIndex = 0;
             }
         }
 
@@ -260,10 +262,9 @@ namespace KugelfallDbg
             if (CBCamera.Text.Contains("PS3") == true)
             {
                 if (CBResolution.Text.Contains("640")) { TBDelay.Text = 50.ToString(); }
-                else if (CBResolution.Text.Contains("320")) { TBDelay.Text = 10.ToString(); }
+                else if (CBResolution.Text.Contains("320")) { TBDelay.Text = 10.ToString();}
             }
         }
 
-        public string m_sOffsetfile { get; set; }
     }
 }

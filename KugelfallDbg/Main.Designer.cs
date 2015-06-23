@@ -333,7 +333,6 @@
             // 
             this.PBVolumeMeter.BackColor = System.Drawing.Color.LightSlateGray;
             this.PBVolumeMeter.Location = new System.Drawing.Point(89, 18);
-            this.PBVolumeMeter.Maximum = 150;
             this.PBVolumeMeter.Name = "PBVolumeMeter";
             this.PBVolumeMeter.Size = new System.Drawing.Size(302, 23);
             this.PBVolumeMeter.TabIndex = 29;
@@ -342,12 +341,12 @@
             // 
             this.TBTresholdControl.Enabled = false;
             this.TBTresholdControl.Location = new System.Drawing.Point(82, 32);
-            this.TBTresholdControl.Maximum = 150;
+            this.TBTresholdControl.Maximum = 100;
             this.TBTresholdControl.Name = "TBTresholdControl";
             this.TBTresholdControl.Size = new System.Drawing.Size(320, 45);
             this.TBTresholdControl.TabIndex = 30;
             this.TBTresholdControl.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
-            this.TBTresholdControl.Value = 112;
+            this.TBTresholdControl.Value = 100;
             this.TBTresholdControl.ValueChanged += new System.EventHandler(this.TBTresholdControl_ValueChanged);
             // 
             // label1
