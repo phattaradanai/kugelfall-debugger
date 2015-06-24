@@ -11,6 +11,28 @@ namespace KugelfallDbg
 {
     public partial class Main
     {
+        /*
+         NewFrame-Event:
+         * Signalisiert, dass ein neuer Frame aus der asynchronen Quelle zur Verarbeitung vorliegt.
+         */
+        void m_asyncvideo_NewFrame(object sender, AForge.Video.NewFrameEventArgs eventArgs)
+        {
+            //Das Bufferflag verhindert das während der Verarbeitung der Bilder bzw. der Eintragung des Versuches
+            //noch Frames ankommen und vorhandene Bilder evtl. überschreiben
+
+            if (m_bBuffer) 
+            {
+                m_ImageTime[m_sIndex] = Stoptimer.Time;   //Zeitstempel des Bildes machen
+
+                //Dispose nötig, da sonst der GarbageCollector die alten Frames zu spät entfernen und damit
+                //zu einem Überlauf des Arbeitsspeichers führen könnte
+                if (m_bImageBuffer[m_sIndex] != null) { m_bImageBuffer[m_sIndex].Dispose(); }
+
+                m_bImageBuffer[m_sIndex] = (Bitmap)eventArgs.Frame.Clone();
+                m_sIndex = (m_sIndex + 1) % m_iBufferSize;  //Ringpuffer weiterschalten
+            }
+        }
+
         /* long Duration: Dauer des Samplepakets
          * long EndTime: Zeit nach dem Aufnahmeprozess
          * long RaisedSample: Sample mit dem Aufschlag
@@ -34,14 +56,12 @@ namespace KugelfallDbg
 
                 System.Threading.Thread.Sleep(50);  //Thread kurz pausieren, damit andere Threads (Video, Arduino) noch ihre Arbeit erledigen können
                 SetBuffering(false);
-                //MessageBox.Show("Exceed");
 
-                //ActivateCamera(false);
                 ActivateAudio(false);
 
                 bool bBufferReady = false;
 
-                //Prüfung, ob der Buffer bereits gefüllt ist
+                //Prüfen, ob der Buffer bereits gefüllt ist
                 if (bBufferReady == false)
                 {
                     bool bReady = true;
@@ -60,9 +80,9 @@ namespace KugelfallDbg
 
                 if (bBufferReady)
                 {
-                    long lImageTime = CalculateOptimalPictureTime(_Duration, _EndTime, _RaisedSample, _Samples);
-                    lImageTime += m_iIndexOffset;
-                    int PictureIndex = LookupFrame(lImageTime);
+                    long lImageTime = CalculateOptimalPictureTime(_Duration, _EndTime, _RaisedSample, _Samples);    //Idealzeit berechnen
+                    lImageTime += m_iIndexOffset;               //Versatz zwischen Audio und Video berücksichtigen
+                    int PictureIndex = LookupFrame(lImageTime); //Frame im Buffer suchen
 
                     if (m_bSdW == true)
                     {
@@ -70,7 +90,7 @@ namespace KugelfallDbg
                         spd.ShowDialog();
                     }
 
-                    CaptureImage(PictureIndex);
+                    CaptureImage(PictureIndex); //Bilder eintragen
                 }
                 else { MessageBox.Show("Der Buffer ist noch nicht bereit"); }
 
@@ -83,7 +103,7 @@ namespace KugelfallDbg
         }
 
         /// <summary>
-        /// Sucht nach dem passenden Frame in Abhängigkeit von der Zeit
+        /// Sucht nach dem passenden Frame in Abhängigkeit von der Zeit. Gesucht wird nach der geringsten Differenz
         /// </summary>
         /// <param name="_fFrameTime"></param>
         /// <returns></returns>
@@ -94,7 +114,7 @@ namespace KugelfallDbg
 
             for (int i = m_sIndex - 1; i != m_sIndex; i--)
             {
-                if (i < 0) { i = m_iBufferSize - 1; }
+                if (i < 0) { i = m_iBufferSize - 1; }   //Ungültigen Index vermeiden
                 if (Math.Abs(m_ImageTime[i] - _lFrameTime) <= iMinimalDifference || iMinimalDifference == -1)
                 {
                     iBestIndex = i;
@@ -147,6 +167,7 @@ namespace KugelfallDbg
             v.Test = "Versuch " + m_iAnzVersuche;   //Versuchsbeschreibung dient zur Identifizierung im Dictionary (m_Versuche)
             v.Pictures = (Bitmap[])_Frames.Clone();
 
+            //Arduinodaten abgreifen
             if (Arduino.IsOpen() == true && Arduino.IsSet)
             {
                 v.Debugtext = Arduino.DebugText;
@@ -155,6 +176,7 @@ namespace KugelfallDbg
 
             m_Versuche.Add(v.Test, v);
 
+            //Versuch eintragen
             ListViewItem lvi = new ListViewItem();
             for (int i = 0; i < m_iListViewColumns; i++)
             {
@@ -164,16 +186,13 @@ namespace KugelfallDbg
             lvi.SubItems[m_iTestIndex] = new ListViewItem.ListViewSubItem(lvi, v.Test.Remove(0, 8));
             lvi.SubItems[m_iDeviationIndex] = new ListViewItem.ListViewSubItem(lvi, v.Deviation.ToString());
 
-            string LVDebugtext = v.Debugtext.Replace("\r\n",";");
+            string LVDebugtext = v.Debugtext.Replace("\r\n", "|");  //\r\n kann nicht im Listview dargestellt werden (evtl. Blanks sichtbar)
             lvi.SubItems[m_iArduinoDebugIndex] = new ListViewItem.ListViewSubItem(lvi, LVDebugtext);
             lvi.SubItems[m_iCommentIndex] = new ListViewItem.ListViewSubItem(lvi, v.Comment);
             lvi.SubItems[m_iSuccessIndex] = new ListViewItem.ListViewSubItem(lvi, string.Empty);
             LVTestEvaluation.Items.Add(lvi);
 
             m_iAnzVersuche++;
-
-            //Ressourcen freigeben
-            //foreach (Bitmap b in _Frames) { b.Dispose(); }
         }
     }
 }

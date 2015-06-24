@@ -19,8 +19,6 @@ namespace KugelfallDbg
             m_Versuchsbild = _v;
         }
 
-        private Versuchsbild m_Versuchsbild;
-
         private void BtnOK_Click(object sender, EventArgs e)
         {
             TakeChanges();
@@ -95,6 +93,7 @@ namespace KugelfallDbg
             }
         }
 
+        //Tritt ein, falls sich der Wert der Trackbar verändert hat
         private void TBPicture_ValueChanged(object sender, EventArgs e)
         {
             try
@@ -181,5 +180,7 @@ namespace KugelfallDbg
         {
             t_bMousePress = false;
         }
+        
+        private Versuchsbild m_Versuchsbild;
     }
 }

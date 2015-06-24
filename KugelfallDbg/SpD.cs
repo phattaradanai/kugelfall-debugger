@@ -77,7 +77,7 @@ namespace KugelfallDbg
         }
 
         private System.Drawing.Bitmap[] m_Bitmaps;
-        private int m_Back = 0;
+        
         private long[] m_iImageTime;
         
         private void trackBar1_ValueChanged(object sender, EventArgs e)

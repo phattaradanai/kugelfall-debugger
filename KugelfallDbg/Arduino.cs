@@ -31,7 +31,7 @@ namespace KugelfallDbg
                 {
                     return false;
                 }
-                catch (InvalidOperationException e)
+                catch (InvalidOperationException)
                 {
                     m_RS232Port.Close();
                     return false;

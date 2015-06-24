@@ -14,7 +14,6 @@ namespace KugelfallDbg
         public HardwareSettings()
         {
             InitializeComponent();
-            //m_sOffsetfile = _sOffsetFile;
         }
 
         private void HardwareSettings_Load(object sender, EventArgs e)
@@ -128,7 +127,6 @@ namespace KugelfallDbg
 
                     //Einstellungen in den Properties speichern
                     Properties.Settings.Default.ArduinoPort = string.Empty;
-
                     Properties.Settings.Default.ArduinoPort = Arduino.RS232Port.PortName;
                     Properties.Settings.Default.ArduinoBaudRate = Arduino.RS232Port.BaudRate;
 
@@ -245,6 +243,7 @@ namespace KugelfallDbg
             AudioDevice = CBAudioDevices.SelectedIndex;
         }
 
+        //In das Versatzfeld dürfen keine ungültigen Werte
         private void TBDelay_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar >= '0' && e.KeyChar <= '9' || e.KeyChar == '\b')
@@ -257,6 +256,7 @@ namespace KugelfallDbg
             }
         }
 
+        //Bekannte Versatzwerte bzgl. der PS3Eye-Camera automatisch eintragen
         private void CBResolution_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (CBCamera.Text.Contains("PS3") == true)
