@@ -47,14 +47,14 @@ namespace KugelfallDbg
          */
         static void m_RS232Port_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            char sTemp = 'a';
+            //char sTemp = 'a';
             
             try
             {
-                sTemp = (char)m_RS232Port.ReadChar();  //Temporärer String
+                //sTemp = (char)m_RS232Port.ReadChar();  //Temporärer String
 
                 m_bStringAccess = true;
-                m_sDebugText += sTemp;
+                m_sDebugText += m_RS232Port.ReadExisting(); //Aus dem Portstream den Inhalt lesen
                 m_bStringAccess = false;
 
                 if (m_sDebugText.Length >= m_iBufferLength)
@@ -65,13 +65,11 @@ namespace KugelfallDbg
             catch (InvalidOperationException ioe)   //Der Arduino sendete etwas und der Port wurde geschlossen
             {
                 System.Windows.Forms.MessageBox.Show("Invalid Operation: " + ioe.Message);
-            }
+            }/* Wegen ReadExisting nicht mehr nötig
             catch (TimeoutException te)
             {
-                System.Windows.Forms.MessageBox.Show(te.Message);
-                ClosePort();
-                IsSet = false;
-            }
+                //System.Windows.Forms.MessageBox.Show(te.Message);
+            }*/
             catch (System.IO.IOException ioe)
             {
                 //System.Windows.Forms.MessageBox.Show("IOException: " + ioe.Message);
